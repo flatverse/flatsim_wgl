@@ -7,6 +7,8 @@ var test1 = {
   _kill: false,
   init: function () {
     this.persp = new flatsim.TilePerspective();
+    this.persp.center_x = -(this.tiles_we / 2) + 0.5;
+    this.persp.center_y = -(this.tiles_ns / 2) + 0.5;
     var we, ns;
     for (we = 0; we < this.tiles_we; we++) {
       this.tiles.push([]);
@@ -56,7 +58,7 @@ var test1 = {
     var we, ns;
     var tile, mesh;
     for (we = 0; we < this.tiles.length; we++) {
-      for (ns = 0; ns < this.tiles.length; ns++) {
+      for (ns = 0; ns < this.tiles[we].length; ns++) {
         tile = this.tiles[we][ns];
         mesh = this.meshes[we][ns];
         callback.apply(self, [tile, mesh]);

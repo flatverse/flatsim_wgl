@@ -8,13 +8,13 @@ flatsim.TileMesh = function(tile, tilePerspective) {
   var initMaterial = new THREE.MeshBasicMaterial({color: this.tile.color});
   this.base_mesh = new THREE.Mesh(initGeo, initMaterial);
   var pos = tilePerspective.scene_coord_from_tile_coord(tile.coord_we, tile.coord_ns);
-  this.base_mesh.position.x = pos.x;
-  this.base_mesh.position.y = pos.y;
   this.group.add(this.base_mesh);
 
-  // This is waaay broken - need to roll own grid soln.
-  // this.base_grid = new THREE.EdgesHelper(this.base_mesh, this.tile.grid_color);
-  // this.group.add(this.base_grid);
+  this.grid_mesh = new flatsim.TileMeshGrid(tile, tilePerspective);
+  this.group.add(this.grid_mesh.base_mesh_top);
+
+  this.group.position.x = pos.x;
+  this.group.position.y = pos.y;
 };
 flatsim.TileMesh.prototype = {
   tile: undefined,
@@ -22,6 +22,6 @@ flatsim.TileMesh.prototype = {
   name: undefined,
   group: undefined,
   base_mesh: undefined,
-  base_grid: undefined,
+  grid_mesh: undefined,
   slope_mesh: undefined,
 };

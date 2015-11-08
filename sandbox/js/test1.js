@@ -3,6 +3,8 @@ var test1 = {
   tiles_we: 3,
   tiles: [],
   meshes: [],
+
+  _kill: false,
   init: function () {
     this.persp = new flatsim.TilePerspective();
     var we, ns;
@@ -39,6 +41,10 @@ var test1 = {
   },
 
   draw: function () {
+    if (this._kill) {
+      return;
+    }
+
     requestAnimationFrame(this._drawwrapper);
     this.renderer.render(this.scene, this.camera);
   },

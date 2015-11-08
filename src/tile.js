@@ -23,5 +23,5 @@ flatsim.Tile.prototype = {
     height_sw: 0
   },
   color: 0xff77ff00,
-  grid_color: 0xffffff,
+  grid_color: 0xdddddd,
 };

@@ -12,7 +12,7 @@ flatsim.TileMeshGrid.prototype = {
   base_mesh_top: undefined,
   slope_mesh: undefined,
 
-  line_width: 0.2,
+  line_width: 0.01,
 
   _make_square_geo: function (faceNormal) {
     var axNorm, axA, axB;
@@ -53,30 +53,30 @@ flatsim.TileMeshGrid.prototype = {
     halfWB = wB / 2;
 
     var verts = [];
-    verts[0] = this._make_vector(normVal, -halfWA, -halfWB, axNorm, axA, axB); //0
-    verts[1] = this._make_vector(normVal, halfWA, -halfWB, axNorm, axA, axB); // 1
-    verts[2] = this._make_vector(normVal, halfWA, halfWB, axNorm, axA, axB); // 2
-    verts[3] = this._make_vector(normVal, -halfWA, halfWB, axNorm, axA, axB); // 3
-    verts[4] = this._make_vector(normVal, -halfWA + this.line_width, -halfWB + this.line_width, axNorm, axA, axB); // 4
-    verts[5] = this._make_vector(normVal, halfWA - this.line_width, -halfWB + this.line_width, axNorm, axA, axB); // 5
-    verts[6] = this._make_vector(normVal, halfWA - this.line_width, halfWB - this.line_width, axNorm, axA, axB); // 6
-    verts[7] = this._make_vector(normVal, -halfWA + this.line_width, halfWB - this.line_width, axNorm, axA, axB); // 7
+    verts[0] = this._make_vector(normVal, -halfWA, halfWB, axNorm, axA, axB); //0
+    verts[1] = this._make_vector(normVal, halfWA, halfWB, axNorm, axA, axB); // 1
+    verts[2] = this._make_vector(normVal, halfWA, -halfWB, axNorm, axA, axB); // 2
+    verts[3] = this._make_vector(normVal, -halfWA, -halfWB, axNorm, axA, axB); // 3
+    verts[4] = this._make_vector(normVal, -halfWA + this.line_width, halfWB - this.line_width, axNorm, axA, axB); // 4
+    verts[5] = this._make_vector(normVal, halfWA - this.line_width, halfWB - this.line_width, axNorm, axA, axB); // 5
+    verts[6] = this._make_vector(normVal, halfWA - this.line_width, -halfWB + this.line_width, axNorm, axA, axB); // 6
+    verts[7] = this._make_vector(normVal, -halfWA + this.line_width, -halfWB + this.line_width, axNorm, axA, axB); // 7
 
     var faces = [];
-    faces.push(new THREE.Face3(0, 4, 1, faceNormal));
-    faces.push(new THREE.Face3(1, 4, 5, faceNormal));
-    faces.push(new THREE.Face3(1, 5, 2, faceNormal));
-    faces.push(new THREE.Face3(2, 5, 6, faceNormal));
-    faces.push(new THREE.Face3(2, 6, 3, faceNormal));
-    faces.push(new THREE.Face3(3, 6, 7, faceNormal));
-    faces.push(new THREE.Face3(3, 7, 0, faceNormal));
-    faces.push(new THREE.Face3(0, 7, 4, faceNormal));
+    faces.push(new THREE.Face3(0, 4, 1));
+    faces.push(new THREE.Face3(1, 4, 5));
+    faces.push(new THREE.Face3(1, 5, 2));
+    faces.push(new THREE.Face3(2, 5, 6));
+    faces.push(new THREE.Face3(2, 6, 3));
+    faces.push(new THREE.Face3(3, 6, 7));
+    faces.push(new THREE.Face3(3, 7, 0));
+    faces.push(new THREE.Face3(0, 7, 4));
 
     var geo = new THREE.Geometry();
     _.forEach(verts, function(vert) {geo.vertices.push(vert)});
     geo.faces = faces;
     _.forEach(faces, function(face) {geo.faces.push(face)});
-    geo.computeVertexNormals();
+    geo.computeFaceNormals();
     return geo;
   },
 

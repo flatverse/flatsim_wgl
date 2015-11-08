@@ -18,52 +18,11 @@ var flatsim = {
     }
   },
 
-  format_string: function(str) {
-    if (typeof str === 'undefined') {
-      return '<undefined>';
-    }
-    if (str === null) {
-      return '<null>';
-    }
-    str = str.toString();
-    if (arguments.length === 1) {
-      return str;
-    }
-
-    var rr = /\{[0-9]*\}/g;
-    var rn = /[0-9]+/g;
-
-    var split = str.split(rr);
-
-    var ixs = [];
-    var match = rr.exec(str);
-    while(typeof match !== 'undefined' && match !== null) {
-      match = match[0].match(rn);
-      ixs.push(parseInt(match[0]));
-      match = rr.exec(str);
-    }
-
-    var result = '';
-    var i;
-    for (i = 0; i < ixs.length; i++) {
-      var replStr = arguments[ixs[i] + 1];
-      if (typeof replStr === 'undefined') {
-        replStr = '<undefined>';
-      } else if (typeof replStr === 'null') {
-        replStr = '<null>';
-      }
-      result += split[i] + replStr;
-    }
-    result += split[split.length - 1];
-
-    return result;
-  },
-
   log: function(howLoud, str) {
     if (typeof howLoud === 'number') {
-      str = this.format_string.apply(this, this.util.slice_func_arguments(arguments, 1));
+      str = this.util.format_string.apply(this, this.util.slice_func_arguments(arguments, 1));
     } else {
-      str = this.format_string.apply(this, arguments);
+      str = this.util.format_string.apply(this, arguments);
       howLoud = this.logging_options.default_log_strength;
     }
 
@@ -87,18 +46,18 @@ var flatsim = {
       this.util.array_from_css_color(this.logging_options.log_bg_quiet),
       this.util.array_from_css_color(this.logging_options.log_bg_loud), howLoud);
     logBg = this.util.css_color_from_array(logBg);
-    var logCSS = this.format_string('color: {0}; background-color: {1}; ', logColor, logBg);
+    var logCSS = this.util.format_string('color: {0}; background-color: {1}; ', logColor, logBg);
 
     console.log('%c[flatsim][%s] %c%s', logCSS + 'font-weight: 900;', this.version, logCSS + 'font-weight: normal;', str)
   },
 
   warn: function (str) {
-    str = this.format_string.apply(this, arguments);
+    str = this.util.format_string.apply(this, arguments);
     console.warn('[flatsim][%s] %s', this.version, str);
   },
 
   error: function (str) {
-    str = this.format_string.apply(this, arguments);
+    str = this.util.format_string.apply(this, arguments);
     console.error('[flatsim][%s] %s', this.version, str);
   },
 
@@ -106,6 +65,47 @@ var flatsim = {
   * utilities
   ****************************************/
   util: {
+    format_string: function(str) {
+      if (typeof str === 'undefined') {
+        return '<undefined>';
+      }
+      if (str === null) {
+        return '<null>';
+      }
+      str = str.toString();
+      if (arguments.length === 1) {
+        return str;
+      }
+
+      var rr = /\{[0-9]*\}/g;
+      var rn = /[0-9]+/g;
+
+      var split = str.split(rr);
+
+      var ixs = [];
+      var match = rr.exec(str);
+      while(typeof match !== 'undefined' && match !== null) {
+        match = match[0].match(rn);
+        ixs.push(parseInt(match[0]));
+        match = rr.exec(str);
+      }
+
+      var result = '';
+      var i;
+      for (i = 0; i < ixs.length; i++) {
+        var replStr = arguments[ixs[i] + 1];
+        if (typeof replStr === 'undefined') {
+          replStr = '<undefined>';
+        } else if (typeof replStr === 'null') {
+          replStr = '<null>';
+        }
+        result += split[i] + replStr;
+      }
+      result += split[split.length - 1];
+
+      return result;
+    },
+
     slice_func_arguments: function(argumentsArr, fromIx) {
       var newArgs = [];
       var i;

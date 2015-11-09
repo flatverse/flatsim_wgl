@@ -1,13 +1,15 @@
 flatsim.TileMeshGrid = function (tile, tilePerspective) {
-  this.parent_tile = tile;
+  this.tile = tile;
   this.perspective = tilePerspective;
 
   var geo = this._make_square_geo(new THREE.Vector3(0, 0, 1));
   var mat = new THREE.MeshBasicMaterial({color: tile.grid_color});
   this.base_mesh_top = new THREE.Mesh(geo, mat);
+  this.base_mesh_top.renderOrder = 1;
+  this.base_mesh_top.depthTest = false;
 };
 flatsim.TileMeshGrid.prototype = {
-  parent_tile: undefined,
+  tile: undefined,
   perspective: undefined,
   base_mesh_top: undefined,
   slope_mesh: undefined,
@@ -44,9 +46,10 @@ flatsim.TileMeshGrid.prototype = {
       wA = this.perspective.tile_dim_we;
       axB = 'y';
       wB = this.perspective.tile_dim_ns;
-      normVal = this.perspective.tile_dim_h / 2;
       if (faceNormal.z === -1) {
-        normVal = -normVal;
+        normVal = this.perspective.scene_height_from_tile_height(this.tile.height_bottom);
+      } else {
+        normVal = this.perspective.scene_height_from_tile_height(this.tile.height_top);
       }
     }
     halfWA = wA / 2;

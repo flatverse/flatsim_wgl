@@ -2,20 +2,7 @@ flatsim.TileBaseGeo = function (tile, tilePersp) {
   this.tile = tile;
   this.perspective = tilePersp;
 
-  var weHalf = tilePersp.get_dim_we() / 2;
-  var nsHalf = tilePersp.get_dim_ns() / 2;
-  var topZ = tilePersp.scene_height_from_tile_height(tile.height_top);
-  var botZ = tilePersp.scene_height_from_tile_height(tile.height_bottom);
-
-  var verts = [];
-  verts[this.vert_top_nw] = new THREE.Vector3(-weHalf, nsHalf, topZ);
-  verts[this.vert_top_sw] = new THREE.Vector3(-weHalf, -nsHalf, topZ);
-  verts[this.vert_top_se] = new THREE.Vector3(weHalf, -nsHalf, topZ);
-  verts[this.vert_top_ne] = new THREE.Vector3(weHalf, nsHalf, topZ);
-  verts[this.vert_bot_nw] = new THREE.Vector3(-weHalf, nsHalf, botZ);
-  verts[this.vert_bot_sw] = new THREE.Vector3(-weHalf, -nsHalf, botZ);
-  verts[this.vert_bot_se] = new THREE.Vector3(weHalf, -nsHalf, botZ);
-  verts[this.vert_bot_ne] = new THREE.Vector3(weHalf, nsHalf, botZ);
+  var verts = this.compute_verts(tile, tilePersp);
 
   var faces = [
   // top
@@ -58,7 +45,38 @@ flatsim.TileBaseGeo.prototype = {
   vert_bot_se: 6,
   vert_bot_ne: 7,
 
+  update: function() {
+    var newVerts = this.compute_verts(this.tile, this.perspective);
+    var geo = this.three_geo;
+    _.forEach(newVerts, function (vert, i) {
+      geo.vertices[i].x = vert.x;
+      geo.vertices[i].y = vert.y;
+      geo.vertices[i].z = vert.z;
+    });
+    this.three_geo.verticesNeedUpdate = true;
+  },
+
   get_geometry: function () {
     return this.three_geo;
   },
+
+  compute_verts: function(tile, tilePersp) {
+    var weHalf = tilePersp.get_dim_we() / 2;
+    var nsHalf = tilePersp.get_dim_ns() / 2;
+    var topZ = tilePersp.scene_height_from_tile_height(tile.height_top);
+    var botZ = tilePersp.scene_height_from_tile_height(tile.height_bottom);
+
+    var verts = [];
+    verts[this.vert_top_nw] = new THREE.Vector3(-weHalf, nsHalf, topZ);
+    verts[this.vert_top_sw] = new THREE.Vector3(-weHalf, -nsHalf, topZ);
+    verts[this.vert_top_se] = new THREE.Vector3(weHalf, -nsHalf, topZ);
+    verts[this.vert_top_ne] = new THREE.Vector3(weHalf, nsHalf, topZ);
+    verts[this.vert_bot_nw] = new THREE.Vector3(-weHalf, nsHalf, botZ);
+    verts[this.vert_bot_sw] = new THREE.Vector3(-weHalf, -nsHalf, botZ);
+    verts[this.vert_bot_se] = new THREE.Vector3(weHalf, -nsHalf, botZ);
+    verts[this.vert_bot_ne] = new THREE.Vector3(weHalf, nsHalf, botZ);
+
+    return verts;
+  },
+
 };

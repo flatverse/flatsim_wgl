@@ -27,4 +27,8 @@ flatsim.TileMesh.prototype = {
   base_mesh: undefined,
   grid_mesh: undefined,
   slope_mesh: undefined,
+
+  update: function () {
+    this.base_geo.update();
+  }
 };

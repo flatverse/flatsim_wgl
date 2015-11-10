@@ -1,0 +1,9 @@
+#TODO
+## Tile tile.js
+1. keep track of state from update to update and report back on fields that were changed
+
+## TileMesh tile_mesh.js
+1. When **Tile** _bullet 1_ is completed, check for relevant changed fields and only update color (and any other future fields monitored by TileMesh) when the tile's color value changes.
+
+## TileBaseGeo tile\_base\_geo.js
+1. When **Tile** _bullet 1_ is completed, check for relevant changed fields and only update verts when the tile has changed.

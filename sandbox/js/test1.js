@@ -4,6 +4,10 @@ var test1 = {
   tiles: [],
   meshes: [],
 
+  funzies: {
+    up_down_vel: 0.01
+  },
+
   _kill: false,
   init: function () {
     this.persp = new flatsim.TilePerspective();
@@ -25,7 +29,9 @@ var test1 = {
   onload: function () {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-    this.camera.position.z = 5;
+    this.camera.position.z = 3;
+    this.camera.translateY(-2.25);
+    this.camera.rotateX(Math.PI / 6);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -34,6 +40,12 @@ var test1 = {
     this.forEach(function (tile, mesh) {
       this.scene.add(mesh.group);
     });
+
+    // funzies
+    this.tiles[1][1].color = 0xff8800;
+    this.meshes[1][1].base_mesh.material.opacity = 0x80 / 0xff;
+    this.meshes[1][1].base_mesh.material.transparent = true;
+    // end funzies
 
     var self = this;
     this._drawwrapper = function () {
@@ -48,6 +60,17 @@ var test1 = {
     }
 
     requestAnimationFrame(this._drawwrapper);
+
+    var upDownTile = this.tiles[1][1];
+    upDownTile.height_top += this.funzies.up_down_vel;
+    if (upDownTile.height_top >= 2 || upDownTile.height_top <= 0.75) {
+      this.funzies.up_down_vel = -this.funzies.up_down_vel;
+    }
+
+    this.forEach(function (tile, mesh) {
+      // tile.update();
+      mesh.update();
+    });
     this.renderer.render(this.scene, this.camera);
   },
 

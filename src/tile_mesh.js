@@ -7,7 +7,8 @@ flatsim.TileMesh = function(tile, tilePerspective) {
   this.base_geo = new flatsim.TileBaseGeo(tile, tilePerspective);
   var initMaterial = new THREE.MeshBasicMaterial({color: this.tile.color});
   this.base_mesh = new THREE.Mesh(this.base_geo, initMaterial);
-  this.base_mesh.renderOrder = 0;
+  // this.base_mesh.renderOrder = 0;
+  // this.base_mesh.depthTest = false;
   var pos = tilePerspective.scene_coord_from_tile_coord(tile.coord_we, tile.coord_ns);
   this.group.add(this.base_mesh);
 

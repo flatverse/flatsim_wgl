@@ -1,4 +1,6 @@
 flatsim.TileBaseGeo = function (tile, tilePersp) {
+  THREE.Geometry.call(this);
+
   this.tile = tile;
   this.perspective = tilePersp;
 
@@ -25,12 +27,13 @@ flatsim.TileBaseGeo = function (tile, tilePersp) {
     new THREE.Face3(this.vert_bot_nw, this.vert_bot_ne, this.vert_bot_se),
   ];
 
-  this.three_geo = new THREE.Geometry();
-  this.three_geo.vertices = verts;
-  this.three_geo.faces = faces;
-  this.three_geo.computeFaceNormals();
+  this.vertices = verts;
+  this.faces = faces;
+  this.computeFaceNormals();
 };
-flatsim.TileBaseGeo.prototype = {
+
+flatsim.TileBaseGeo.prototype = Object.create(THREE.Geometry.prototype);
+flatsim.TileBaseGeo.prototype = _.extend(flatsim.TileBaseGeo.prototype, {
   tile: undefined,
   perspective: undefined,
 
@@ -47,17 +50,12 @@ flatsim.TileBaseGeo.prototype = {
 
   update: function() {
     var newVerts = this.compute_verts(this.tile, this.perspective);
-    var geo = this.three_geo;
     _.forEach(newVerts, function (vert, i) {
-      geo.vertices[i].x = vert.x;
-      geo.vertices[i].y = vert.y;
-      geo.vertices[i].z = vert.z;
-    });
-    this.three_geo.verticesNeedUpdate = true;
-  },
-
-  get_geometry: function () {
-    return this.three_geo;
+      this.vertices[i].x = vert.x;
+      this.vertices[i].y = vert.y;
+      this.vertices[i].z = vert.z;
+    }, this);
+    this.verticesNeedUpdate = true;
   },
 
   compute_verts: function(tile, tilePersp) {
@@ -78,5 +76,5 @@ flatsim.TileBaseGeo.prototype = {
 
     return verts;
   },
-
-};
+});
+flatsim.TileBaseGeo.prototype.constructor = flatsim.TileBaseGeo;

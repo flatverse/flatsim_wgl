@@ -8,4 +8,3 @@
 
 ## TileBaseGeo tile\_base\_geo.js
 1. When **Tile** _bullet 1_ is completed, check for relevant changed fields and only update verts when the tile has changed.
-2. Change this to extend THREE.Geometry instead of wrapping it.

@@ -1,14 +1,18 @@
 flatsim.TileMeshGrid = function (tile, tilePerspective) {
+  THREE.Group.call(this);
+
   this.tile = tile;
   this.perspective = tilePerspective;
 
   var geo = this._make_square_geo(new THREE.Vector3(0, 0, 1));
   var mat = new THREE.MeshBasicMaterial({color: tile.grid_color});
   this.base_mesh_top = new THREE.Mesh(geo, mat);
+  this.add(this.base_mesh_top);
   // this.base_mesh_top.renderOrder = 1;
   // this.base_mesh_top.depthTest = false;
 };
-flatsim.TileMeshGrid.prototype = {
+flatsim.TileMeshGrid.prototype = Object.create(THREE.Group.prototype);
+flatsim.TileMeshGrid.prototype = _.extend(flatsim.TileMeshGrid.prototype, {
   tile: undefined,
   perspective: undefined,
   base_mesh_top: undefined,
@@ -91,4 +95,5 @@ flatsim.TileMeshGrid.prototype = {
     vObj[axB] = bVal;
     return new THREE.Vector3(vObj.x, vObj.y, vObj.z);
   },
-};
+});
+flatsim.TileMeshGrid.prototype.constructor = flatsim.TileMeshGrid;

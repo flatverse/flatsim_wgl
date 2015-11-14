@@ -3,13 +3,13 @@ flatsim.GridMesh = function (tile, tilePerspective) {
 
   this.tile = tile;
   this.perspective = tilePerspective;
-  this.tile_bnds = this.compute_bounds();
+  var tileBnds = this.compute_bounds();
 
   var geo = new flatsim.GridGeo({
-    tl: this.tile_bnds.top_nw,
-    tr: this.tile_bnds.top_ne,
-    br: this.tile_bnds.top_se,
-    bl: this.tile_bnds.top_sw,
+    tl: tileBnds.top_nw,
+    tr: tileBnds.top_ne,
+    br: tileBnds.top_se,
+    bl: tileBnds.top_sw,
     line_width: this.line_width,
     offset: new THREE.Vector3(0, 0, this.offset),
   });
@@ -28,8 +28,17 @@ flatsim.GridMesh.prototype = _.extend(flatsim.GridMesh.prototype, {
   line_width: 0.01,
   offset: 0.0001,
 
+  update: function () {
+    var tileBnds = this.compute_bounds();
+    this.base_mesh_top.geometry.tl = tileBnds.top_nw;
+    this.base_mesh_top.geometry.tr = tileBnds.top_ne;
+    this.base_mesh_top.geometry.br = tileBnds.top_se;
+    this.base_mesh_top.geometry.bl = tileBnds.top_sw;
+    this.base_mesh_top.geometry.update();
+  },
+
   compute_bounds: function() {
-    return this.perspective.get_unit_box(this.tile.height_top, this.tile.height_bottom);
+    return this.perspective.get_unit_box(this.tile);
   },
 });
 flatsim.GridMesh.prototype.constructor = flatsim.GridMesh;

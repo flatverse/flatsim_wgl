@@ -47,17 +47,16 @@ flatsim.TilePerspective.prototype = {
     return bnds;
   },
 
-  get_unit_box: function (heightTop, heightBottom) {
+  get_unit_box: function (tile) {
     var halfWE = this.get_dim_we() / 2;
     var halfNS = this.get_dim_ns() / 2;
-    var topZ = this.scene_height_from_tile_height(heightTop);
-    var botZ = this.scene_height_from_tile_height(heightBottom);
+    var botZ = this.scene_height_from_tile_height(tile.height_bottom);
 
     var bnds = {
-      top_nw: new THREE.Vector3(-halfWE, halfNS, topZ),
-      top_ne: new THREE.Vector3(halfWE, halfNS, topZ),
-      top_se: new THREE.Vector3(halfWE, -halfNS, topZ),
-      top_sw: new THREE.Vector3(-halfWE, -halfNS, topZ),
+      top_nw: new THREE.Vector3(-halfWE, halfNS, this.scene_height_from_tile_height(tile.get_nw_corner_height())),
+      top_ne: new THREE.Vector3(halfWE, halfNS, this.scene_height_from_tile_height(tile.get_ne_corner_height())),
+      top_se: new THREE.Vector3(halfWE, -halfNS, this.scene_height_from_tile_height(tile.get_se_corner_height())),
+      top_sw: new THREE.Vector3(-halfWE, -halfNS, this.scene_height_from_tile_height(tile.get_sw_corner_height())),
       bot_nw: new THREE.Vector3(-halfWE, halfNS, botZ),
       bot_ne: new THREE.Vector3(halfWE, halfNS, botZ),
       bot_se: new THREE.Vector3(halfWE, -halfNS, botZ),

@@ -24,6 +24,16 @@ flatsim.GridGeo.prototype = _.extend(flatsim.GridGeo.prototype, {
   vert_inner_br: 6,
   vert_inner_bl: 7,
 
+  update: function () {
+    var newVerts = this._compute_verts();
+    _.forEach(newVerts, function (vert, i) {
+      this.vertices[i].x = vert.x;
+      this.vertices[i].y = vert.y;
+      this.vertices[i].z = vert.z;
+    }, this);
+    this.verticesNeedUpdate = true;
+  },
+
   _compute_verts: function() {
     var verts = [];
     verts[this.vert_outter_tl] = this.tl.clone().add(this.offset);

@@ -2,7 +2,7 @@ flatsim.Tile = function (coordWE, coordNS, options) {
   this.coord_we = coordWE;
   this.coord_ns = coordNS;
 
-  this.slope = {
+  this.corner_heights = {
     nw: 0,
     ne: 0,
     se: 0,
@@ -16,12 +16,7 @@ flatsim.Tile.prototype = {
   coord_ns: undefined,
   height_bottom: 0,
   height_top: 1,
-  slope: { // will be redefined in constructor - defined here for readability
-    height_nw: 0,
-    height_ne: 0,
-    height_se: 0,
-    height_sw: 0
-  },
+  corner_heights: undefined,
   color: 0x77ff00,
   grid_color: 0xdddddd,
 };

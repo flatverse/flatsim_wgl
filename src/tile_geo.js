@@ -65,10 +65,10 @@ flatsim.TileGeo.prototype = _.extend(flatsim.TileGeo.prototype, {
     var botZ = tilePersp.scene_height_from_tile_height(tile.height_bottom);
 
     var verts = [];
-    verts[this.vert_top_nw] = new THREE.Vector3(-weHalf, nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.slope.nw));
-    verts[this.vert_top_sw] = new THREE.Vector3(-weHalf, -nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.slope.sw));
-    verts[this.vert_top_se] = new THREE.Vector3(weHalf, -nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.slope.se));
-    verts[this.vert_top_ne] = new THREE.Vector3(weHalf, nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.slope.ne));
+    verts[this.vert_top_nw] = new THREE.Vector3(-weHalf, nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.corner_heights.nw));
+    verts[this.vert_top_sw] = new THREE.Vector3(-weHalf, -nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.corner_heights.sw));
+    verts[this.vert_top_se] = new THREE.Vector3(weHalf, -nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.corner_heights.se));
+    verts[this.vert_top_ne] = new THREE.Vector3(weHalf, nsHalf, topZ + tilePersp.scene_height_from_tile_height(tile.corner_heights.ne));
     verts[this.vert_bot_nw] = new THREE.Vector3(-weHalf, nsHalf, botZ);
     verts[this.vert_bot_sw] = new THREE.Vector3(-weHalf, -nsHalf, botZ);
     verts[this.vert_bot_se] = new THREE.Vector3(weHalf, -nsHalf, botZ);

@@ -4,7 +4,7 @@ flatsim.TileMesh = function(tile, tilePerspective) {
   this.name = flatsim.util.format_string('tilemesh_{0}_{1}', tile.coord_we, tile.coord_ns);
   this.group = new THREE.Group({name: this.name});
 
-  this.base_geo = new flatsim.TileBaseGeo(tile, tilePerspective);
+  this.base_geo = new flatsim.TileGeo(tile, tilePerspective);
   var initMaterial = new THREE.MeshBasicMaterial({color: this.tile.color});
   this.base_mesh = new THREE.Mesh(this.base_geo, initMaterial);
   // this.base_mesh.renderOrder = 0;

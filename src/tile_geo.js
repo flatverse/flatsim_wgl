@@ -1,4 +1,4 @@
-flatsim.TileBaseGeo = function (tile, tilePersp) {
+flatsim.TileGeo = function (tile, tilePersp) {
   THREE.Geometry.call(this);
 
   this.tile = tile;
@@ -32,8 +32,8 @@ flatsim.TileBaseGeo = function (tile, tilePersp) {
   this.computeFaceNormals();
 };
 
-flatsim.TileBaseGeo.prototype = Object.create(THREE.Geometry.prototype);
-flatsim.TileBaseGeo.prototype = _.extend(flatsim.TileBaseGeo.prototype, {
+flatsim.TileGeo.prototype = Object.create(THREE.Geometry.prototype);
+flatsim.TileGeo.prototype = _.extend(flatsim.TileGeo.prototype, {
   tile: undefined,
   perspective: undefined,
 
@@ -77,4 +77,4 @@ flatsim.TileBaseGeo.prototype = _.extend(flatsim.TileBaseGeo.prototype, {
     return verts;
   },
 });
-flatsim.TileBaseGeo.prototype.constructor = flatsim.TileBaseGeo;
+flatsim.TileGeo.prototype.constructor = flatsim.TileGeo;

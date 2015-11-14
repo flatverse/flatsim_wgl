@@ -3,10 +3,10 @@ flatsim.Tile = function (coordWE, coordNS, options) {
   this.coord_ns = coordNS;
 
   this.slope = {
-    height_nw: 0,
-    height_ne: 0,
-    height_se: 0,
-    height_sw: 0
+    nw: 0,
+    ne: 0,
+    se: 0,
+    sw: 0
   };
 
   _.extend(this, options);

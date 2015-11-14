@@ -47,6 +47,26 @@ flatsim.TilePerspective.prototype = {
     return bnds;
   },
 
+  get_unit_box: function (heightTop, heightBottom) {
+    var halfWE = this.get_dim_we() / 2;
+    var halfNS = this.get_dim_ns() / 2;
+    var topZ = this.scene_height_from_tile_height(heightTop);
+    var botZ = this.scene_height_from_tile_height(heightBottom);
+
+    var bnds = {
+      top_nw: new THREE.Vector3(-halfWE, halfNS, topZ),
+      top_ne: new THREE.Vector3(halfWE, halfNS, topZ),
+      top_se: new THREE.Vector3(halfWE, -halfNS, topZ),
+      top_sw: new THREE.Vector3(-halfWE, -halfNS, topZ),
+      bot_nw: new THREE.Vector3(-halfWE, halfNS, botZ),
+      bot_ne: new THREE.Vector3(halfWE, halfNS, botZ),
+      bot_se: new THREE.Vector3(halfWE, -halfNS, botZ),
+      bot_sw: new THREE.Vector3(-halfWE, -halfNS, botZ),
+    };
+
+    return bnds;
+  },
+
   get_dim_we: function () {
     return this.tile_dim_we;
   },

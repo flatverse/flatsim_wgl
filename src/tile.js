@@ -19,4 +19,17 @@ flatsim.Tile.prototype = {
   corner_heights: undefined,
   color: 0x77ff00,
   grid_color: 0xdddddd,
+
+  get_nw_corner_height: function () {
+    return this.height_top + this.corner_heights.nw;
+  },
+  get_ne_corner_height: function () {
+    return this.height_top + this.corner_heights.ne;
+  },
+  get_se_corner_height: function () {
+    return this.height_top + this.corner_heights.se;
+  },
+  get_sw_corner_height: function () {
+    return this.height_top + this.corner_heights.sw;
+  },
 };

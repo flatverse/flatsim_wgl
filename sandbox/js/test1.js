@@ -61,11 +61,11 @@ var test1 = {
 
     requestAnimationFrame(this._drawwrapper);
 
-    var upDownTile = this.tiles[1][1];
-    upDownTile.height_top += this.funzies.up_down_vel;
-    if (upDownTile.height_top >= 2 || upDownTile.height_top <= 0.75) {
-      this.funzies.up_down_vel = -this.funzies.up_down_vel;
-    }
+    // var upDownTile = this.tiles[1][1];
+    // upDownTile.height_top += this.funzies.up_down_vel;
+    // if (upDownTile.height_top >= 2 || upDownTile.height_top <= 0.75) {
+    //   this.funzies.up_down_vel = -this.funzies.up_down_vel;
+    // }
 
     this.forEach(function (tile, mesh) {
       // tile.update();

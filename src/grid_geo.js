@@ -42,16 +42,23 @@ flatsim.GridGeo.prototype = _.extend(flatsim.GridGeo.prototype, {
     verts[this.vert_outter_bl] = this.bl.clone().add(this.offset);
 
     var normTLTR = this.tr.clone().sub(this.tl).normalize();
-    var normTLBL = this.bl.clone().sub(this.tl).normalize();
+    var normTRBR = this.br.clone().sub(this.tr).normalize();
+    var normBRBL = this.bl.clone().sub(this.br).normalize();
+    var normBLTL = this.tl.clone().sub(this.bl).normalize();
 
-    var multTLTR = normTLTR.clone().multiplyScalar(this.line_width);
-    var multTLBL = normTLBL.clone().multiplyScalar(this.line_width);
-    var oppMultTLTR = normTLTR.clone().multiplyScalar(-this.line_width);
-    var oppMultTLBL = normTLBL.clone().multiplyScalar(-this.line_width);
-    verts[this.vert_inner_tl] = verts[this.vert_outter_tl].clone().add(multTLTR).add(multTLBL);
-    verts[this.vert_inner_tr] = verts[this.vert_outter_tr].clone().add(oppMultTLTR).add(multTLBL);
-    verts[this.vert_inner_br] = verts[this.vert_outter_br].clone().add(oppMultTLTR).add(oppMultTLBL);
-    verts[this.vert_inner_bl] = verts[this.vert_outter_bl].clone().add(multTLTR).add(oppMultTLBL);
+    var posTLTR = normTLTR.clone().multiplyScalar(this.line_width);
+    var posTRBR = normTRBR.clone().multiplyScalar(this.line_width);
+    var posBRBL = normBRBL.clone().multiplyScalar(this.line_width);
+    var posBLTL = normBLTL.clone().multiplyScalar(this.line_width);
+    var negTLTR = normTLTR.clone().multiplyScalar(-this.line_width);
+    var negTRBR = normTRBR.clone().multiplyScalar(-this.line_width);
+    var negBRBL = normBRBL.clone().multiplyScalar(-this.line_width);
+    var negBLTL = normBLTL.clone().multiplyScalar(-this.line_width);
+
+    verts[this.vert_inner_tl] = verts[this.vert_outter_tl].clone().add(posTLTR).add(negBLTL);
+    verts[this.vert_inner_tr] = verts[this.vert_outter_tr].clone().add(negTLTR).add(posTRBR);
+    verts[this.vert_inner_br] = verts[this.vert_outter_br].clone().add(posBRBL).add(negTRBR);
+    verts[this.vert_inner_bl] = verts[this.vert_outter_bl].clone().add(negBRBL).add(posBLTL);
 
     return verts;
   },

@@ -1,4 +1,4 @@
-flatsim.TileMeshGrid = function (tile, tilePerspective) {
+flatsim.GridMesh = function (tile, tilePerspective) {
   THREE.Group.call(this);
 
   this.tile = tile;
@@ -18,8 +18,8 @@ flatsim.TileMeshGrid = function (tile, tilePerspective) {
   this.base_mesh_top = new THREE.Mesh(geo, mat);
   this.add(this.base_mesh_top);
 };
-flatsim.TileMeshGrid.prototype = Object.create(THREE.Group.prototype);
-flatsim.TileMeshGrid.prototype = _.extend(flatsim.TileMeshGrid.prototype, {
+flatsim.GridMesh.prototype = Object.create(THREE.Group.prototype);
+flatsim.GridMesh.prototype = _.extend(flatsim.GridMesh.prototype, {
   tile: undefined,
   perspective: undefined,
   base_mesh_top: undefined,
@@ -32,4 +32,4 @@ flatsim.TileMeshGrid.prototype = _.extend(flatsim.TileMeshGrid.prototype, {
     return this.perspective.get_unit_box(this.tile.height_top, this.tile.height_bottom);
   },
 });
-flatsim.TileMeshGrid.prototype.constructor = flatsim.TileMeshGrid;
+flatsim.GridMesh.prototype.constructor = flatsim.GridMesh;

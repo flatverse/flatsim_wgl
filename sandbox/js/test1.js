@@ -100,4 +100,5 @@ var test1 = {
 test1.init();
 window.onload = function () {
   test1.onload();
+  t10 = test1.gt(1,0);
 };

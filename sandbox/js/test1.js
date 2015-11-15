@@ -69,8 +69,8 @@ var test1 = {
     // }
 
     this.forEach(function (tile, mesh) {
-      // tile.update();
       mesh.update();
+      tile.refresh_state();
     });
     this.renderer.render(this.scene, this.camera);
   },

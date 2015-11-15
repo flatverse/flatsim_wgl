@@ -49,10 +49,19 @@ flatsim.Tile.prototype = {
     return state;
   },
 
-  was_changed: function (propertyName) {
+  was_changed: function (propertyNames) {
+    if (typeof propertyNames === 'string') {
+      propertyNames = [propertyNames];
+    }
     if (typeof this.last_state !== 'object') {
       return true;
     }
-    return this.last_state[propertyName] !== this[propertyName];
+    var i;
+    for (i = 0; i < propertyNames.length; i++) {
+      if (!_.isEqual(this.last_state[propertyNames[i]], this[propertyNames[i]])) {
+        return true;
+      }
+    }
+    return false;
   },
 };

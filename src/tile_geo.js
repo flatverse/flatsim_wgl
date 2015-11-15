@@ -49,6 +49,11 @@ flatsim.TileGeo.prototype = _.extend(flatsim.TileGeo.prototype, {
   vert_bot_ne: 7,
 
   update: function() {
+    if (!this.tile.was_changed(['corner_heights', 'height_top', 'height_bottom'])) {
+      return;
+    }
+    flatsim.log('[TileGeo] updating verts.');
+
     var newVerts = this.compute_verts(this.tile, this.perspective);
     _.forEach(newVerts, function (vert, i) {
       this.vertices[i].x = vert.x;

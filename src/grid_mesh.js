@@ -29,6 +29,10 @@ flatsim.GridMesh.prototype = _.extend(flatsim.GridMesh.prototype, {
   offset: 0.0001,
 
   update: function () {
+    if (!this.tile.was_changed(['corner_heights', 'height_top', 'height_bottom'])) {
+      return;
+    }
+    flatsim.log('[GridMesh] updating verts.');
     var tileBnds = this.compute_bounds();
     this.base_mesh_top.geometry.tl = tileBnds.top_nw;
     this.base_mesh_top.geometry.tr = tileBnds.top_ne;

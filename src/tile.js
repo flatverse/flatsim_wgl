@@ -9,6 +9,8 @@ flatsim.Tile = function (coordWE, coordNS, options) {
     sw: 0
   };
 
+  this.last_state = this.create_state();
+
   _.extend(this, options);
 };
 flatsim.Tile.prototype = {
@@ -31,5 +33,25 @@ flatsim.Tile.prototype = {
   },
   get_sw_corner_height: function () {
     return this.height_top + this.corner_heights.sw;
+  },
+
+  update: function () {
+    ths.last_state = this.create_state();
+  },
+
+  create_state: function () {
+    var state = {};
+    var key, val;
+    for(key in this) {
+      val = this[key];
+      if (key !== 'last_state' && typeof val !== 'function') {
+        state[key] = _.clone(val);
+      }
+    };
+    return state;
+  },
+
+  was_changed: function (propertyName) {
+    return this.last_state[propertyName] !== this[propertyName];
   },
 };

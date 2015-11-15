@@ -41,10 +41,10 @@ flatsim.GridGeo.prototype = _.extend(flatsim.GridGeo.prototype, {
     verts[this.vert_outter_br] = this.br.clone().add(this.offset);
     verts[this.vert_outter_bl] = this.bl.clone().add(this.offset);
 
-    var normTLTR = this.tr.clone().sub(this.tl).normalize();
-    var normTRBR = this.br.clone().sub(this.tr).normalize();
-    var normBRBL = this.bl.clone().sub(this.br).normalize();
-    var normBLTL = this.tl.clone().sub(this.bl).normalize();
+    var normTLTR = verts[this.vert_outter_tr].clone().sub(this.tl).normalize();
+    var normTRBR = verts[this.vert_outter_br].clone().sub(this.tr).normalize();
+    var normBRBL = verts[this.vert_outter_bl].clone().sub(this.br).normalize();
+    var normBLTL = verts[this.vert_outter_tl].clone().sub(this.bl).normalize();
 
     var posTLTR = normTLTR.clone().multiplyScalar(this.line_width);
     var posTRBR = normTRBR.clone().multiplyScalar(this.line_width);

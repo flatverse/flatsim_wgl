@@ -26,7 +26,7 @@ flatsim.GridMesh.prototype = _.extend(flatsim.GridMesh.prototype, {
   slope_mesh: undefined,
 
   line_width: 0.01,
-  offset: 0.0001,
+  offset: 0.001,
 
   update: function () {
     if (!this.tile.was_changed(['corner_heights', 'height_top', 'height_bottom'])) {

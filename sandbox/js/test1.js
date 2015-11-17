@@ -101,4 +101,5 @@ test1.init();
 window.onload = function () {
   test1.onload();
   t10 = test1.gt(1,0);
+  m10 = test1.gm(1,0);
 };

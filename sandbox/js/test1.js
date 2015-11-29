@@ -42,7 +42,7 @@ var test1 = {
     });
 
     // funzies
-    this.tiles[1][1].color = 0x0000ff;
+    this.tiles[1][1].top_color = 0x0000ff;
     this.tiles[1][1].height_top = 0.8;
     this.meshes[1][1].base_mesh.material.opacity = 0x80 / 0xff;
     this.meshes[1][1].base_mesh.material.transparent = true;

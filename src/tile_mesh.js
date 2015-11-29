@@ -33,7 +33,6 @@ flatsim.TileMesh.prototype = {
     this.grid_mesh.update();
 
     if (this.tile.was_changed('color')) {
-      flatsim.log('[TileMesh] updating color');
       this.base_mesh.material.setValues({color: this.tile.color});;
     }
   }

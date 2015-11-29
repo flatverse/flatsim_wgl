@@ -1,4 +1,4 @@
-flatsim.TileGeo = function (tile, tilePersp) {
+flatsim.TileGeo = function (tile, tilePersp, tileMat) {
   THREE.Geometry.call(this);
 
   this.tile = tile;
@@ -8,23 +8,23 @@ flatsim.TileGeo = function (tile, tilePersp) {
 
   var faces = [
   // top
-    new THREE.Face3(this.vert_top_nw, this.vert_top_sw, this.vert_top_se),
-    new THREE.Face3(this.vert_top_nw, this.vert_top_se, this.vert_top_ne),
+    new THREE.Face3(this.vert_top_nw, this.vert_top_sw, this.vert_top_se, undefined, undefined, tileMat.top_mat_ix),
+    new THREE.Face3(this.vert_top_nw, this.vert_top_se, this.vert_top_ne, undefined, undefined, tileMat.top_mat_ix),
   // facing neg y
-    new THREE.Face3(this.vert_top_sw, this.vert_bot_sw, this.vert_bot_se),
-    new THREE.Face3(this.vert_top_sw, this.vert_bot_se, this.vert_top_se),
+    new THREE.Face3(this.vert_top_sw, this.vert_bot_sw, this.vert_bot_se, undefined, undefined, tileMat.south_mat_ix),
+    new THREE.Face3(this.vert_top_sw, this.vert_bot_se, this.vert_top_se, undefined, undefined, tileMat.south_mat_ix),
   // facing pos x
-    new THREE.Face3(this.vert_top_se, this.vert_bot_se, this.vert_bot_ne),
-    new THREE.Face3(this.vert_top_se, this.vert_bot_ne, this.vert_top_ne),
+    new THREE.Face3(this.vert_top_se, this.vert_bot_se, this.vert_bot_ne, undefined, undefined, tileMat.east_mat_ix),
+    new THREE.Face3(this.vert_top_se, this.vert_bot_ne, this.vert_top_ne, undefined, undefined, tileMat.east_mat_ix),
   // facing pos y
-    new THREE.Face3(this.vert_top_ne, this.vert_bot_ne, this.vert_bot_nw),
-    new THREE.Face3(this.vert_top_ne, this.vert_bot_nw, this.vert_top_nw),
+    new THREE.Face3(this.vert_top_ne, this.vert_bot_ne, this.vert_bot_nw, undefined, undefined, tileMat.north_mat_ix),
+    new THREE.Face3(this.vert_top_ne, this.vert_bot_nw, this.vert_top_nw, undefined, undefined, tileMat.north_mat_ix),
   // facing neg x
-    new THREE.Face3(this.vert_top_nw, this.vert_bot_nw, this.vert_bot_sw),
-    new THREE.Face3(this.vert_top_nw, this.vert_bot_sw, this.vert_top_se),
+    new THREE.Face3(this.vert_top_nw, this.vert_bot_nw, this.vert_bot_sw, undefined, undefined, tileMat.west_mat_ix),
+    new THREE.Face3(this.vert_top_nw, this.vert_bot_sw, this.vert_top_se, undefined, undefined, tileMat.west_mat_ix),
   // bottom
-    new THREE.Face3(this.vert_bot_sw, this.vert_bot_nw, this.vert_bot_ne),
-    new THREE.Face3(this.vert_bot_nw, this.vert_bot_ne, this.vert_bot_se),
+    new THREE.Face3(this.vert_bot_sw, this.vert_bot_nw, this.vert_bot_ne, undefined, undefined, tileMat.bottom_mat_ix),
+    new THREE.Face3(this.vert_bot_nw, this.vert_bot_ne, this.vert_bot_se, undefined, undefined, tileMat.bottom_mat_ix),
   ];
 
   this.vertices = verts;

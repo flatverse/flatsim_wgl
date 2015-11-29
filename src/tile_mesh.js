@@ -5,7 +5,7 @@ flatsim.TileMesh = function(tile, tilePerspective) {
   this.group = new THREE.Group({name: this.name});
 
   this.base_geo = new flatsim.TileGeo(tile, tilePerspective);
-  var initMaterial = new THREE.MeshBasicMaterial({color: this.tile.color});
+  var initMaterial = new THREE.MeshBasicMaterial({color: this.tile.top_color});
   this.base_mesh = new THREE.Mesh(this.base_geo, initMaterial);
   // this.base_mesh.renderOrder = 0;
   // this.base_mesh.depthTest = false;
@@ -33,7 +33,7 @@ flatsim.TileMesh.prototype = {
     this.grid_mesh.update();
 
     if (this.tile.was_changed('color')) {
-      this.base_mesh.material.setValues({color: this.tile.color});;
+      this.base_mesh.material.setValues({color: this.tile.top_color});;
     }
   }
 };

@@ -44,7 +44,7 @@ var test1 = {
     // funzies
     this.tiles[1][1].top_color = 0x0000ff;
     this.tiles[1][1].height_top = 0.8;
-    // this.meshes[1][1].base_mesh.material.opacity = 0x80 / 0xff;
+    this.meshes[1][1].base_mesh.material.opacity = 0x80 / 0xff;
     this.meshes[1][1].base_mesh.material.transparent = true;
     // end funzies
 
@@ -72,6 +72,16 @@ var test1 = {
       mesh.update();
       tile.refresh_state();
     });
+
+    // test crap
+    pl = new THREE.PointLight(0xffffff, 1, 100);
+    pl.position.set(0, -30, 30);
+    plhelp = new THREE.PointLightHelper(pl, 0.25);
+    test1.scene.add(pl);
+    test1.scene.add(plhelp);
+    // test1.scene.add(new THREE.AmbientLight(0xffffff));
+    //end test crap
+
     this.renderer.render(this.scene, this.camera);
   },
 
@@ -96,10 +106,19 @@ var test1 = {
   gm: function (we, ns) {
     return this.meshes[we][ns];
   },
+
+  matcam: function (mat) {
+    this.camera.applyMatrix(mat);
+  },
 };
 test1.init();
 window.onload = function () {
   test1.onload();
   t10 = test1.gt(1,0);
   m10 = test1.gm(1,0);
+
+  test1.matcam(rotX);
 };
+rotX = (new THREE.Matrix4()).makeRotationX(Math.PI / 8);
+rotY = (new THREE.Matrix4()).makeRotationY(Math.PI / 8);
+rotZ = (new THREE.Matrix4()).makeRotationZ(Math.PI / 8);

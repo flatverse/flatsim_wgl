@@ -21,10 +21,10 @@ flatsim.TileGeo = function (tile, tilePersp, tileMat) {
     new THREE.Face3(this.vert_top_ne, this.vert_bot_nw, this.vert_top_nw, undefined, undefined, tileMat.north_mat_ix),
   // facing neg x
     new THREE.Face3(this.vert_top_nw, this.vert_bot_nw, this.vert_bot_sw, undefined, undefined, tileMat.west_mat_ix),
-    new THREE.Face3(this.vert_top_nw, this.vert_bot_sw, this.vert_top_se, undefined, undefined, tileMat.west_mat_ix),
+    new THREE.Face3(this.vert_top_nw, this.vert_bot_sw, this.vert_top_sw, undefined, undefined, tileMat.west_mat_ix),
   // bottom
     new THREE.Face3(this.vert_bot_sw, this.vert_bot_nw, this.vert_bot_ne, undefined, undefined, tileMat.bottom_mat_ix),
-    new THREE.Face3(this.vert_bot_nw, this.vert_bot_ne, this.vert_bot_se, undefined, undefined, tileMat.bottom_mat_ix),
+    new THREE.Face3(this.vert_bot_sw, this.vert_bot_ne, this.vert_bot_se, undefined, undefined, tileMat.bottom_mat_ix),
   ];
 
   this.vertices = verts;

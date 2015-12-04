@@ -75,10 +75,11 @@ var test1 = {
 
     // test crap
     pl = new THREE.PointLight(0xffffff, 1, 100);
-    pl.position.set(0, -30, 30);
-    plhelp = new THREE.PointLightHelper(pl, 0.25);
+    pl.position.set(13, 14, 10);
     test1.scene.add(pl);
-    test1.scene.add(plhelp);
+    plB = new THREE.PointLight(0xddddff, 1, 100);
+    plB.position.set(-10, -10, -10);
+    test1.scene.add(plB);
     // test1.scene.add(new THREE.AmbientLight(0xffffff));
     //end test crap
 
@@ -118,7 +119,12 @@ window.onload = function () {
   m10 = test1.gm(1,0);
 
   test1.matcam(rotX);
+  // test1.matcam(rotZNeg);
+  // test1.matcam(rotZNeg);
 };
 rotX = (new THREE.Matrix4()).makeRotationX(Math.PI / 8);
 rotY = (new THREE.Matrix4()).makeRotationY(Math.PI / 8);
 rotZ = (new THREE.Matrix4()).makeRotationZ(Math.PI / 8);
+rotXNeg = (new THREE.Matrix4()).makeRotationX(Math.PI / -8);
+rotYNeg = (new THREE.Matrix4()).makeRotationY(Math.PI / -8);
+rotZNeg = (new THREE.Matrix4()).makeRotationZ(Math.PI / -8);

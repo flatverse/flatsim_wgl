@@ -2,12 +2,12 @@ flatsim.TileMat = function (tile) {
   this.tile = tile;
 
   var mats = [];
-  mats[this.top_mat_ix] = new THREE.MeshLambertMaterial({color: tile.top_color});
-  mats[this.north_mat_ix] = new THREE.MeshLambertMaterial({color: tile.side_colors.north});
-  mats[this.east_mat_ix] = new THREE.MeshLambertMaterial({color: tile.side_colors.east});
-  mats[this.south_mat_ix] = new THREE.MeshLambertMaterial({color: tile.side_colors.south});
-  mats[this.west_mat_ix] = new THREE.MeshLambertMaterial({color: tile.side_colors.west});
-  mats[this.bottom_mat_ix] = new THREE.MeshLambertMaterial({color: tile.bottom_color});
+  mats[this.top_mat_ix] = new THREE.MeshLambertMaterial({color: tile.colors.top});
+  mats[this.north_mat_ix] = new THREE.MeshLambertMaterial({color: tile.colors.north});
+  mats[this.east_mat_ix] = new THREE.MeshLambertMaterial({color: tile.colors.east});
+  mats[this.south_mat_ix] = new THREE.MeshLambertMaterial({color: tile.colors.south});
+  mats[this.west_mat_ix] = new THREE.MeshLambertMaterial({color: tile.colors.west});
+  mats[this.bottom_mat_ix] = new THREE.MeshLambertMaterial({color: tile.colors.bottom});
   THREE.MeshFaceMaterial.call(this, mats);
 };
 flatsim.TileMat.prototype = Object.create(THREE.MeshFaceMaterial.prototype);
@@ -45,16 +45,10 @@ flatsim.TileMat.prototype = _.extend(flatsim.TileMat.prototype, {
   },
 
   update: function () {
-    if (this.tile.was_changed('top_color')) {
-      this.set_values_top({color: this.tile.top_color});
-    }
-    if(this.tile.was_changed('side_colors')) {
-      for (var sideName in this.tile.side_colors) {
-        this['set_values_' + sideName]({color: this.tile.side_colors[sideName]});
+    if(this.tile.was_changed('colors')) {
+      for (var sideName in this.tile.colors) {
+        this['set_values_' + sideName]({color: this.tile.colors[sideName]});
       }
-    }
-    if (this.tile.was_changed('bottom_color')) {
-      this.set_values_bottom({color: this.tile.bottom_color});
     }
   },
 });

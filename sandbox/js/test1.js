@@ -38,7 +38,7 @@ var test1 = {
     document.body.appendChild(this.renderer.domElement);
 
     this.forEach(function (tile, mesh) {
-      this.scene.add(mesh.group);
+      // this.scene.add(mesh.group);
     });
 
     // funzies
@@ -118,9 +118,23 @@ window.onload = function () {
   t10 = test1.gt(1,0);
   m10 = test1.gm(1,0);
 
-  test1.matcam(rotX);
-  // test1.matcam(rotZNeg);
-  // test1.matcam(rotZNeg);
+  mm = new flatsim.MaterialManager();
+  mm.load_materials({
+    id: 'box',
+    file_path: 'textures/sprite_test.png',
+    tiles_wide: 2,
+    tiles_high: 2,
+    on_finish: function (mats) {
+      stmats = [mats[0][0], mats[0][1], mats[1][0], mats[1][1], mats[0][0], mats[0][1]];
+      stg = new THREE.BoxGeometry(1,1,1);
+      stm = new THREE.Mesh(stg, new THREE.MeshFaceMaterial(stmats));
+      stm.position.set(0, 0, 0);
+      test1.scene.add(stm);
+    }
+  });
+
+  test1.matcam(rotZ);
+  test1.matcam(rotZ);
 };
 rotX = (new THREE.Matrix4()).makeRotationX(Math.PI / 8);
 rotY = (new THREE.Matrix4()).makeRotationY(Math.PI / 8);

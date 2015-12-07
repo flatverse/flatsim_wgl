@@ -13,13 +13,14 @@ var test1 = {
     this.persp = new flatsim.TilePerspective();
     this.persp.center_x = -(this.tiles_we / 2) + 0.5;
     this.persp.center_y = -(this.tiles_ns / 2) + 0.5;
+    this.mat_manager = new flatsim.MaterialManager();
     var we, ns;
     for (we = 0; we < this.tiles_we; we++) {
       this.tiles.push([]);
       this.meshes.push([]);
       for (ns = 0; ns < this.tiles_ns; ns++) {
         var tile = new flatsim.Tile(we, ns);
-        var mesh = new flatsim.TileMesh(tile, this.persp);
+        var mesh = new flatsim.TileMesh(tile, this.persp, this.mat_manager);
         this.tiles[we].push(tile);
         this.meshes[we].push(mesh);
       }
@@ -30,22 +31,19 @@ var test1 = {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
     this.camera.position.z = 3;
-    this.camera.translateY(-2.25);
-    this.camera.rotateX(Math.PI / 6);
+    this.camera.translateY(-3);
+    this.camera.rotateX(Math.PI / 4);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 
     this.forEach(function (tile, mesh) {
-      // this.scene.add(mesh.group);
+      this.scene.add(mesh.group);
     });
 
     // funzies
-    this.tiles[1][1].colors.top = 0x0000ff;
     this.tiles[1][1].height_top = 0.8;
-    this.meshes[1][1].base_mesh.material.opacity = 0x80 / 0xff;
-    this.meshes[1][1].base_mesh.material.transparent = true;
     // end funzies
 
     var self = this;
@@ -62,25 +60,18 @@ var test1 = {
 
     requestAnimationFrame(this._drawwrapper);
 
-    // var upDownTile = this.tiles[1][1];
-    // upDownTile.height_top += this.funzies.up_down_vel;
-    // if (upDownTile.height_top >= 2 || upDownTile.height_top <= 0.75) {
-    //   this.funzies.up_down_vel = -this.funzies.up_down_vel;
-    // }
-
     this.forEach(function (tile, mesh) {
       mesh.update();
       tile.refresh_state();
     });
 
     // test crap
-    pl = new THREE.PointLight(0xffffff, 1, 100);
+    pl = new THREE.PointLight(0xffffff, 8, 24);
     pl.position.set(13, 14, 10);
     test1.scene.add(pl);
     plB = new THREE.PointLight(0xddddff, 1, 100);
     plB.position.set(-10, -10, -10);
     test1.scene.add(plB);
-    // test1.scene.add(new THREE.AmbientLight(0xffffff));
     //end test crap
 
     this.renderer.render(this.scene, this.camera);
@@ -118,23 +109,15 @@ window.onload = function () {
   t10 = test1.gt(1,0);
   m10 = test1.gm(1,0);
 
-  mm = new flatsim.MaterialManager();
-  mm.load_materials({
+  test1.mat_manager.load_materials({
     id: 'box',
     file_path: 'textures/sprite_test.png',
     tiles_wide: 2,
     tiles_high: 2,
-    on_finish: function (mats) {
-      stmats = [mats[0][0], mats[0][1], mats[1][0], mats[1][1], mats[0][0], mats[0][1]];
-      stg = new THREE.BoxGeometry(1,1,1);
-      stm = new THREE.Mesh(stg, new THREE.MeshFaceMaterial(stmats));
-      stm.position.set(0, 0, 0);
-      test1.scene.add(stm);
+    on_finish: function () {
+      t10.materials.top = ['box', 1, 1];
     }
   });
-
-  test1.matcam(rotZ);
-  test1.matcam(rotZ);
 };
 rotX = (new THREE.Matrix4()).makeRotationX(Math.PI / 8);
 rotY = (new THREE.Matrix4()).makeRotationY(Math.PI / 8);

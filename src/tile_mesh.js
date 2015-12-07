@@ -11,7 +11,7 @@ flatsim.TileMesh = function(tile, tilePerspective, materialManager) {
   this.group.add(this.base_mesh);
 
   this.grid_mesh = new flatsim.GridMesh(tile, tilePerspective);
-  this.group.add(this.grid_mesh);
+  // this.group.add(this.grid_mesh);
 
   this.group.position.x = pos.x;
   this.group.position.y = pos.y;

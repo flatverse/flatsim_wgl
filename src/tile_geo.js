@@ -26,6 +26,15 @@ flatsim.TileGeo = function (tile, tilePersp, tileMat) {
     new THREE.Face3(this.vert_bot_sw, this.vert_bot_nw, this.vert_bot_ne, undefined, undefined, tileMat.bottom_mat_ix),
     new THREE.Face3(this.vert_bot_sw, this.vert_bot_ne, this.vert_bot_se, undefined, undefined, tileMat.bottom_mat_ix),
   ];
+  var uvTl = new THREE.Vector2(0.0, 1.0);
+  var uvTr = new THREE.Vector2(1.0, 1.0);
+  var uvBr = new THREE.Vector2(1.0, 0.0);
+  var uvBl = new THREE.Vector2(0.0, 0.0);
+  var i;
+  for (i = 0; i < faces.length; i++) {
+    this.faceVertexUvs[0].push([uvTl, uvBl, uvBr]);
+    this.faceVertexUvs[0].push([uvTl, uvBr, uvTr]);
+  }
 
   this.vertices = verts;
   this.faces = faces;

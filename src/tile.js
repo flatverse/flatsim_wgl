@@ -8,13 +8,21 @@ flatsim.Tile = function (coordWE, coordNS, options) {
     se: 0,
     sw: 0
   };
-  this.materials = {
+  this.textures = {
     top: undefined,
     bottom: undefined,
     north: undefined,
     east: undefined,
     south: undefined,
     west: undefined,
+  };
+  this.colors = {
+    top: 0x77ff00,
+    bottom: 0x675B54,
+    north: 0x675B54,
+    east: 0x675B54,
+    south: 0x675B54,
+    west: 0x675B54,
   };
 
   _.extend(this, options);
@@ -25,7 +33,8 @@ flatsim.Tile.prototype = {
   height_bottom: 0,
   height_top: 1,
   corner_heights: undefined,
-  materials: undefined,
+  textures: undefined,
+  colors: undefined,
   grid_color: 0xdddddd,
 
   get_nw_corner_height: function () {

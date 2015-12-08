@@ -1,20 +1,21 @@
-flatsim.TileMat = function (tile, materialManager) {
+flatsim.TileMat = function (tile, texturesManager) {
   this.tile = tile;
-  this.mat_manager = materialManager;
+  this.textures_manager = texturesManager;
 
   var mats = [];
-  mats[this.top_mat_ix] = materialManager.get_material_or_default(tile.materials['top'], 'top');
-  mats[this.north_mat_ix] = materialManager.get_material_or_default(tile.materials['north'], 'north');
-  mats[this.east_mat_ix] = materialManager.get_material_or_default(tile.materials['east'], 'east');
-  mats[this.south_mat_ix] = materialManager.get_material_or_default(tile.materials['south'], 'south');
-  mats[this.west_mat_ix] = materialManager.get_material_or_default(tile.materials['west'], 'west');
-  mats[this.bottom_mat_ix] = materialManager.get_material_or_default(tile.materials['bottom'], 'bottom');
+  mats[this.top_mat_ix] = texturesManager.base_mat.clone();
+  mats[this.north_mat_ix] = texturesManager.base_mat.clone();
+  mats[this.east_mat_ix] = texturesManager.base_mat.clone();
+  mats[this.south_mat_ix] = texturesManager.base_mat.clone();
+  mats[this.west_mat_ix] = texturesManager.base_mat.clone();
+  mats[this.bottom_mat_ix] = texturesManager.base_mat.clone();
+
   THREE.MeshFaceMaterial.call(this, mats);
 };
 flatsim.TileMat.prototype = Object.create(THREE.MeshFaceMaterial.prototype);
 flatsim.TileMat.prototype = _.extend(flatsim.TileMat.prototype, {
   tile: undefined,
-  mat_manager: undefined,
+  textures_manager: undefined,
 
   top_mat_ix: 0,
   north_mat_ix: 1,
@@ -47,14 +48,17 @@ flatsim.TileMat.prototype = _.extend(flatsim.TileMat.prototype, {
   },
 
   update: function () {
-    if(this.tile.was_changed('materials')) {
-      for (var sideName in this.tile.materials) {
+    if(this.tile.was_changed('textures')) {
+      for (var sideName in this.tile.textures) {
         var matIx = this[sideName + '_mat_ix'];
-        var mat = this.mat_manager.get_material_or_default(this.tile.materials[sideName], sideName);
-        mat.needsUpdate = true;
-        this.materials[matIx] = mat;
+        this.set_values(matIx, {map: this.textures_manager.get_or_default(this.tile.textures[sideName])});
       }
-      this.needsUpdate = true;
+    }
+    if(this.tile.was_changed('colors')) {
+      for (var sideName in this.tile.textures) {
+        var matIx = this[sideName + '_mat_ix'];
+        this.set_values(matIx, {color: this.tile.colors[sideName]});
+      }
     }
   },
 });

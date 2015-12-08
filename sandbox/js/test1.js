@@ -13,14 +13,14 @@ var test1 = {
     this.persp = new flatsim.TilePerspective();
     this.persp.center_x = -(this.tiles_we / 2) + 0.5;
     this.persp.center_y = -(this.tiles_ns / 2) + 0.5;
-    this.mat_manager = new flatsim.MaterialManager();
+    this.textures_manager = new flatsim.TexturesManager({file_path: 'textures/1x1.png'});
     var we, ns;
     for (we = 0; we < this.tiles_we; we++) {
       this.tiles.push([]);
       this.meshes.push([]);
       for (ns = 0; ns < this.tiles_ns; ns++) {
         var tile = new flatsim.Tile(we, ns);
-        var mesh = new flatsim.TileMesh(tile, this.persp, this.mat_manager);
+        var mesh = new flatsim.TileMesh(tile, this.persp, this.textures_manager);
         this.tiles[we].push(tile);
         this.meshes[we].push(mesh);
       }
@@ -109,15 +109,25 @@ window.onload = function () {
   t10 = test1.gt(1,0);
   m10 = test1.gm(1,0);
 
-  test1.mat_manager.load_materials({
-    id: 'box',
-    file_path: 'textures/sprite_test.png',
-    tiles_wide: 2,
-    tiles_high: 2,
-    on_finish: function () {
-      t10.materials.top = ['box', 1, 1];
-    }
-  });
+  // setTimeout(function () {
+    test1.textures_manager.load_textures({
+      id: 'box',
+      file_path: 'textures/sprite_test.png',
+      tiles_wide: 2,
+      tiles_high: 2,
+      on_finish: function () {
+        t10.colors.top = 0xffffff;
+        t10.textures.top = ['box', 0, 1];
+        t10.colors.south = 0xffffff;
+        t10.textures.south = ['box', 0, 0];
+        var t = test1.gt(2, 0);
+        t.colors.top = 0xffffff;
+        t.textures.top = ['box', 1, 1];
+        t.colors.south = 0xffffff;
+        t.textures.south = ['box', 1, 0];
+      }
+    });
+  // }, 3000);
 };
 rotX = (new THREE.Matrix4()).makeRotationX(Math.PI / 8);
 rotY = (new THREE.Matrix4()).makeRotationY(Math.PI / 8);

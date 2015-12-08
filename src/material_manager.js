@@ -1,101 +1,101 @@
 /*
-* Manages materials used by tiles
-*
-* TODO: pool materials to create a way to request materials that won't be used
-* by other objects
+* Manages textures used by tiles
 */
-flatsim.MaterialManager = function (texturesInfo) {
-  this.materials = {};
+flatsim.TexturesManager = function (baseMatArgs) {
+  this.textures = {};
   this.texture_loader = new THREE.TextureLoader();
-  this.default_material_args = {
+  this.default_texture_args = {
     id: null,
     file_path: null,
     tiles_wide: 1,
     tiles_high: 1,
-    color: 0xffffff,
-    material_type: THREE.MeshLambertMaterial,
     on_finish: null,
   };
-  this.default_materials = {
-    top: new this.default_material_args.material_type({color: 0x77ff00}),
-    bottom: new this.default_material_args.material_type({color: 0x675B54}),
-    north: new this.default_material_args.material_type({color: 0x675B54}),
-    east: new this.default_material_args.material_type({color: 0x675B54}),
-    south: new this.default_material_args.material_type({color: 0x675B54}),
-    west: new this.default_material_args.material_type({color: 0x675B54}),
+  this.default_base_mat_args = {
+    id: 'PLACEHOLDER',
+    file_path: null,
+    color: 0xffffff,
+    type: THREE.MeshLambertMaterial,
+    on_finish: null
   };
+  if (typeof baseMatArgs.file_path === 'undefined') {
+    throw '[flatsim][TexturesManager][init] "baseMatArgs.file_path" is a required argument.'
+  }
+  _.defaults(baseMatArgs, this.default_base_mat_args);
+  var pTex = this.load_textures(baseMatArgs)
+  this.base_mat = new baseMatArgs.type({color: baseMatArgs.color, map: pTex});
+
   // TODO load all the textures
 };
-flatsim.MaterialManager.prototype = {
-  materials: undefined,
+flatsim.TexturesManager.prototype = {
+  textures: undefined,
   texture_loader: undefined,
-  default_material_args: undefined,
-  default_materials: undefined,
+  default_texture_args: undefined,
+  default_base_mat_args: undefined,
+  base_mat: undefined,
 
-  load_materials: function(materialArgs) {
-    _.defaults(materialArgs, this.default_material_args);
-    if (!materialArgs.id || !materialArgs.file_path) {
-      throw '[flatsim][MaterialManager][load_materials] materialArgs must include the properties "id" and "file_path"';
+  load_textures: function(textureArgs) {
+    _.defaults(textureArgs, this.default_texture_args);
+    if (!textureArgs.id || !textureArgs.file_path) {
+      throw '[flatsim][TexturesManager][load_textures] textureArgs must include the properties "id" and "file_path"';
     }
 
     var self = this;
-    this.texture_loader.load(materialArgs.file_path, function (tex) {
-      var tWidth = 1 / materialArgs.tiles_wide;
-      var tHeight = 1 / materialArgs.tiles_high;
+    return this.texture_loader.load(textureArgs.file_path, function (tex) {
+      var tWidth = 1 / textureArgs.tiles_wide;
+      var tHeight = 1 / textureArgs.tiles_high;
       tex.repeat.set(tWidth, tHeight);
-      var mats = [];
+      var texs = [];
       var i, j;
-      for (i = 0; i < materialArgs.tiles_wide; i++) {
-        mats[i] = [];
-        for (j = 0; j < materialArgs.tiles_high; j++) {
+      for (i = 0; i < textureArgs.tiles_wide; i++) {
+        texs[i] = [];
+        for (j = 0; j < textureArgs.tiles_high; j++) {
           tex.offset.set(i * tWidth, j * tHeight);
           tex.needsUpdate = true;
-          mats[i][j] = new materialArgs.material_type({map: tex, color: materialArgs.color, name: materialArgs.id + '_' + i + '_' + j});
+          texs[i][j] = tex;
           tex = tex.clone();
         }
       }
-      self.materials[materialArgs.id] = mats;
+      self.textures[textureArgs.id] = texs;
 
-      if (materialArgs.on_finish) {
-        materialArgs.on_finish(mats);
+      if (textureArgs.on_finish) {
+        textureArgs.on_finish(texs);
       }
     });
   },
 
-  get_default: function (side) {
-    return this.default_materials[side];
-  },
   get: function (id, i, j) {
-    var mat = this.materials[id];
+    var tex = this.textures[id];
 
-    if (typeof mat === 'undefined') {
-      throw '[flatsim][MaterialManager][load_materials] Material "' + id + ' ['+ i + ',' + j + ']" not found.';
+    if (typeof tex === 'undefined') {
+      throw '[flatsim][TexturesManager][load_textures] Texture "' + id + ' ['+ i + ',' + j + ']" not found.';
     }
 
     if (typeof i === 'undefined') {
       i = 0;
     }
 
-    if (mat.length <= i) {
-      throw '[flatsim][MaterialManager][load_materials] Material "' + id + ' ' + i + ' ' + j + '" not found. i index is out of range';
+    if (tex.length <= i) {
+      throw '[flatsim][TexturesManager][load_textures] Texture "' + id + ' ' + i + ' ' + j + '" not found. i index is out of range';
     }
 
-    mat = mat[i];
+    tex = tex[i];
 
     if (typeof j === 'undefined') {
       j = 0;
     }
 
-    if (mat.length <= j) {
-      throw '[flatsim][MaterialManager][load_materials] Material "' + id + ' ' + i + ' ' + j + '" not found. j index is out of range';
+    if (tex.length <= j) {
+      throw '[flatsim][TexturesManager][load_textures] Texture "' + id + ' ' + i + ' ' + j + '" not found. j index is out of range';
     }
 
-    return mat[j];
+    return tex[j];
   },
-  get_material_or_default: function (getArgs, side) {
-    if (typeof getArgs === 'undefined') {
-      return this.get_default(side);
+
+  get_or_default: function (tileTexVal) {
+    if (typeof tileTexVal === 'undefined') {
+      return this.base_mat.map;
     }
-    return this.get.apply(this, getArgs);
+    return this.get.apply(this, tileTexVal);
   },
 };

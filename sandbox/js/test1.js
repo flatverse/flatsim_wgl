@@ -128,6 +128,8 @@ window.onload = function () {
       }
     });
   // }, 3000);
+  
+  test_controls.init();
 };
 rotX = (new THREE.Matrix4()).makeRotationX(Math.PI / 8);
 rotY = (new THREE.Matrix4()).makeRotationY(Math.PI / 8);

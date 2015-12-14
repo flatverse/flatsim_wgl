@@ -58,6 +58,12 @@ var test1 = {
     test1.scene.add(plB);
     //end test crap
 
+    this.stats = new Stats();
+    this.stats.domElement.style.position = 'absolute';
+    this.stats.domElement.style.right = '40px';
+    this.stats.domElement.style.top = '40px';
+    document.body.appendChild(this.stats.domElement);
+
     var self = this;
     this._drawwrapper = function () {
       self.draw();
@@ -72,6 +78,8 @@ var test1 = {
 
     requestAnimationFrame(this._drawwrapper);
 
+    this.stats.begin();
+
     this.forEach(function (tile, mesh) {
       mesh.update();
       tile.refresh_state();
@@ -81,6 +89,8 @@ var test1 = {
 
     this.renderer.render(this.scene, this.camera);
     this.first_draw = true;
+
+    this.stats.end();
   },
 
   forEach: function (callback, self) {

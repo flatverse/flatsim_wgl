@@ -4,6 +4,10 @@ var test1 = {
   tiles: [],
   meshes: [],
 
+  first_draw: false,
+  camera_step: 0.01,
+  camera_rotate_step: Math.PI / 128,
+
   funzies: {
     up_down_vel: 0.01
   },
@@ -45,6 +49,14 @@ var test1 = {
     // funzies
     this.tiles[1][1].height_top = 0.8;
     // end funzies
+    // test crap
+    pl = new THREE.PointLight(0xffffff, 8, 24);
+    pl.position.set(13, 14, 10);
+    test1.scene.add(pl);
+    plB = new THREE.PointLight(0xddddff, 1, 100);
+    plB.position.set(-10, -10, -10);
+    test1.scene.add(plB);
+    //end test crap
 
     var self = this;
     this._drawwrapper = function () {
@@ -65,16 +77,10 @@ var test1 = {
       tile.refresh_state();
     });
 
-    // test crap
-    pl = new THREE.PointLight(0xffffff, 8, 24);
-    pl.position.set(13, 14, 10);
-    test1.scene.add(pl);
-    plB = new THREE.PointLight(0xddddff, 1, 100);
-    plB.position.set(-10, -10, -10);
-    test1.scene.add(plB);
-    //end test crap
+    this.move_cam();
 
     this.renderer.render(this.scene, this.camera);
+    this.first_draw = true;
   },
 
   forEach: function (callback, self) {
@@ -100,6 +106,40 @@ var test1 = {
   },
 
   matcam: function (mat) {
+    this.camera.applyMatrix(mat);
+  },
+
+  move_cam: function () {
+    if (!this.first_draw) {
+      return;
+    }
+    var mat = new THREE.Matrix4();
+    if (test_controls.button_is_pressed('up')) {
+      mat.makeTranslation(0, 0, this.camera_step);
+    }
+    if (test_controls.button_is_pressed('down')) {
+      mat.makeTranslation(0, 0, -this.camera_step);
+    }
+    if (test_controls.button_is_pressed('left')) {
+      mat.makeTranslation(-this.camera_step, 0, 0);
+    }
+    if (test_controls.button_is_pressed('right')) {
+      mat.makeTranslation(this.camera_step, 0, 0);
+    }
+    if (test_controls.button_is_pressed('forward')) {
+      mat.makeTranslation(0, this.camera_step, 0);
+    }
+    if (test_controls.button_is_pressed('backward')) {
+      mat.makeTranslation(0, -this.camera_step, 0);
+    }
+
+    if (test_controls.button_is_pressed('clockwise')) {
+      mat.makeRotationZ(this.camera_rotate_step);
+    }
+    if (test_controls.button_is_pressed('counter')) {
+      mat.makeRotationZ(this.camera_rotate_step);
+    }
+
     this.camera.applyMatrix(mat);
   },
 };

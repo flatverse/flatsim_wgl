@@ -137,7 +137,7 @@ var test1 = {
       mat.makeRotationZ(this.camera_rotate_step);
     }
     if (test_controls.button_is_pressed('counter')) {
-      mat.makeRotationZ(this.camera_rotate_step);
+      mat.makeRotationZ(-this.camera_rotate_step);
     }
 
     this.camera.applyMatrix(mat);

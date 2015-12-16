@@ -1,16 +1,13 @@
 var test1 = {
   tiles_ns: 4,
   tiles_we: 3,
-  tiles: [],
-  meshes: [],
+  // tiles: [],
+  // meshes: [],
+  tile_grid: undefined,
 
   first_draw: false,
   camera_step: 0.01,
   camera_rotate_step: Math.PI / 128,
-
-  funzies: {
-    up_down_vel: 0.01
-  },
 
   _kill: false,
   init: function () {
@@ -18,17 +15,18 @@ var test1 = {
     this.persp.center_x = -(this.tiles_we / 2) + 0.5;
     this.persp.center_y = -(this.tiles_ns / 2) + 0.5;
     this.textures_manager = new flatsim.TexturesManager({file_path: 'textures/1x1.png'});
-    var we, ns;
-    for (we = 0; we < this.tiles_we; we++) {
-      this.tiles.push([]);
-      this.meshes.push([]);
-      for (ns = 0; ns < this.tiles_ns; ns++) {
-        var tile = new flatsim.Tile(we, ns);
-        var mesh = new flatsim.TileMesh(tile, this.persp, this.textures_manager);
-        this.tiles[we].push(tile);
-        this.meshes[we].push(mesh);
-      }
-    }
+    // var we, ns;
+    // for (we = 0; we < this.tiles_we; we++) {
+    //   this.tiles.push([]);
+    //   this.meshes.push([]);
+    //   for (ns = 0; ns < this.tiles_ns; ns++) {
+    //     var tile = new flatsim.Tile(we, ns);
+    //     var mesh = new flatsim.TileMesh(tile, this.persp, this.textures_manager);
+    //     this.tiles[we].push(tile);
+    //     this.meshes[we].push(mesh);
+    //   }
+    // }
+    this.tile_grid = new flatsim.TileMeshGrid(this.tiles_we, this.tiles_ns, this.persp, this.textures_manager);
   },
 
   onload: function () {
@@ -42,12 +40,13 @@ var test1 = {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 
-    this.forEach(function (tile, mesh) {
-      this.scene.add(mesh.group);
-    });
+    // this.forEach(function (tile, mesh) {
+    //   this.scene.add(mesh.group);
+    // });
+    this.tile_grid.add_to_scene(this.scene);
 
     // funzies
-    this.tiles[1][1].height_top = 0.8;
+    this.tile_grid.get_tile(1, 1).height_top = 0.8;
     // end funzies
     // test crap
     pl = new THREE.PointLight(0xffffff, 8, 24);
@@ -80,10 +79,11 @@ var test1 = {
 
     this.stats.begin();
 
-    this.forEach(function (tile, mesh) {
-      mesh.update();
-      tile.refresh_state();
-    });
+    // this.forEach(function (tile, mesh) {
+    //   mesh.update();
+    //   tile.refresh_state();
+    // });
+    this.tile_grid.update();
 
     this.move_cam();
 
@@ -93,26 +93,26 @@ var test1 = {
     this.stats.end();
   },
 
-  forEach: function (callback, self) {
-    if (typeof self === 'undefined') {
-      self = this;
-    }
-    var we, ns;
-    var tile, mesh;
-    for (we = 0; we < this.tiles.length; we++) {
-      for (ns = 0; ns < this.tiles[we].length; ns++) {
-        tile = this.tiles[we][ns];
-        mesh = this.meshes[we][ns];
-        callback.apply(self, [tile, mesh]);
-      }
-    }
-  },
+  // forEach: function (callback, self) {
+  //   if (typeof self === 'undefined') {
+  //     self = this;
+  //   }
+  //   var we, ns;
+  //   var tile, mesh;
+  //   for (we = 0; we < this.tiles.length; we++) {
+  //     for (ns = 0; ns < this.tiles[we].length; ns++) {
+  //       tile = this.tiles[we][ns];
+  //       mesh = this.meshes[we][ns];
+  //       callback.apply(self, [tile, mesh]);
+  //     }
+  //   }
+  // },
 
   gt: function (we, ns) {
-    return this.tiles[we][ns];
+    return this.tile_grid.get_tile(we, ns);
   },
   gm: function (we, ns) {
-    return this.meshes[we][ns];
+    return this.tile_grid.get_mesh(we, ns);
   },
 
   matcam: function (mat) {
@@ -160,7 +160,7 @@ window.onload = function () {
   m10 = test1.gm(1,0);
 
   // setTimeout(function () {
-    test1.textures_manager.load_textures({
+    test1.tile_grid.textures.load_textures({
       id: 'box',
       file_path: 'textures/sprite_test.png',
       tiles_wide: 2,

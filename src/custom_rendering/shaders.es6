@@ -1,15 +1,17 @@
 flatsim.Shaders = {
   basic_vert_src: `
     attribute vec3 aVertPos;
-    attribute vec3 aVertCol;
+    // attribute vec3 aVertCol;
 
     uniform mat4 projMat;
+    uniform mat4 mvMat;
 
     varying lowp vec4 vVertCol;
 
     void main() {
-      gl_Position = projMat * vec4(aVertPos, 1.0);
-      vVertCol = aVertCol;
+      gl_Position = projMat * mvMat * vec4(aVertPos, 1.0);
+      // vVertCol = aVertCol;
+      vVertCol = vec4(1.0, 1.0, 0.0, 1.0);
     }
   `, // end vertex shader
 
@@ -17,7 +19,7 @@ flatsim.Shaders = {
     varying lowp vec4 vVertCol;
 
     void main() {
-      gl_FragColor = vVertCol;
+      gl_FragColor = vec4(0.75, 1.0, 0.0, 1.0);
     }
   `, // end fragment shader
 

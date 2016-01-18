@@ -1,21 +1,32 @@
-flatsim.VertexBuffer = function (gl, vertCount) {
+flatsim.VertexBuffer = function (gl, vertCount, arrayType) {
   this.gl = gl;
+  this.array_type = arrayType || this.gl.ARRAY_BUFFER;
 
-  this.array = [];
-  var i;
-  for (i = 0; i < vertCount * 3; i++) {
-    this.array.push(0.0);
+  if (typeof vertCount === 'object' && typeof vertCount.length === 'number') {
+    this.array = vertCount;
+  } else {
+    this.array = [];
+    var i;
+    for (i = 0; i < vertCount * 3; i++) {
+      this.array.push(0.0);
+    }
+  }
+  if (this.array_type === this.gl.ELEMENT_ARRAY_BUFFER) {
+    this.array = new Uint16Array(this.array);
+  } else {
+    this.array = new Float32Array(this.array);
   }
 
   this.buffer = this.gl.createBuffer();
 
-  this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
-  this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32(this.array), this.gl.DYNAMIC_DRAW);
+  this.gl.bindBuffer(this.array_type, this.buffer);
+  this.gl.bufferData(this.array_type, this.array, this.gl.DYNAMIC_DRAW);
 
   this.dirty_list = {};
 };
 flatsim.VertexBuffer.prototype = {
   gl: null,
+  array_type: null,
   array: null,
   buffer: null,
   dirty_list: null,
@@ -23,12 +34,13 @@ flatsim.VertexBuffer.prototype = {
   update: function () {
     var arr;
     var actualIx;
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
+    this.gl.bindBuffer(this.array_type, this.buffer);
     for(var ix in this.dirty_list) {
       actualIx = ix * 3;
       arr = [this.array[actualIx], this.array[actualIx + 1], this.array[actualIx + 2]];
-      this.gl.bufferSubData(this.gl.ARRAY_BUFFER, actualIx, new Float32Array(arr));
+      this.gl.bufferSubData(this.array_type, actualIx, new Float32Array(arr));
     }
+    this.dirty_list = {};
   },
 
   set_x: function (index, val) {
@@ -50,6 +62,16 @@ flatsim.VertexBuffer.prototype = {
     }
   },
 
+  set: function (index, x, y, z) {
+    var startIx = index * 3;
+    this.array[startIx + 0] = x;
+    this.array[startIx + 1] = y;
+    this.array[startIx + 2] = z;
+    if (typeof this.dirty_list[index] === 'undefined') {
+      this.dirty_list[index] = index;
+    }
+  },
+
   get_x: function (index) {
     return this.array[index * 3];
   },
@@ -58,5 +80,9 @@ flatsim.VertexBuffer.prototype = {
   },
   get_z: function (index) {
     return this.array[(index * 3) + 2];
+  },
+
+  get_vert_count: function () {
+    return this.array.length / 3;
   },
 };

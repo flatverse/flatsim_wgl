@@ -34,6 +34,8 @@ var testcr = {
   setup_globs: function () {
     tm = this.tile_map;
     rendr = this.tile_map.renderer;
+    projMat = rendr.proj_mat;
+    mvMat = rendr.mv_mat;
   },
 
   draw: function () {
@@ -50,3 +52,13 @@ var testcr = {
 window.onload = function () {
   testcr.onload();
 };
+
+var transZ = function (val) {
+  mat4.translate(mvMat, mvMat, new Float32Array([0, 0, val]));
+};
+var rotY = function (val) {
+  mat4.rotateY(mvMat, mvMat, val);
+}
+var rotX = function (val) {
+  mat4.rotateX(mvMat, mvMat, val);
+}

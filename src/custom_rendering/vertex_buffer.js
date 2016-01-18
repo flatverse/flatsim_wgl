@@ -20,7 +20,7 @@ flatsim.VertexBuffer = function (gl, vertCount, arrayType) {
   this.buffer = this.gl.createBuffer();
 
   this.gl.bindBuffer(this.array_type, this.buffer);
-  this.gl.bufferData(this.array_type, this.array, this.gl.DYNAMIC_DRAW);
+  this.gl.bufferData(this.array_type, this.array, this.gl.STATIC_DRAW);
 
   this.dirty_list = {};
 };

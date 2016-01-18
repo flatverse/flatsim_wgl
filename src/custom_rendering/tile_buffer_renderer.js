@@ -16,16 +16,16 @@ flatsim.TileBufferRenderer.prototype = {
   proj_mat_uni: null,
   mv_mat_uni: null,
 
-  draw: function (vert_buffer, face_buffer, face_count) {
+  draw: function (vert_buffer, face_buffer) {
+    this.gl.useProgram(this.shader);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
     this.set_attribs(vert_buffer);
 
     this.set_uniforms();
 
-    this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, face_buffer);
-    this.gl.drawElements(this.gl.TRIANGLES, face_count, this.gl.UNSIGNED_SHORT, 0);
-    // this.gl.drawArrays(this.gl.TRIANGLES, 0, face_count);
+    this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, face_buffer.buffer);
+    this.gl.drawElements(this.gl.TRIANGLES, face_buffer.array.length, this.gl.UNSIGNED_SHORT, 0);
   },
 
   /*
@@ -45,29 +45,30 @@ flatsim.TileBufferRenderer.prototype = {
   },
 
   init_matrices: function () {
-    // this.proj_mat = mat4.perspective(
-    //   mat4.create(),
-    //   Math.PI / 4,
-    //   window.innerWidth / window.innerHeight,
-    //   0.1,
-    //   100
-    // );
-    this.proj_mat = mat4.ortho(mat4.create(), -5, 5, -5, 5, 0, -100);
+    this.proj_mat = mat4.perspective(
+      mat4.create(),
+      Math.PI / 4,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
     this.mv_mat = mat4.create();
-    mat4.translate(this.mv_mat, this.mv_mat, [0.0, 0.0, 6.0]);
-    // mat4.translate(this.mv_mat, this.mv_mat, [0.0, 0.0, -6.0]);
+    mat4.translate(this.mv_mat, this.mv_mat, [0.0, 0.0, -6.0]);
   },
 
   /*
    * drawing helper functions
    */
   set_uniforms: function () {
+    this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
     this.gl.uniformMatrix4fv(this.proj_mat_uni, false, this.proj_mat);
+
+    this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
     this.gl.uniformMatrix4fv(this.mv_mat_uni, false, this.mv_mat);
   },
 
   set_attribs: function (vert_buffer) {
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vert_buffer);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vert_buffer.buffer);
     this.vert_buffer_attrib = this.gl.getAttribLocation(this.shader, 'aVertPos');
     this.gl.vertexAttribPointer(this.vert_buffer_attrib, 3, this.gl.FLOAT, false, 0, 0);
   },

@@ -4,7 +4,7 @@ flatsim.TileMap = function (gl) {
   // TODO don't hardcode verts
   var testZ = 0;
   var farScale = 2;
-  this.vert_buffer = new flatsim.VertexBuffer(gl, [
+  this.vert_buffer = new flatsim.ArrayBuffer(gl, [
     -1,  1,  testZ, // tlnear 0
     -1, -1,  testZ, // blnear 1
      1, -1,  testZ, // brnear 2
@@ -16,7 +16,7 @@ flatsim.TileMap = function (gl) {
      farScale, -farScale, testZ - (2 * farScale), // brfar 7
   ]);
   // TODO don't hardcode faces 
-  this.face_buffer = new flatsim.VertexBuffer(gl, [
+  this.face_buffer = new flatsim.ArrayBuffer(gl, [
     0, 1, 2, // tln-bln-brn
     0, 2, 3, // tln-brn-trn
 

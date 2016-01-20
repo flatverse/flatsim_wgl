@@ -43,4 +43,21 @@ flatsim.TileMap.prototype = {
   draw: function () {
     this.renderer.draw(this.vert_buffer, this.face_buffer);
   },
+
+  calculate_face_normals: function () {
+    var face, vertA, vertB, vertC, edgeBA, edgeCA;
+    var norms = [];
+    var i;
+    for (i = 0; i < this.face_buffer.get_element_count(); i++) {
+      face = this.face_buffer.get(i);
+      vertA = this.vert_buffer.get(face[0]);
+      vertB = this.vert_buffer.get(face[1]);
+      vertC = this.vert_buffer.get(face[2]);
+      vec3.sub(edgeBA, vertB, vertA);
+      vec3.sub(edgeCA, vertC, vertA);
+      vec3.cross(edgeBA, edgeBA, edgeCA)
+      norms.concat(vec3.normalize(edgeBA, edgeBA));
+    }
+    return norms;
+  },
 };

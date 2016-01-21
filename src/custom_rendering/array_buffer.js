@@ -107,7 +107,7 @@ flatsim.ArrayBuffer.prototype = {
     var vec = [];
     var i;
     for (i = 0; i < this.comp_count; i++) {
-      vec[i] = this.array[i];
+      vec[i] = this.array[index * this.comp_count + i];
     }
     return vec;
   },

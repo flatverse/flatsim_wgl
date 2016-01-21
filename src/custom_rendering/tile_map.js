@@ -53,10 +53,13 @@ flatsim.TileMap.prototype = {
       vertA = this.vert_buffer.get(face[0]);
       vertB = this.vert_buffer.get(face[1]);
       vertC = this.vert_buffer.get(face[2]);
+      edgeBA = vec3.create();
+      edgeCA = vec3.create();
       vec3.sub(edgeBA, vertB, vertA);
       vec3.sub(edgeCA, vertC, vertA);
       vec3.cross(edgeBA, edgeBA, edgeCA)
-      norms.concat(vec3.normalize(edgeBA, edgeBA));
+      vec3.normalize(edgeBA, edgeBA);
+      norms = flatsim.wgl_utils.merge_float32_arrays(norms, edgeBA);
     }
     return norms;
   },

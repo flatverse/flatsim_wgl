@@ -12,15 +12,16 @@ flatsim.TileBufferRenderer.prototype = {
 
   shader: null,
   vert_buffer_attrib: null,
+  norm_buffer_attrib: null,
 
   proj_mat_uni: null,
   mv_mat_uni: null,
 
-  draw: function (vert_buffer, face_buffer) {
+  draw: function (vert_buffer, face_buffer, norm_buffer) {
     this.gl.useProgram(this.shader);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-    this.set_attribs(vert_buffer);
+    this.set_attribs(vert_buffer, norm_buffer);
 
     this.set_uniforms();
 
@@ -37,11 +38,11 @@ flatsim.TileBufferRenderer.prototype = {
 
     this.vert_buffer_attrib = this.gl.getAttribLocation(this.shader, 'aVertPos');
     this.gl.enableVertexAttribArray(this.vert_buffer_attrib);
+    this.norm_buffer_attrib = this.gl.getAttribLocation(this.shader, 'aVertNorm');
+    this.gl.enableVertexAttribArray(this.norm_buffer_attrib);
 
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
-
-    // mat4.identity(this.mv_mat);
   },
 
   init_matrices: function () {
@@ -67,9 +68,13 @@ flatsim.TileBufferRenderer.prototype = {
     this.gl.uniformMatrix4fv(this.mv_mat_uni, false, this.mv_mat);
   },
 
-  set_attribs: function (vert_buffer) {
+  set_attribs: function (vert_buffer, norm_buffer) {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vert_buffer.buffer);
     this.vert_buffer_attrib = this.gl.getAttribLocation(this.shader, 'aVertPos');
     this.gl.vertexAttribPointer(this.vert_buffer_attrib, 3, this.gl.FLOAT, false, 0, 0);
+
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, norm_buffer.buffer);
+    this.norm_buffer_attrib = this.gl.getAttribLocation(this.shader, 'aVertNorm');
+    this.gl.vertexAttribPointer(this.norm_buffer_attrib, 3, this.gl.FLOAT, false, 0, 0);
   },
 };

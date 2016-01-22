@@ -13,5 +13,16 @@ flatsim.wgl_utils = {
       cnt += arguments[i].length;
     }
     return newArr;
+  },
+
+  expand_array: function(array, scale) {
+    var newArr = [];
+    var i, j;
+    for (i = 0; i < array.length; i++) {
+      for (j = 0; j < scale; j++) {
+        newArr.push(array[i]);
+      }
+    }
+    return newArr;
   }
 };

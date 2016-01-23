@@ -28,8 +28,8 @@ flatsim.TileMap = function (gl) {
   ], this.gl.ELEMENT_ARRAY_BUFFER);
 
   var norms = this.calculate_face_normals();
-  vertNorms = this.calculate_vert_normals(norms);
-  this.norm_buffer = new flatsim.ArrayBuffer(gl, vertNorms);
+  norms = this.calculate_vert_normals(norms);
+  this.norm_buffer = new flatsim.ArrayBuffer(gl, norms);
 
   this.renderer = new flatsim.TileBufferRenderer(gl);
 };

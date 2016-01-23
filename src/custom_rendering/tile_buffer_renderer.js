@@ -17,6 +17,9 @@ flatsim.TileBufferRenderer.prototype = {
   proj_mat_uni: null,
   mv_mat_uni: null,
 
+  // TODO: move this out
+  light_pos: new Float32Array([0, 1, 2]),
+
   draw: function (vert_buffer, face_buffer, norm_buffer) {
     this.gl.useProgram(this.shader);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -43,6 +46,7 @@ flatsim.TileBufferRenderer.prototype = {
 
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
+    this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
   },
 
   init_matrices: function () {
@@ -66,6 +70,9 @@ flatsim.TileBufferRenderer.prototype = {
 
     this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
     this.gl.uniformMatrix4fv(this.mv_mat_uni, false, this.mv_mat);
+
+    this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
+    this.gl.uniform3fv(this.light_pos_uni, this.light_pos);
   },
 
   set_attribs: function (vert_buffer, norm_buffer) {

@@ -5,20 +5,25 @@ flatsim.Shaders = {
 
     uniform mat4 projMat;
     uniform mat4 mvMat;
+    uniform vec3 lightPosition;
 
     varying lowp vec3 vVertNorm;
+    varying lowp vec3 vLightVector;
 
     void main() {
       gl_Position = projMat * mvMat * vec4(aVertPos, 1.0);
-      vVertNorm = aVertNorm;
+      vVertNorm = (mvMat * vec4(aVertNorm, 1.0)).xyz;
+      vLightVector = (mvMat * vec4(lightPosition, 1.0)).xyz - (mvMat * vec4(aVertPos, 1.0)).xyz;
     }
   `, // end vertex shader
 
   basic_frag_src: `
     varying lowp vec3 vVertNorm;
+    varying lowp vec3 vLightVector;
 
     void main() {
-      gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+      lowp float dpp = max(dot(normalize(vLightVector), normalize(vVertNorm)), 0.0);
+      gl_FragColor = vec4(dpp, dpp, dpp, 1.0);
     }
   `, // end fragment shader
 

@@ -3,7 +3,7 @@ flatsim.TileMap = function (gl) {
 
   // TODO don't hardcode verts
   var testZ = 0;
-  var farScale = 4;
+  var farScale = 1;
   this.vert_buffer = new flatsim.ArrayBuffer(gl, [
     -1,  1,  testZ, // tlnear 0
     -1, -1,  testZ, // blnear 1
@@ -24,7 +24,7 @@ flatsim.TileMap = function (gl) {
     1, 0, 4, // bln-tln-tlf
 
     3, 2, 7, // trn-brn-brf
-    7, 3, 6, // brf-trn-trf
+    7, 6, 3, // brf-trf-trn
   ], this.gl.ELEMENT_ARRAY_BUFFER);
 
   this.face_norms = this.calculate_face_normals();
@@ -71,9 +71,6 @@ flatsim.TileMap.prototype = {
       vec3.cross(edgeBA, edgeBA, edgeCA)
       vec3.normalize(edgeBA, edgeBA);
       faceNormalsByFace.push(edgeBA);
-      flatsim.log('-------');
-      flatsim.log(face);
-      flatsim.log(edgeBA);
       _.forEach(face, function (vertIx) {
         if (typeof faceNormalsByVert[vertIx] === 'undefined') {
           faceNormalsByVert[vertIx] = [];
@@ -98,6 +95,7 @@ flatsim.TileMap.prototype = {
     _.forEach(faceIxs, function (faceIx) {
       var face = faceBuff.get(faceIx);
       var vertA, vertB;
+      var weight;
       if (face[0] === vertIx) {
         vertA = vertBuff.get(face[1]);
         vertB = vertBuff.get(face[2]);
@@ -112,7 +110,8 @@ flatsim.TileMap.prototype = {
       vertB = vec3.sub(vertB, vertB, center);
       vec3.normalize(vertA, vertA);
       vec3.normalize(vertB, vertB);
-      weights.push(vec3.dot(vertA, vertB));
+      weight = Math.abs(Math.acos(vec3.dot(vertA, vertB)));
+      weights.push(weight);
     });
     var weightSum = _.sum(weights);
     var faceIx;

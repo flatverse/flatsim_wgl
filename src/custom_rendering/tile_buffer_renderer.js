@@ -9,6 +9,9 @@ flatsim.TileBufferRenderer.prototype = {
 
   proj_mat: null,
   mv_mat: null,
+  norm_mat: null,
+  // TODO: move this out
+  light_pos: new Float32Array([0, 0, 1]),
 
   shader: null,
   vert_buffer_attrib: null,
@@ -16,9 +19,8 @@ flatsim.TileBufferRenderer.prototype = {
 
   proj_mat_uni: null,
   mv_mat_uni: null,
-
-  // TODO: move this out
-  light_pos: new Float32Array([0, 1, 2]),
+  norm_mat_uni: null,
+  light_pos_uni: null,
 
   draw: function (vert_buffer, face_buffer, norm_buffer) {
     this.gl.useProgram(this.shader);
@@ -46,6 +48,7 @@ flatsim.TileBufferRenderer.prototype = {
 
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
+    this.norm_mat_uni = this.gl.getUniformLocation(this.shader, 'normMat');
     this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
   },
 
@@ -59,17 +62,23 @@ flatsim.TileBufferRenderer.prototype = {
     );
     this.mv_mat = mat4.create();
     mat4.translate(this.mv_mat, this.mv_mat, [0.0, 0.0, -6.0]);
+    this.norm_mat = mat3.normalFromMat4(mat3.create(), this.mv_mat);
   },
 
   /*
    * drawing helper functions
    */
   set_uniforms: function () {
+
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
     this.gl.uniformMatrix4fv(this.proj_mat_uni, false, this.proj_mat);
 
     this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
     this.gl.uniformMatrix4fv(this.mv_mat_uni, false, this.mv_mat);
+
+    mat3.normalFromMat4(this.norm_mat, this.mv_mat);
+    this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'normMat');
+    this.gl.uniformMatrix3fv(this.norm_mat_uni, false, this.norm_mat);
 
     this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
     this.gl.uniform3fv(this.light_pos_uni, this.light_pos);

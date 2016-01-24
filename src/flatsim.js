@@ -3,6 +3,7 @@ var flatsim = {
   dev_mode: true,
 
   logging_options: {
+    prepend_info: true,
     default_log_strength: 1,
     log_color_quiet: '#205080',
     log_color_mid: '#00ff00',
@@ -48,7 +49,12 @@ var flatsim = {
     logBg = this.util.css_color_from_array(logBg);
     var logCSS = this.util.format_string('color: {0}; background-color: {1}; ', logColor, logBg);
 
-    console.log('%c[flatsim][%s] %c%s', logCSS + 'font-weight: 900;', this.version, logCSS + 'font-weight: normal;', str)
+    var versionInfo = '';
+    if (this.logging_options.prepend_info) {
+      this.util.format_string('[flatsim][{0}] ', this.version);
+    }
+
+    console.log('%c%s%c%s', logCSS + 'font-weight: 900;', versionInfo, logCSS + 'font-weight: normal;', str)
   },
 
   warn: function (str) {

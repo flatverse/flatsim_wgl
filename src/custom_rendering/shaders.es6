@@ -7,6 +7,7 @@ flatsim.Shaders = {
     uniform mat4 mvMat;
     uniform mat3 normMat;
     uniform vec3 lightPosition;
+    uniform vec4 ambientColor;
 
     varying lowp vec4 vVertColor;
 
@@ -18,7 +19,7 @@ flatsim.Shaders = {
       gl_Position = projMat * mvPos;
       vec3 lightDir = normalize((mvMat * vec4(lightPosition, 1.0)).xyz - mvPos.xyz);
       vec3 norm = normMat * aVertNorm;
-      vVertColor = aVertColor * max(dot(norm, lightDir), 0.0);
+      vVertColor = ambientColor + (aVertColor * max(dot(norm, lightDir), 0.0));
     }
   `, // end vertex shader
 

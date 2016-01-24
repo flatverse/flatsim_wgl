@@ -1,7 +1,7 @@
 var testcr = {
   el: null,
   gl: null,
-  tile_map: null, 
+  tile_map_geo: null, 
   clear_color: [0.35, 0.35, 0.7, 1.0],
 
   _kill: false,
@@ -19,7 +19,7 @@ var testcr = {
 
     flatsim.Shaders.init(this.gl);
 
-    this.tile_map = new flatsim.TileMap(this.gl);
+    this.tile_map_geo = new flatsim.TileMapGeo(this.gl);
 
 
     var self = this;
@@ -32,8 +32,8 @@ var testcr = {
   },
 
   setup_globs: function () {
-    tm = this.tile_map;
-    rendr = this.tile_map.renderer;
+    tm = this.tile_map_geo;
+    rendr = this.tile_map_geo.renderer;
     projMat = rendr.proj_mat;
     mvMat = rendr.mv_mat;
   },
@@ -45,8 +45,8 @@ var testcr = {
 
     requestAnimationFrame(this.draw_wrapper);
 
-    // this.tile_map.update();
-    this.tile_map.draw();
+    // this.tile_map_geo.update();
+    this.tile_map_geo.draw();
   },
 };
 window.onload = function () {

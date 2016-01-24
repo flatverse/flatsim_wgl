@@ -1,4 +1,4 @@
-flatsim.TileMap = function (gl) {
+flatsim.TileMapGeo = function (gl) {
   this.gl = gl;
 
   // TODO don't hardcode verts
@@ -47,7 +47,7 @@ flatsim.TileMap = function (gl) {
 
   this.renderer = new flatsim.TileBufferRenderer(gl);
 };
-flatsim.TileMap.prototype = {
+flatsim.TileMapGeo.prototype = {
   gl: null,
 
   vert_buffer: null,

@@ -16,7 +16,7 @@ flatsim.Shaders = {
 
       vec4 mvPos = mvMat * vec4(aVertPos, 1.0);
       gl_Position = projMat * mvPos;
-      vec3 lightDir = normalize(lightPosition - mvPos.xyz);
+      vec3 lightDir = normalize((mvMat * vec4(lightPosition, 1.0)).xyz - mvPos.xyz);
       vec3 norm = normMat * aVertNorm;
       vVertColor = aVertColor * max(dot(norm, lightDir), 0.0);
     }

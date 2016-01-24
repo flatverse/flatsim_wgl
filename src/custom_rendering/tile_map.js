@@ -3,7 +3,7 @@ flatsim.TileMap = function (gl) {
 
   // TODO don't hardcode verts
   var testZ = 0;
-  var farScale = 1;
+  var farScale = 2;
   this.vert_buffer = new flatsim.ArrayBuffer(gl, [
     -1,  1,  testZ, // tlnear 0
     -1, -1,  testZ, // blnear 1

@@ -1,7 +1,7 @@
 'use strict';
 
 flatsim.Shaders = {
-  basic_vert_src: '\n    attribute vec3 aVertPos;\n    attribute vec3 aVertNorm;\n\n    uniform mat4 projMat;\n    uniform mat4 mvMat;\n    uniform mat3 normMat;\n    uniform vec3 lightPosition;\n\n    varying lowp vec4 vVertColor;\n\n    void main() {\n      // TODO make this an actual attribute\n      vec4 aVertColor = vec4(1.0, 1.0, 1.0, 1.0);\n\n      vec4 mvPos = mvMat * vec4(aVertPos, 1.0);\n      gl_Position = projMat * mvPos;\n      vec3 lightDir = normalize(lightPosition - mvPos.xyz);\n      vec3 norm = normMat * aVertNorm;\n      vVertColor = aVertColor * max(dot(norm, lightDir), 0.0);\n    }\n  ', // end vertex shader
+  basic_vert_src: '\n    attribute vec3 aVertPos;\n    attribute vec3 aVertNorm;\n\n    uniform mat4 projMat;\n    uniform mat4 mvMat;\n    uniform mat3 normMat;\n    uniform vec3 lightPosition;\n\n    varying lowp vec4 vVertColor;\n\n    void main() {\n      // TODO make this an actual attribute\n      vec4 aVertColor = vec4(1.0, 1.0, 1.0, 1.0);\n\n      vec4 mvPos = mvMat * vec4(aVertPos, 1.0);\n      gl_Position = projMat * mvPos;\n      vec3 lightDir = normalize((mvMat * vec4(lightPosition, 1.0)).xyz - mvPos.xyz);\n      vec3 norm = normMat * aVertNorm;\n      vVertColor = aVertColor * max(dot(norm, lightDir), 0.0);\n    }\n  ', // end vertex shader
 
   basic_frag_src: '\n    varying lowp vec4 vVertColor;\n\n    void main() {\n      gl_FragColor = vec4(vVertColor.xyz, 1);\n    }\n  ', // end fragment shader
 

@@ -2,6 +2,7 @@ flatsim.Shaders = {
   basic_vert_src: `
     attribute vec3 aVertPos;
     attribute vec3 aVertNorm;
+    attribute vec4 aVertColor;
 
     uniform mat4 projMat;
     uniform mat4 mvMat;
@@ -12,9 +13,6 @@ flatsim.Shaders = {
     varying lowp vec4 vVertColor;
 
     void main() {
-      // TODO make this an actual attribute
-      vec4 aVertColor = vec4(1.0, 1.0, 1.0, 1.0);
-
       vec4 mvPos = mvMat * vec4(aVertPos, 1.0);
       gl_Position = projMat * mvPos;
       vec3 lightDir = normalize((mvMat * vec4(lightPosition, 1.0)).xyz - mvPos.xyz);

@@ -3,12 +3,12 @@ flatsim.TileMap = function (gl) {
 
   // TODO don't hardcode verts
   var testZ = 0;
-  var farScale = 2;
+  var farScale = 1;
   this.vert_buffer = new flatsim.ArrayBuffer(gl, [
     -1,  1,  testZ, // tlnear 0
     -1, -1,  testZ, // blnear 1
      1, -1,  testZ, // brnear 2
-     1,  1,  testZ,  // trnear 3
+     1,  1,  testZ, // trnear 3
 
      -farScale,  farScale, testZ - (2 * farScale), // tlfar 4
      -farScale, -farScale, testZ - (2 * farScale), // blfar 5
@@ -27,6 +27,20 @@ flatsim.TileMap = function (gl) {
     7, 6, 3, // brf-trf-trn
   ], this.gl.ELEMENT_ARRAY_BUFFER);
 
+  // TODO don't hardcode vert colors
+  this.color_buffer = new flatsim.ArrayBuffer(gl, [
+    0.0, 1.0, 0.0, 1.0, // tlnear 0
+    0.0, 1.0, 0.0, 1.0, // blnear 1
+    0.0, 1.0, 0.0, 1.0, // brnear 2
+    0.0, 1.0, 0.0, 1.0, // trnear 3
+
+    0.0, 1.0, 0.0, 1.0, // tlfar 4
+    0.0, 1.0, 0.0, 1.0, // blfar 5
+
+    0.0, 1.0, 0.0, 1.0, // brfar 6
+    0.0, 1.0, 0.0, 1.0, // trfar 7
+  ], gl.ARRAY_BUFFER, 4);
+
   this.face_norms = this.calculate_face_normals();
   var norms = this.calculate_vert_normals(this.face_norms);
   this.norm_buffer = new flatsim.ArrayBuffer(gl, norms);
@@ -39,6 +53,7 @@ flatsim.TileMap.prototype = {
   vert_buffer: null,
   face_buffer: null,
   norm_buffer: null,
+  color_buffer: null,
 
   face_norms: null,
 
@@ -50,7 +65,7 @@ flatsim.TileMap.prototype = {
   },
 
   draw: function () {
-    this.renderer.draw(this.vert_buffer, this.face_buffer, this.norm_buffer);
+    this.renderer.draw(this.vert_buffer, this.face_buffer, this.norm_buffer, this.color_buffer);
   },
 
   calculate_face_normals: function () {

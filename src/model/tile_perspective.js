@@ -34,14 +34,14 @@ flatsim.TilePerspective.prototype = {
     var halfNS = this.get_dim_ns() / 2;
 
     var bnds = {
-      top_nw: new THREE.Vector3(xy.x - halfWE, xy.y + halfNS, topZ),
-      top_ne: new THREE.Vector3(xy.x + halfWE, xy.y + halfNS, topZ),
-      top_se: new THREE.Vector3(xy.x + halfWE, xy.y - halfNS, topZ),
-      top_sw: new THREE.Vector3(xy.x - halfWE, xy.y - halfNS, topZ),
-      bot_nw: new THREE.Vector3(xy.x - halfWE, xy.y + halfNS, botZ),
-      bot_ne: new THREE.Vector3(xy.x + halfWE, xy.y + halfNS, botZ),
-      bot_se: new THREE.Vector3(xy.x + halfWE, xy.y - halfNS, botZ),
-      bot_sw: new THREE.Vector3(xy.x - halfWE, xy.y - halfNS, botZ),
+      top_nw: [xy.x - halfWE, xy.y + halfNS, topZ],
+      top_ne: [xy.x + halfWE, xy.y + halfNS, topZ],
+      top_se: [xy.x + halfWE, xy.y - halfNS, topZ],
+      top_sw: [xy.x - halfWE, xy.y - halfNS, topZ],
+      bot_nw: [xy.x - halfWE, xy.y + halfNS, botZ],
+      bot_ne: [xy.x + halfWE, xy.y + halfNS, botZ],
+      bot_se: [xy.x + halfWE, xy.y - halfNS, botZ],
+      bot_sw: [xy.x - halfWE, xy.y - halfNS, botZ],
     };
 
     return bnds;

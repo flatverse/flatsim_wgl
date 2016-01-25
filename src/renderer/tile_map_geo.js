@@ -1,51 +1,67 @@
-flatsim.TileMapGeo = function (gl) {
+flatsim.TileMapGeo = function (gl, verts, faces, colors) {
+  flatsim.log('geo constructor');
+
   this.gl = gl;
 
-  // TODO don't hardcode verts
-  var testZ = 0;
-  var farScale = 1;
-  this.vert_buffer = new flatsim.ArrayBuffer(gl, [
-    -1,  1,  testZ, // tlnear 0
-    -1, -1,  testZ, // blnear 1
-     1, -1,  testZ, // brnear 2
-     1,  1,  testZ, // trnear 3
+  this.vert_buffer = new flatsim.ArrayBuffer(gl, verts);
+  flatsim.log('geo vert buffer');
+  this.face_buffer = new flatsim.ArrayBuffer(gl, faces, gl.ELEMENT_ARRAY_BUFFER);
+  flatsim.log('geo face buffer');
+  this.color_buffer = new flatsim.ArrayBuffer(gl, colors, gl.ARRAY_BUFFER, 4);
+  flatsim.log('geo color buffer');
 
-     -farScale,  farScale, testZ - (2 * farScale), // tlfar 4
-     -farScale, -farScale, testZ - (2 * farScale), // blfar 5
-     farScale,  farScale, testZ - (2 * farScale), // trfar 6
-     farScale, -farScale, testZ - (2 * farScale), // brfar 7
-  ]);
-  // TODO don't hardcode faces
-  this.face_buffer = new flatsim.ArrayBuffer(gl, [
-    0, 1, 2, // tln-bln-brn
-    2, 3, 0, // brn-trn-tln
-
-    4, 5, 1, // tlf-blf-bln
-    1, 0, 4, // bln-tln-tlf
-
-    3, 2, 7, // trn-brn-brf
-    7, 6, 3, // brf-trf-trn
-  ], this.gl.ELEMENT_ARRAY_BUFFER);
-
-  // TODO don't hardcode vert colors
-  this.color_buffer = new flatsim.ArrayBuffer(gl, [
-    0.0, 1.0, 0.0, 1.0, // tlnear 0
-    0.0, 1.0, 0.0, 1.0, // blnear 1
-    0.0, 1.0, 0.0, 1.0, // brnear 2
-    0.0, 1.0, 0.0, 1.0, // trnear 3
-
-    0.0, 1.0, 0.0, 1.0, // tlfar 4
-    0.0, 1.0, 0.0, 1.0, // blfar 5
-
-    0.0, 1.0, 0.0, 1.0, // brfar 6
-    0.0, 1.0, 0.0, 1.0, // trfar 7
-  ], gl.ARRAY_BUFFER, 4);
 
   this.face_norms = this.calculate_face_normals();
   var norms = this.calculate_vert_normals(this.face_norms);
   this.norm_buffer = new flatsim.ArrayBuffer(gl, norms);
 
   this.renderer = new flatsim.TileBufferRenderer(gl);
+
+  // TODO don't hardcode verts
+  // var testZ = 0;
+  // var farScale = 1;
+  // this.vert_buffer = new flatsim.ArrayBuffer(gl, [
+  //   -1,  1,  testZ, // tlnear 0
+  //   -1, -1,  testZ, // blnear 1
+  //    1, -1,  testZ, // brnear 2
+  //    1,  1,  testZ, // trnear 3
+
+  //    -farScale,  farScale, testZ - (2 * farScale), // tlfar 4
+  //    -farScale, -farScale, testZ - (2 * farScale), // blfar 5
+  //    farScale,  farScale, testZ - (2 * farScale), // trfar 6
+  //    farScale, -farScale, testZ - (2 * farScale), // brfar 7
+  // ]);
+  // TODO don't hardcode faces
+  // this.face_buffer = new flatsim.ArrayBuffer(gl, [
+  //   0, 1, 2, // tln-bln-brn
+  //   2, 3, 0, // brn-trn-tln
+
+  //   4, 5, 1, // tlf-blf-bln
+  //   1, 0, 4, // bln-tln-tlf
+
+  //   3, 2, 7, // trn-brn-brf
+  //   7, 6, 3, // brf-trf-trn
+  // ], this.gl.ELEMENT_ARRAY_BUFFER);
+
+  // TODO don't hardcode vert colors
+  // this.color_buffer = new flatsim.ArrayBuffer(gl, [
+  //   0.0, 1.0, 0.0, 1.0, // tlnear 0
+  //   0.0, 1.0, 0.0, 1.0, // blnear 1
+  //   0.0, 1.0, 0.0, 1.0, // brnear 2
+  //   0.0, 1.0, 0.0, 1.0, // trnear 3
+
+  //   0.0, 1.0, 0.0, 1.0, // tlfar 4
+  //   0.0, 1.0, 0.0, 1.0, // blfar 5
+
+  //   0.0, 1.0, 0.0, 1.0, // brfar 6
+  //   0.0, 1.0, 0.0, 1.0, // trfar 7
+  // ], gl.ARRAY_BUFFER, 4);
+
+  // this.face_norms = this.calculate_face_normals();
+  // var norms = this.calculate_vert_normals(this.face_norms);
+  // this.norm_buffer = new flatsim.ArrayBuffer(gl, norms);
+
+  // this.renderer = new flatsim.TileBufferRenderer(gl);
 };
 flatsim.TileMapGeo.prototype = {
   gl: null,

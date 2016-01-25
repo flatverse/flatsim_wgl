@@ -11,8 +11,8 @@ flatsim.TileBufferRenderer.prototype = {
   mv_mat: null,
   norm_mat: null,
   // TODO: move this out
-  light_pos: new Float32Array([0, 0, 10]),
-  amb_color: new Float32Array([0.2, 0.2, 0.2, 0.0]),
+  light_pos: new Float32Array([-2, 2, 2]),
+  amb_color: new Float32Array([0.3, 0.3, 0.3, 0.0]),
 
   shader: null,
   vert_buffer_attrib: null,
@@ -64,7 +64,7 @@ flatsim.TileBufferRenderer.prototype = {
       Math.PI / 4,
       window.innerWidth / window.innerHeight,
       0.1,
-      100
+      1000
     );
     this.mv_mat = mat4.create();
     mat4.translate(this.mv_mat, this.mv_mat, [0.0, 0.0, -6.0]);

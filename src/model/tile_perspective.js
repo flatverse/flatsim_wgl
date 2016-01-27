@@ -17,7 +17,7 @@ flatsim.TilePerspective.prototype = {
     var x = this.center_x + (coordWE * this.tile_dim_we);
     var y = this.center_y + (coordNS * this.tile_dim_ns);
 
-    return {x: x, y: y};
+    return {x: x, y: -y};
   },
 
   scene_height_from_tile_height: function (height) {

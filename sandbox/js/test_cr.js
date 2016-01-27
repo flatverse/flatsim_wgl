@@ -25,7 +25,7 @@ var testcr = {
     flatsim.Shaders.init(this.gl);
 
     this.tile_persp = new flatsim.TilePerspective({});
-    this.tile_map = new flatsim.TileMap(this.tile_persp, 40, 40);
+    this.tile_map = new flatsim.TileMap(this.tile_persp, 100, 75);
     this.tile_map_mesh = new flatsim.TileMapMesh(this.gl, this.tile_map);
 
 
@@ -67,9 +67,13 @@ var testcr = {
     }
     // this.tile_map_mesh.update();
     this.tile_map_mesh.draw();
+
     if (!this._first_draw) {
       this._first_draw = true;
       flatsim.log('post draw');
+    } else {
+      // TEST CODE
+      transZ(-1);
     }
 
     this.stats.end();

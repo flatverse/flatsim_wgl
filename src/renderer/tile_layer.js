@@ -1,4 +1,4 @@
-flatsim.TileMapMesh = function (gl, tileMap) {
+flatsim.TileLayer = function (gl, tileMap) {
   this.gl = null;
   this.tile_map = tileMap;
 
@@ -8,22 +8,22 @@ flatsim.TileMapMesh = function (gl, tileMap) {
   flatsim.log('building buffer vals');
   var bufferVals = this.build_buffer_vals();
   flatsim.log('building map geo');
-  this.tile_map_geo = new flatsim.TileMapGeo(
+  this.tile_buffer = new flatsim.TileBuffer(
     gl,
     bufferVals.verts,
     bufferVals.faces,
     bufferVals.colors
   );
 };
-flatsim.TileMapMesh.prototype = {
+flatsim.TileLayer.prototype = {
   gl: null,
   tile_map: null,
-  tile_map_geo: null,
+  tile_buffer: null,
 
   nodes: null,
 
   draw: function () {
-    this.tile_map_geo.draw();
+    this.tile_buffer.draw();
   },
 
   build_node_graph: function () {

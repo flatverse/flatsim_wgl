@@ -3,7 +3,7 @@ var testcr = {
   gl: null,
   tile_persp: null,
   tile_map: null,
-  tile_map_mesh: null, 
+  tile_layer: null, 
   clear_color: [0.35, 0.35, 0.7, 1.0],
 
   stats: null,
@@ -25,8 +25,8 @@ var testcr = {
     flatsim.Shaders.init(this.gl);
 
     this.tile_persp = new flatsim.TilePerspective({});
-    this.tile_map = new flatsim.TileMap(this.tile_persp, 100, 75);
-    this.tile_map_mesh = new flatsim.TileMapMesh(this.gl, this.tile_map);
+    this.tile_map = new flatsim.TileMap(this.tile_persp, 40, 40);
+    this.tile_layer = new flatsim.TileLayer(this.gl, this.tile_map);
 
 
     var self = this;
@@ -40,9 +40,9 @@ var testcr = {
 
   setup_globs: function () {
     tm = this.tile_map;
-    tmm = this.tile_map_mesh;
-    tmg = this.tile_map_mesh.tile_map_geo;
-    rendr = tmg.renderer;
+    tl = this.tile_layer;
+    tb = this.tile_layer.tile_buffer;
+    rendr = tb.renderer;
     projMat = rendr.proj_mat;
     mvMat = rendr.mv_mat;
   },
@@ -65,15 +65,15 @@ var testcr = {
     if (!this._first_draw) {
       flatsim.log('pre draw');
     }
-    // this.tile_map_mesh.update();
-    this.tile_map_mesh.draw();
+    // this.tile_layer.update();
+    this.tile_layer.draw();
 
     if (!this._first_draw) {
       this._first_draw = true;
       flatsim.log('post draw');
-    } else {
-      // TEST CODE
-      transZ(-1);
+    // } else {
+    //   // TEST CODE
+    //   transZ(-1);
     }
 
     this.stats.end();

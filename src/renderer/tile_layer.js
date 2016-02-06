@@ -22,8 +22,16 @@ flatsim.TileLayer.prototype = {
 
   nodes: null,
 
+  update: function () {
+    this.tile_buffer.update();
+  },
+
   draw: function () {
     this.tile_buffer.draw();
+  },
+
+  get_node: function (we, ns) {
+    return this.nodes[we][ns];
   },
 
   build_node_graph: function () {
@@ -72,5 +80,12 @@ flatsim.TileLayer.prototype = {
       faces: faces_arr,
       colors: colors_arr,
     };
+  },
+
+  update_tile: function (we, ns) {
+    var tileNode = this.get_node(we, ns);
+    var tileDataIx = tileNode.vert_ixs[tileNode.directions[0]];
+    var newVertData = tileNode.build_all_faces(tileDataIx);
+    this.tile_buffer.sub_data(tileDataIx, newVertData);
   },
 };

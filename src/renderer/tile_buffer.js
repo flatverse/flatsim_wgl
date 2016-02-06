@@ -30,12 +30,18 @@ flatsim.TileBuffer.prototype = {
   renderer: null,
 
   update: function () {
-    // this.vert_buffer.update();
+    this.vert_buffer.update();
     // this.face_buffer.update();
   },
 
   draw: function () {
     this.renderer.draw(this.vert_buffer, this.face_buffer, this.norm_buffer, this.color_buffer);
+  },
+
+  sub_data: function (vertIx, tileData) {
+    // TODO it may not be a good idea to mutate this array
+    tileData.verts.unshift(vertIx);
+    this.vert_buffer.set.apply(this.vert_buffer, tileData.verts);
   },
 
   calculate_face_normals: function () {

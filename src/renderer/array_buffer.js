@@ -115,4 +115,11 @@ flatsim.ArrayBuffer.prototype = {
   get_element_count: function () {
     return this.array.length / this.comp_count;
   },
+
+  set_dirty: function (ix) {
+    if (!this.dirty_list) {
+      this.dirty_list = [];
+    }
+    this.dirty_list.push(ix);
+  },
 };

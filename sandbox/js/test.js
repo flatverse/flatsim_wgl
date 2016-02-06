@@ -25,7 +25,7 @@ var testcr = {
     flatsim.Shaders.init(this.gl);
 
     this.tile_persp = new flatsim.TilePerspective({});
-    this.tile_map = new flatsim.TileMap(this.tile_persp, 40, 40);
+    this.tile_map = new flatsim.TileMap(this.tile_persp, 1, 1);
     this.tile_layer = new flatsim.TileLayer(this.gl, this.tile_map);
 
 
@@ -40,7 +40,9 @@ var testcr = {
 
   setup_globs: function () {
     tm = this.tile_map;
+    t0 = this.tile_map.get(0, 0);
     tl = this.tile_layer;
+    tn0 = tl.get_node(0, 0);
     tb = this.tile_layer.tile_buffer;
     rendr = tb.renderer;
     projMat = rendr.proj_mat;
@@ -66,6 +68,7 @@ var testcr = {
       flatsim.log('pre draw');
     }
     // this.tile_layer.update();
+    this.tile_layer.update();
     this.tile_layer.draw();
 
     if (!this._first_draw) {
@@ -83,6 +86,7 @@ window.onload = function () {
   flatsim.log('onload');
   testcr.onload();
   flatsim.log('post onload');
+  rotX(Math.PI * 7 / 64);
 };
 
 var transX = function (val) {

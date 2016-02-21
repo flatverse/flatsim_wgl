@@ -24,5 +24,31 @@ flatsim.wgl_utils = {
       }
     }
     return newArr;
-  }
+  },
+
+  verts_to_string: function (vertArray, faceArray) {
+    var faceIx;
+    var str = '';
+    for (faceIx = 0; faceIx < faceArray.length; faceIx+=3) {
+      str += flatsim.util.format_string(
+        'face: {0}, {1}, {2}\n',
+        faceArray[faceIx],
+        faceArray[faceIx + 1],
+        faceArray[faceIx + 2]
+      );
+    }
+    for (faceIx = 0; faceIx < vertArray.length / 3; faceIx++) {
+      str += this.vert_to_string(vertArray, faceIx) + '\n';
+    }
+    return str;
+  },
+  vert_to_string: function (vertArray, vertIx) {
+    vertIx *= 3;
+    return flatsim.util.format_string(
+      'x: {0}, y: {1}, z: {2}', 
+      vertArray[vertIx],
+      vertArray[vertIx + 1],
+      vertArray[vertIx + 2]
+    );
+  },
 };

@@ -11,7 +11,7 @@ flatsim.TileBufferRenderer.prototype = {
   mv_mat: null,
   norm_mat: null,
   // TODO: move this out
-  light_pos: new Float32Array([-2, 2, 2]),
+  light_pos: new Float32Array([-2, 2, 4]),
   amb_color: new Float32Array([0.3, 0.3, 0.3, 0.0]),
 
   shader: null,

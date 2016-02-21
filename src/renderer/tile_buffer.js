@@ -1,14 +1,10 @@
 flatsim.TileBuffer = function (gl, verts, faces, colors) {
-  flatsim.log('geo constructor');
 
   this.gl = gl;
 
   this.vert_buffer = new flatsim.ArrayBuffer(gl, verts);
-  flatsim.log('geo vert buffer');
   this.face_buffer = new flatsim.ArrayBuffer(gl, faces, gl.ELEMENT_ARRAY_BUFFER);
-  flatsim.log('geo face buffer');
   this.color_buffer = new flatsim.ArrayBuffer(gl, colors, gl.ARRAY_BUFFER, 4);
-  flatsim.log('geo color buffer');
 
 
   this.face_norms = this.calculate_face_normals();
@@ -38,10 +34,22 @@ flatsim.TileBuffer.prototype = {
     this.renderer.draw(this.vert_buffer, this.face_buffer, this.norm_buffer, this.color_buffer);
   },
 
-  sub_data: function (vertIx, tileData) {
-    // TODO it may not be a good idea to mutate this array
-    tileData.verts.unshift(vertIx);
-    this.vert_buffer.set.apply(this.vert_buffer, tileData.verts);
+  sub_data: function (tileData) {
+    // tileData.verts.unshift(vertIx);
+    // this.vert_buffer.set.apply(this.vert_buffer, tileData.verts);
+
+    // FIX TODO there are more vert indexes in faces than verts - redo this to
+    // account for that somehow
+    var i, vertIx;;
+    for (i = 0; i < tileData.faces.length; i++) {
+      var vertIx = i * 3;
+      this.vert_buffer.set(
+        tileData.faces[i],
+        tileData.verts[vertIx + 0],
+        tileData.verts[vertIx + 1],
+        tileData.verts[vertIx + 2]
+      );
+    }
   },
 
   calculate_face_normals: function () {

@@ -40,7 +40,7 @@ flatsim.TileNode.prototype = {
     facing_up: 'below',
   },
 
-  build_all_faces: function (vertIx) {
+  build_all_faces: function (firstVertIx) {
 
     var bnds = this.tile_persp.scene_box_from_tile(this.tile);
 
@@ -49,13 +49,20 @@ flatsim.TileNode.prototype = {
     var colors = [];
     // TODO norms
 
+    var vertIx = firstVertIx;
+
     var self = this;
     _.forEach(this.directions, function (dir) {
+      if (typeof firstVertIx === 'undefined') {
+        vertIx = self.vert_ixs[dir];
+      }
       var face = self.build_face(dir, vertIx);
       verts = verts.concat(face.verts);
       faces = faces.concat(face.faces);
       colors = colors.concat(face.colors);
-      vertIx += face.verts.length / 3;
+      if (typeof firstVertIx !== 'undefined') {
+        vertIx += face.verts.length / 3;
+      }
     });
 
     return {
@@ -66,6 +73,7 @@ flatsim.TileNode.prototype = {
   },
 
   build_face: function (dir, vertIx) {
+    flatsim.log('{0} {1}', dir, vertIx);
     // TODO maybe check if above/below tiles are actually adjacent
     if (this[this.adj_tiles[dir]]) {
       return {
@@ -88,6 +96,8 @@ flatsim.TileNode.prototype = {
       0.0, 1.0, 0.5, 1.0,
     ];
     this.vert_ixs[dir] = vertIx;
+
+    flatsim.log(flatsim.wgl_utils.verts_to_string(verts, faces));
 
     return {
       verts: verts,

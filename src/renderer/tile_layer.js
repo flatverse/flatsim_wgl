@@ -2,12 +2,9 @@ flatsim.TileLayer = function (gl, tileMap) {
   this.gl = null;
   this.tile_map = tileMap;
 
-  flatsim.log('building node graph');
   this.nodes = this.build_node_graph();
 
-  flatsim.log('building buffer vals');
   var bufferVals = this.build_buffer_vals();
-  flatsim.log('building map geo');
   this.tile_buffer = new flatsim.TileBuffer(
     gl,
     bufferVals.verts,
@@ -84,8 +81,7 @@ flatsim.TileLayer.prototype = {
 
   update_tile: function (we, ns) {
     var tileNode = this.get_node(we, ns);
-    var tileDataIx = tileNode.vert_ixs[tileNode.directions[0]];
-    var newVertData = tileNode.build_all_faces(tileDataIx);
-    this.tile_buffer.sub_data(tileDataIx, newVertData);
+    var newVertData = tileNode.build_all_faces();
+    this.tile_buffer.sub_data(newVertData);
   },
 };

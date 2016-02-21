@@ -3,7 +3,7 @@ var testcr = {
   gl: null,
   tile_persp: null,
   tile_map: null,
-  tile_layer: null, 
+  tile_layer: null,
   clear_color: [0.35, 0.35, 0.7, 1.0],
 
   stats: null,
@@ -26,6 +26,9 @@ var testcr = {
 
     this.tile_persp = new flatsim.TilePerspective({});
     this.tile_map = new flatsim.TileMap(this.tile_persp, 1, 1);
+    ///
+    this.tile_map.get(0,0).height_top = 2;
+    ///
     this.tile_layer = new flatsim.TileLayer(this.gl, this.tile_map);
 
 
@@ -65,27 +68,20 @@ var testcr = {
     this.stats.begin();
 
     if (!this._first_draw) {
-      flatsim.log('pre draw');
     }
-    // this.tile_layer.update();
     this.tile_layer.update();
     this.tile_layer.draw();
 
     if (!this._first_draw) {
       this._first_draw = true;
-      flatsim.log('post draw');
-    // } else {
-    //   // TEST CODE
-    //   transZ(-1);
     }
 
     this.stats.end();
   },
 };
 window.onload = function () {
-  flatsim.log('onload');
   testcr.onload();
-  flatsim.log('post onload');
+
   rotX(Math.PI * 7 / 64);
 };
 
@@ -107,3 +103,7 @@ var rotY = function (val) {
 var rotZ = function (val) {
   mat4.rotateZ(mvMat, mvMat, val);
 }
+
+function k() {
+  testcr._kill = true;
+};

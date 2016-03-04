@@ -2,14 +2,16 @@
 // rename this to layer renderer and a layer_buffer field that this renders
 // also, copy over the shader
 
-flatsim.TileBufferRenderer = function (gl) {
+flatsim.TileBufferRenderer = function (gl, layerBuffer) {
   this.gl = gl;
+  this.layer_buffer = layerBuffer;
 
   this.init_matrices();
   this.init_shader();
 };
 flatsim.TileBufferRenderer.prototype = {
   gl: null,
+  layer_buffer: null,
 
   proj_mat: null,
   mv_mat: null,
@@ -29,16 +31,17 @@ flatsim.TileBufferRenderer.prototype = {
   light_pos_uni: null,
   amb_color_uni: null,
 
-  draw: function (vert_buffer, face_buffer, norm_buffer, color_buffer) {
+  // draw: function (vert_buffer, face_buffer, norm_buffer, color_buffer) {
+  draw: function () {
     this.gl.useProgram(this.shader);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-    this.set_attribs(vert_buffer, norm_buffer, color_buffer);
+    this.set_attribs(this.layer_buffer.vert_buffer, this.layer_buffer.norm_buffer, this.layer_buffer.color_buffer);
 
     this.set_uniforms();
 
-    this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, face_buffer.buffer);
-    this.gl.drawElements(this.gl.TRIANGLES, face_buffer.array.length, this.gl.UNSIGNED_SHORT, 0);
+    this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.layer_buffer.face_buffer.buffer);
+    this.gl.drawElements(this.gl.TRIANGLES, this.layer_buffer.face_buffer.array.length, this.gl.UNSIGNED_SHORT, 0);
   },
 
   /*

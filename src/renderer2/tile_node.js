@@ -3,7 +3,7 @@
  */
 flatsim.TileNode = function (tile, tilePersp, layerBuffer) {
   this.tile = tile;
-  this.persp = persp;
+  this.persp = tilePersp;
   this.buffer = layerBuffer;
 };
 flatsim.TileNode.prototype = {
@@ -35,7 +35,7 @@ flatsim.TileNode.prototype = {
   ],
 
   build_faces: function () {
-    var bnds = this.tile_persp.scene_box_from_tile(this.tile);
+    var bnds = this.persp.scene_box_from_tile(this.tile);
 
     var self = this;
     _.forEach(this.directions, function (dir) {

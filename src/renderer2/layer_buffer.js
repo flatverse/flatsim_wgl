@@ -10,7 +10,7 @@ flatsim.LayerBuffer = function (gl, verts, faces, colors, norms) {
   this.vert_buffer = new flatsim.ArrayBuffer(gl, verts);
   this.face_buffer = new flatsim.ArrayBuffer(gl, faces, gl.ELEMENT_ARRAY_BUFFER);
   this.norm_buffer = new flatsim.ArrayBuffer(gl, norms);
-  this.color_buffer = new flatsim.ArrayBuffer(gl, colors, 4);
+  this.color_buffer = new flatsim.ArrayBuffer(gl, colors, gl.ARRAY_BUFFER, 4);
 
   this.face_ptrs = [];
 };
@@ -39,7 +39,7 @@ flatsim.LayerBuffer.prototype = {
       this.face_buffer.set(this.face_top,
         faces[i] + node.vert_Start,
         faces[i+1] + node.vert_Start,
-        faces[i+2] + node.vert_Start,
+        faces[i+2] + node.vert_Start
       );
       this.faces_top++;
     }

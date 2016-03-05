@@ -44,6 +44,8 @@ flatsim.TileNode.prototype = {
   },
 
   build_face: function (dir, bnds) {
+    bnds = bnds || this.persp.scene_box_from_tile(this.tile);
+
     var verts = this.vert_funcs[dir];
     var faces = this.face_order;
     var colors = [

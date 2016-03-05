@@ -32,7 +32,8 @@ var testcr = {
     lbuff = new flatsim.LayerBuffer(this.gl, 4*6*3, 6*3, 4*6*4, 4*6*3);
     t = new flatsim.Tile(1, 1, {});
     tnode = new flatsim.TileNode(t, persp, lbuff);
-    tnode.build_faces();
+    // tnode.build_faces();
+    tnode.build_face('top');
     // tlayer = new flatsim.TileLayer(this.gl);
     this.renderer = new flatsim.TileBufferRenderer(this.gl, lbuff); 
     mvMat = this.renderer.mv_mat;

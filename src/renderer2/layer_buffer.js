@@ -24,11 +24,11 @@ flatsim.LayerBuffer.prototype = {
   face_nodes: null,
   vert_top: 0,
   faces_top: 0,
-  colors_top: 0,
+  color_top: 0,
   norms_top: 0,
 
   add_face: function (verts, faces, colors, norms) {
-    var node = new TileFaceNode(this.vert_top, this.faces_top, this.colors_top, this.norms_top);
+    var node = new flatsim.TileFaceNode(this.vert_top, this.faces_top, this.color_top, this.norms_top);
 
     var i;
     for (i = 0; i < verts.length / 3; i++) {

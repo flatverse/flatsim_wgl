@@ -37,10 +37,6 @@ flatsim.TileNode.prototype = {
   build_faces: function () {
     var bnds = this.persp.scene_box_from_tile(this.tile);
 
-    // var self = this;
-    // _.forEach(this.directions, function (dir) {
-    //   self.build_face(dir, bnds);
-    // });
     var dir;
     for (dir in this.face_nodes) {
       this.build_face(dir, bnds);

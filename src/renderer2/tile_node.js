@@ -46,7 +46,7 @@ flatsim.TileNode.prototype = {
   build_face: function (dir, bnds) {
     bnds = bnds || this.persp.scene_box_from_tile(this.tile);
 
-    var verts = this.vert_funcs[dir];
+    var verts = _.flatten(this.vert_funcs[dir](bnds));
     var faces = this.face_order;
     var colors = [
       0.0, 1.0, 0.5, 1.0,
@@ -54,7 +54,7 @@ flatsim.TileNode.prototype = {
       0.0, 1.0, 0.5, 1.0,
       0.0, 1.0, 0.5, 1.0,
     ];
-    var norms = this.normals[dir];
+    var norms = this.get_norm(dir, 4);
 
     this.face_nodes[dir] = this.buffer.add_face(verts, faces, colors, norms);
   },
@@ -100,6 +100,17 @@ flatsim.TileNode.prototype = {
         bnds.bot_nw, bnds.bot_ne,
       ];
     }
+  },
+
+  get_norm: function (dir, vertCount) {
+    var template = this.normals[dir];
+    var arr = [];
+    for (var i = 0; i < vertCount; i++) {
+      arr.push(template[0]);
+      arr.push(template[1]);
+      arr.push(template[2]);
+    }
+    return arr;
   },
 };
 

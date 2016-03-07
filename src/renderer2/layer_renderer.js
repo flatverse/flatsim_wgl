@@ -31,6 +31,10 @@ flatsim.TileBufferRenderer.prototype = {
   light_pos_uni: null,
   amb_color_uni: null,
 
+  update: function () {
+    this.layer_buffer.update();
+  },
+
   // draw: function (vert_buffer, face_buffer, norm_buffer, color_buffer) {
   draw: function () {
     this.gl.useProgram(this.shader);
@@ -41,7 +45,7 @@ flatsim.TileBufferRenderer.prototype = {
     this.set_uniforms();
 
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.layer_buffer.face_buffer.buffer);
-    this.gl.drawElements(this.gl.TRIANGLES, this.layer_buffer.face_buffer.array.length, this.gl.UNSIGNED_SHORT, 0);
+    this.gl.drawElements(this.gl.TRIANGLES, this.layer_buffer.face_buffer.array.length / 3, this.gl.UNSIGNED_SHORT, 0);
   },
 
   /*
@@ -59,7 +63,7 @@ flatsim.TileBufferRenderer.prototype = {
     this.gl.enableVertexAttribArray(this.color_buffer_attrib);
 
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
-    this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
+    this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
     this.norm_mat_uni = this.gl.getUniformLocation(this.shader, 'normMat');
     this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
     this.amb_color_uni = this.gl.getUniformLocation(this.shader, 'ambientColor');

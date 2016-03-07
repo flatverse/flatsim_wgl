@@ -29,8 +29,9 @@ var testcr = {
     // this.tile_layer = new flatsim.TileLayer(this.gl, this.tile_map);
   
     persp = new flatsim.TilePerspective();
-    lbuff = new flatsim.LayerBuffer(this.gl, 4*6*3, 6*3, 4*6*4, 4*6*3);
-    t = new flatsim.Tile(1, 1, {});
+    // lbuff = new flatsim.LayerBuffer(this.gl, 4*6, 6, 4*6, 4*6);
+    lbuff = new flatsim.LayerBuffer(this.gl, 4, 2, 4, 4);
+    t = new flatsim.Tile(0, 0, {});
     tnode = new flatsim.TileNode(t, persp, lbuff);
     // tnode.build_faces();
     tnode.build_face('top');
@@ -80,6 +81,7 @@ var testcr = {
     // this.tile_layer.update();
     // this.tile_layer.update();
     // this.tile_layer.draw();
+    this.renderer.update();
     this.renderer.draw();
 
     if (!this._first_draw) {
@@ -87,7 +89,7 @@ var testcr = {
       // flatsim.log('post draw');
     } else {
       // TEST CODE
-      transZ(-1);
+      // transZ(2);
     }
 
     this.stats.end();

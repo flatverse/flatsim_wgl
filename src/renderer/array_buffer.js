@@ -38,11 +38,12 @@ flatsim.ArrayBuffer.prototype = {
       return;
     }
 
-    var arr = [];
-    var dirty = _.toArray(this.dirty_list);
+    var arr;
+    // var dirty = _.toArray(this.dirty_list);
     var actualIx, i, ix, j;
     this.gl.bindBuffer(this.array_type, this.buffer);
     for (i = 0; i < dirty.length; i++) {
+      arr = [];
       ix = dirty[i];
       actualIx = ix * this.comp_count;
       for (j = 0; j < this.comp_count; j++) {

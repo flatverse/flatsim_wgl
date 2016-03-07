@@ -25,6 +25,8 @@ flatsim.ArrayBuffer = function(gl, dataOrLength, arrayType, compCount) {
   gl.bufferData(this.array_type, this.array, gl.DYNAMIC_DRAW);
 };
 flatsim.ArrayBuffer.prototype = {
+  name: null,
+
   gl: null,
   array_type: null,
   comp_count: 3,
@@ -38,25 +40,21 @@ flatsim.ArrayBuffer.prototype = {
       return;
     }
 
-    var arr = [];
-    var dirty = _.toArray(this.dirty_list);
+    var arr;
     var actualIx, i, ix, j;
+    var arrType = (this.array_type === this.gl.ARRAY_BUFFER && Float32Array) || Uint16Array;
     this.gl.bindBuffer(this.array_type, this.buffer);
-    for (i = 0; i < dirty.length; i++) {
-      ix = dirty[i];
+    for (i = 0; i < this.dirty_list.length; i++) {
+      arr = [];
+      ix = this.dirty_list[i];
       actualIx = ix * this.comp_count;
       for (j = 0; j < this.comp_count; j++) {
         arr.push(this.array[actualIx + j]);
       }
-      this.gl.bufferSubData(this.array_type, actualIx, new Float32Array(arr));
+      this.gl.bufferSubData(this.array_type, actualIx, new arrType(arr));
     }
 
     this.dirty_list = null;
-  },
-
-  add_dirty: function (index) {
-    this.dirty_list = this.dirty_list || {};
-    this.dirty_list[index] = index;
   },
 
   set_x: function (index, val) {
@@ -117,9 +115,7 @@ flatsim.ArrayBuffer.prototype = {
   },
 
   set_dirty: function (ix) {
-    if (!this.dirty_list) {
-      this.dirty_list = [];
-    }
+    this.dirty_list = this.dirty_list || [];
     this.dirty_list.push(ix);
   },
 };

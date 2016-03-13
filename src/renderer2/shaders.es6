@@ -1,8 +1,8 @@
 flatsim.Shaders = {
   basic_vert_src: `
     attribute vec3 aVertPos;
-    /* attribute vec3 aVertNorm; */
-    /* attribute vec4 aVertColor; */
+    attribute vec3 aVertNorm;
+    attribute vec4 aVertColor;
 
     uniform mat4 projMat;
     uniform mat4 mvMat;
@@ -13,22 +13,19 @@ flatsim.Shaders = {
     varying lowp vec4 vVertColor;
 
     void main() {
-      /* vec4 mvPos = mvMat * vec4(aVertPos, 1.0); */
-      /* gl_Position = projMat * mvPos; */
-      gl_Position = projMat * mvMat * vec4(aVertPos, 1.0);
-      /* vec3 lightDir = normalize((mvMat * vec4(lightPosition, 1.0)).xyz - mvPos.xyz); */
-      /* vec3 norm = normMat * aVertNorm; */
-      /* vVertColor = ambientColor + (aVertColor * max(dot(norm, lightDir), 0.0)); */
-      /* vVertColor = ambientColor; */
+      vec4 mvPos = mvMat * vec4(aVertPos, 1.0);
+      gl_Position = projMat * mvPos;
+      vec3 lightDir = normalize((mvMat * vec4(lightPosition, 1.0)).xyz - mvPos.xyz);
+      vec3 norm = normMat * aVertNorm;
+      vVertColor = ambientColor + (aVertColor * max(dot(norm, lightDir), 0.0));
     }
   `, // end vertex shader
 
   basic_frag_src: `
-    /* varying lowp vec4 vVertColor; */
+    varying lowp vec4 vVertColor;
 
     void main() {
-      /* gl_FragColor = vec4(vVertColor.xyz, 1); */
-      gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      gl_FragColor = vec4(vVertColor.xyz, 1);
     }
   `, // end fragment shader
 

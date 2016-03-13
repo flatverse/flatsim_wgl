@@ -105,7 +105,7 @@ flatsim.TileBufferRenderer.prototype = {
   },
 
   set_attribs: function (vert_buffer, norm_buffer, color_buffer) {
-    // this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vert_buffer.buffer);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vert_buffer.buffer);
     this.vert_buffer_attrib = this.gl.getAttribLocation(this.shader, 'aVertPos');
     this.gl.vertexAttribPointer(this.vert_buffer_attrib, 3, this.gl.FLOAT, false, 0, 0);
 

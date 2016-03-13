@@ -54,7 +54,7 @@ flatsim.LayerBuffer.prototype = {
       );
       this.face_top++;
     }
-    for (i = 0; i < colors.length / 3; i++) {
+    for (i = 0; i < colors.length / 4; i++) {
       this.color_buffer.set(this.color_top, colors[i], colors[i+1], colors[i+2], colors[i+3]);
       this.color_top++;
     }

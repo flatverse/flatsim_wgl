@@ -1,8 +1,8 @@
 flatsim.Shaders = {
   basic_vert_src: `
     attribute vec3 aVertPos;
-    attribute vec3 aVertNorm;
-    attribute vec4 aVertColor;
+    /* attribute vec3 aVertNorm; */
+    /* attribute vec4 aVertColor; */
 
     uniform mat4 projMat;
     uniform mat4 mvMat;
@@ -16,8 +16,9 @@ flatsim.Shaders = {
       vec4 mvPos = mvMat * vec4(aVertPos, 1.0);
       gl_Position = projMat * mvPos;
       vec3 lightDir = normalize((mvMat * vec4(lightPosition, 1.0)).xyz - mvPos.xyz);
-      vec3 norm = normMat * aVertNorm;
-      vVertColor = ambientColor + (aVertColor * max(dot(norm, lightDir), 0.0));
+      /* vec3 norm = normMat * aVertNorm; */
+      /* vVertColor = ambientColor + (aVertColor * max(dot(norm, lightDir), 0.0)); */
+      vVertColor = ambientColor;
     }
   `, // end vertex shader
 

@@ -99,7 +99,7 @@ window.onload = function () {
   flatsim.log('onload');
   testcr.onload();
   flatsim.log('post onload');
-  rotX(Math.PI * 7 / 64);
+  // rotX(Math.PI * 7 / 64);
 };
 
 var transX = function (val) {

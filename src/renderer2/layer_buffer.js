@@ -42,7 +42,8 @@ flatsim.LayerBuffer.prototype = {
 
     var i, ix;
     for (i = 0; i < verts.length / 3; i++) {
-      this.vert_buffer.set(this.vert_top, verts[i], verts[i+1], verts[i+2]);
+      ix = i * 3;
+      this.vert_buffer.set(this.vert_top, verts[ix], verts[ix+1], verts[ix+2]);
       this.vert_top++;
     }
     for (i = 0; i < faces.length / 3; i++) {
@@ -55,11 +56,13 @@ flatsim.LayerBuffer.prototype = {
       this.face_top++;
     }
     for (i = 0; i < colors.length / 4; i++) {
-      this.color_buffer.set(this.color_top, colors[i], colors[i+1], colors[i+2], colors[i+3]);
+      ix = i * 4;
+      this.color_buffer.set(this.color_top, colors[ix], colors[ix+1], colors[ix+2], colors[ix+3]);
       this.color_top++;
     }
     for (i = 0; i < norms.length / 3; i++) {
-      this.norm_buffer.set(this.norm_top, norms[i], norms[i+1], norms[i+2]);
+      ix = i * 3;
+      this.norm_buffer.set(this.norm_top, norms[ix], norms[ix+1], norms[ix+2]);
       this.norm_top++;
     }
 

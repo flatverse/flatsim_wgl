@@ -64,9 +64,9 @@ flatsim.TileBufferRenderer.prototype = {
 
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
     this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
-    this.norm_mat_uni = this.gl.getUniformLocation(this.shader, 'normMat');
-    this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
-    this.amb_color_uni = this.gl.getUniformLocation(this.shader, 'ambientColor');
+    // this.norm_mat_uni = this.gl.getUniformLocation(this.shader, 'normMat');
+    // this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
+    // this.amb_color_uni = this.gl.getUniformLocation(this.shader, 'ambientColor');
   },
 
   init_matrices: function () {
@@ -93,15 +93,15 @@ flatsim.TileBufferRenderer.prototype = {
     this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
     this.gl.uniformMatrix4fv(this.mv_mat_uni, false, this.mv_mat);
 
-    mat3.normalFromMat4(this.norm_mat, this.mv_mat);
-    this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'normMat');
-    this.gl.uniformMatrix3fv(this.norm_mat_uni, false, this.norm_mat);
+    // mat3.normalFromMat4(this.norm_mat, this.mv_mat);
+    // this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'normMat');
+    // this.gl.uniformMatrix3fv(this.norm_mat_uni, false, this.norm_mat);
 
-    this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
-    this.gl.uniform3fv(this.light_pos_uni, this.light_pos);
+    // this.light_pos_uni = this.gl.getUniformLocation(this.shader, 'lightPosition');
+    // this.gl.uniform3fv(this.light_pos_uni, this.light_pos);
 
-    this.amb_color_uni = this.gl.getUniformLocation(this.shader, 'ambientColor');
-    this.gl.uniform4fv(this.amb_color_uni, this.amb_color);
+    // this.amb_color_uni = this.gl.getUniformLocation(this.shader, 'ambientColor');
+    // this.gl.uniform4fv(this.amb_color_uni, this.amb_color);
   },
 
   set_attribs: function (vert_buffer, norm_buffer, color_buffer) {

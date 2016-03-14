@@ -96,8 +96,8 @@ flatsim.TileNode.prototype = {
     },
     bottom: function (bnds) {
       return [
-        bnds.bot_se, bnds.bot_sw,
-        bnds.bot_nw, bnds.bot_ne,
+        bnds.bot_ne, bnds.bot_se,
+        bnds.bot_sw, bnds.bot_nw,
       ];
     }
   },

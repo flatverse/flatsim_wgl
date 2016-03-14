@@ -34,32 +34,32 @@ flatsim.ArrayBuffer.prototype = {
   array: null,
   buffer: null,
   dirty_list: null,
+  all_dirty: false,
 
   update: function () {
-    if (!this.dirty_list) {
-      return;
+    if (this.all_dirty) {
+      this.all_dirty = false;
+      this.dirty_list = null;
+      this.gl.bindBuffer(this.array_type, this.buffer);
+      this.gl.bufferData(this.array_type, this.array, this.gl.DYNAMIC_DRAW);
+    } else if (this.dirty_list) {
+      var arr;
+      var actualIx, i, ix, j;
+      var arrType = (this.array_type === this.gl.ARRAY_BUFFER && Float32Array) || Uint16Array;
+      for (i = 0; i < this.dirty_list.length; i++) {
+        arr = [];
+        ix = this.dirty_list[i];
+        actualIx = ix * this.comp_count;
+        for (j = 0; j < this.comp_count; j++) {
+          arr.push(this.array[actualIx + j]);
+        }
+        arr = new arrType(arr);
+        this.gl.bindBuffer(this.array_type, this.buffer);
+        this.gl.bufferSubData(this.array_type, actualIx, arr);
+      }
+
+      this.dirty_list = null;
     }
-
-    // TODO use sub data instead of a full re - buffer
-    this.gl.bindBuffer(this.array_type, this.buffer);
-    this.gl.bufferData(this.array_type, this.array, this.gl.DYNAMIC_DRAW);
-
-    // var arr;
-    // var actualIx, i, ix, j;
-    // var arrType = (this.array_type === this.gl.ARRAY_BUFFER && Float32Array) || Uint16Array;
-    // this.gl.bindBuffer(this.array_type, this.buffer);
-    // for (i = 0; i < this.dirty_list.length; i++) {
-    //   arr = [];
-    //   ix = this.dirty_list[i];
-    //   actualIx = ix * this.comp_count;
-    //   for (j = 0; j < this.comp_count; j++) {
-    //     arr.push(this.array[actualIx + j]);
-    //   }
-    //   arr = new arrType(arr);
-    //   this.gl.bufferSubData(this.array_type, actualIx, arr);
-    // }
-
-    // this.dirty_list = null;
   },
 
   set_x: function (index, val) {

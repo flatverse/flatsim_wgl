@@ -66,6 +66,11 @@ flatsim.LayerBuffer.prototype = {
       this.norm_top++;
     }
 
+    this.vert_buffer.all_dirty = true;
+    this.face_buffer.all_dirty = true;
+    this.norm_buffer.all_dirty = true;
+    this.color_buffer.all_dirty = true;
+
     this.face_nodes.push(node);
     return this.face_nodes.length - 1;
   },

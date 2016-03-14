@@ -24,7 +24,7 @@ flatsim.TileNode.prototype = {
     west: [-1, 0, 0],
     north: [0, 1, 0],
     east: [1, 0, 0],
-    north: [0, -1, 0],
+    south: [0, -1, 0],
     top: [0, 0, 1],
     bottom: [0, 0, -1],
   },

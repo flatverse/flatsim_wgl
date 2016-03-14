@@ -30,11 +30,11 @@ var testcr = {
   
     persp = new flatsim.TilePerspective();
     // lbuff = new flatsim.LayerBuffer(this.gl, 4*6, 6, 4*6, 4*6);
-    lbuff = new flatsim.LayerBuffer(this.gl, 4, 2, 4, 4);
+    var numFaces = 6;
+    lbuff = new flatsim.LayerBuffer(this.gl, 4*numFaces, 2*numFaces, 4*numFaces, 4*numFaces);
     t = new flatsim.Tile(0, 0, {});
     tnode = new flatsim.TileNode(t, persp, lbuff);
-    // tnode.build_faces();
-    tnode.build_face('top');
+    tnode.build_faces();
     // tlayer = new flatsim.TileLayer(this.gl);
     this.renderer = new flatsim.TileBufferRenderer(this.gl, lbuff); 
     mvMat = this.renderer.mv_mat;
@@ -96,10 +96,8 @@ var testcr = {
   },
 };
 window.onload = function () {
-  flatsim.log('onload');
   testcr.onload();
-  flatsim.log('post onload');
-  // rotX(Math.PI * 7 / 64);
+  rotX(Math.PI * 7 / 64);
 };
 
 var transX = function (val) {

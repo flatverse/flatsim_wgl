@@ -30,15 +30,16 @@ var testcr = {
   
     persp = new flatsim.TilePerspective();
     // lbuff = new flatsim.LayerBuffer(this.gl, 4*6, 6, 4*6, 4*6);
-    var numFaces = 6;
+    var numFaces = 1;
     lbuff = new flatsim.LayerBuffer(this.gl, 4*numFaces, 2*numFaces, 4*numFaces, 4*numFaces);
     t = new flatsim.Tile(0, 0, {});
     tnode = new flatsim.TileNode(t, persp, lbuff);
-    tnode.build_faces();
+    // tnode.build_faces();
+    // tnode.build_face('north');
+    tnode.build_face('top');
     // tlayer = new flatsim.TileLayer(this.gl);
     this.renderer = new flatsim.TileBufferRenderer(this.gl, lbuff); 
     mvMat = this.renderer.mv_mat;
-
 
     var self = this;
     this.draw_wrapper = function () {
@@ -81,6 +82,7 @@ var testcr = {
     // this.tile_layer.update();
     // this.tile_layer.update();
     // this.tile_layer.draw();
+    tnode.update();
     this.renderer.update();
     this.renderer.draw();
 

@@ -56,7 +56,20 @@ flatsim.TileNode.prototype = {
     ];
     var norms = this.get_norm(dir, 4);
 
-    this.face_nodes[dir] = this.buffer.add_face(verts, faces, colors, norms);
+    this.face_nodes[dir] = this.buffer.add_face(
+      verts,
+      faces,
+      colors,
+      norms,
+      this.face_nodes[dir]
+    );
+  },
+
+  update: function () {
+    if (this.tile.dirty) {
+      this.build_faces();
+      this.tile.dirty = false;
+    }
   },
 
   get_verts_from_bnds: function(dir, bnds) {

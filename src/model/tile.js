@@ -37,6 +37,8 @@ flatsim.Tile.prototype = {
   colors: undefined,
   grid_color: 0xdddddd,
 
+  dirty: false,
+
   get_nw_corner_height: function () {
     return this.height_top + this.corner_heights.nw;
   },

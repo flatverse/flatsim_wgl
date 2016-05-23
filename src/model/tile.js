@@ -35,16 +35,16 @@ scope.Tile = function (options) {
 
     // corner height offsets
     corner_offsets_top: _.defaults(options.corner_offsets_top || {}, {
-      wn: 0,
-      ws: 0,
-      es: 0,
-      en: 0,
+      wn: new Float32Array(3),
+      ws: new Float32Array(3),
+      es: new Float32Array(3),
+      en: new Float32Array(3),
     }),
     corner_offsets_bottom:  _.defaults(options.corner_offsets_top || {}, {
-      wn: 0,
-      ws: 0,
-      es: 0,
-      en: 0,
+      wn: new Float32Array(3),
+      ws: new Float32Array(3),
+      es: new Float32Array(3),
+      en: new Float32Array(3),
     }),
   }));
 };

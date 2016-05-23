@@ -9,6 +9,20 @@ window.addEventListener('load', function () {
 
   gltile.shaders.init(gt_gl);
 
+  tile0 = new gltile.Tile({
+    i: 0,
+    j: 0,
+    k: 0,
+    bottom: {
+      texture: 22
+    },
+    corner_offsets_top: {
+      ex: 56,
+      es: 57,
+    },
+  });
+  tile1 = new gltile.Tile();
+
   var z1 = -60.0;
   var z2 = -60.04;
   rendr = new gltile.Renderer(gt_gl);

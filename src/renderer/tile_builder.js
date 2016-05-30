@@ -104,14 +104,19 @@ scope.TileBuilder.prototype = {
     corner_map_top = this[corner_map_top];
     corner_map_bottom = this[corner_map_bottom];
 
+    var loc_offset = new Float32Array([tile.i * this.scale_we, tile.j * this.scale_ns, tile.k * this.scale_tb]);
     var lt = vec3.create();
     vec3.add(lt, verts.subarray(0, 3), tile.corner_offsets_top[corner_map_top[0]] || tile.corner_offsets_bottom[corner_map_bottom[0]]);
+    vec3.add(lt, lt, loc_offset);
     var lb = vec3.create();
     vec3.add(lb, verts.subarray(3, 6), tile.corner_offsets_top[corner_map_top[1]] || tile.corner_offsets_bottom[corner_map_bottom[1]]);
+    vec3.add(lb, lb, loc_offset);
     var rb = vec3.create();
     vec3.add(rb, verts.subarray(6, 9), tile.corner_offsets_top[corner_map_top[2]] || tile.corner_offsets_bottom[corner_map_bottom[2]]);
+    vec3.add(rb, rb, loc_offset);
     var rt = vec3.create();
     vec3.add(rt, verts.subarray(9, 12), tile.corner_offsets_top[corner_map_top[3]] || tile.corner_offsets_bottom[corner_map_bottom[3]]);
+    vec3.add(rt, rt, loc_offset);
 
     return scope.Utils.float32_concat(lt, lb, rb, rt);
   },

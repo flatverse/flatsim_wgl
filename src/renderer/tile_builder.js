@@ -44,10 +44,10 @@ scope.TileBuilder = function (options) {
   ]);
   this.corner_map_top_north = {
     1: 'wn',
-    2: 'es',
+    2: 'en',
   };
   this.corner_map_bottom_north = {
-    0: 'es',
+    0: 'wn',
     3: 'en',
   };
   this.face_south = new Float32Array([
@@ -103,6 +103,17 @@ scope.TileBuilder.prototype = {
     }
     corner_map_top = this[corner_map_top];
     corner_map_bottom = this[corner_map_bottom];
+
+    var lt = vec3.create();
+    vec3.add(lt, verts.subarray(0, 3), tile.corner_offsets_top[corner_map_top[0]] || tile.corner_offsets_bottom[corner_map_bottom[0]]);
+    var lb = vec3.create();
+    vec3.add(lb, verts.subarray(3, 6), tile.corner_offsets_top[corner_map_top[1]] || tile.corner_offsets_bottom[corner_map_bottom[1]]);
+    var rb = vec3.create();
+    vec3.add(rb, verts.subarray(6, 9), tile.corner_offsets_top[corner_map_top[2]] || tile.corner_offsets_bottom[corner_map_bottom[2]]);
+    var rt = vec3.create();
+    vec3.add(rt, verts.subarray(9, 12), tile.corner_offsets_top[corner_map_top[3]] || tile.corner_offsets_bottom[corner_map_bottom[3]]);
+
+    return scope.Utils.float32_concat(lt, lb, rb, rt);
   },
 };
 

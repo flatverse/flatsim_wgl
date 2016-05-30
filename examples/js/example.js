@@ -13,12 +13,17 @@ window.addEventListener('load', function () {
     i: 0,
     j: 0,
     k: 0,
-    bottom: {
-      texture: 22
+    corner_offsets_bottom: {
+      en: new Float32Array([4, 5, 4]),
+      es: new Float32Array([44, 55, 44]),
+      wn: new Float32Array([444, 555, 444]),
+      ws: new Float32Array([4444, 5555, 4444]),
     },
     corner_offsets_top: {
-      ex: 56,
-      es: 57,
+      en: new Float32Array([1, 2, 3]),
+      es: new Float32Array([11, 22, 33]),
+      wn: new Float32Array([111, 222, 333]),
+      ws: new Float32Array([1111, 2222, 3333]),
     },
   });
   tile1 = new gltile.Tile();

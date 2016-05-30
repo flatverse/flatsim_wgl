@@ -93,17 +93,17 @@ scope.TileBuilder = function (options) {
 scope.TileBuilder.prototype = {
 
   // TODO this
-  // get_face_verts: function (tile, face) {
-  //   var verts = _.clone(this['face_' + face]);
-  //   var corner_map_top = 'corner_map_top';
-  //   var corner_map_bottom = 'corner_map_bottom';
-  //   if (face === 'top' || face === 'bottom') {
-  //     corner_map_top += '_' + face;
-  //     corner_map_bottom += '_' + face;
-  //   }
-  //   corner_map_top = this[corner_map_top];
-  //   corner_map_bottom = this[corner_map_bottom];
-  // },
+  get_face_verts: function (tile, face) {
+    var verts = this['face_' + face];
+    var corner_map_top = 'corner_map_top';
+    var corner_map_bottom = 'corner_map_bottom';
+    if (face !== 'top' && face !== 'bottom') {
+      corner_map_top += '_' + face;
+      corner_map_bottom += '_' + face;
+    }
+    corner_map_top = this[corner_map_top];
+    corner_map_bottom = this[corner_map_bottom];
+  },
 };
 
 })(gltile);

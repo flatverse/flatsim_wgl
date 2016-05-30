@@ -56,6 +56,14 @@ scope.TileBuilder = function (options) {
      0.5, -0.5, -0.5, // rb esb 2
      0.5, -0.5,  0.5, // rt est 3
   ]);
+  this.corner_map_top_south: {
+    ws: 0,
+    es: 3,
+  },
+  this.corner_map_bottom_south: {
+    ws: 1,
+    es: 2,
+  },
 
   this.face_top = new Float32Array([
     -0.5,  0.5,  0.5, // lt wnt 0
@@ -83,7 +91,19 @@ scope.TileBuilder = function (options) {
   },
 };
 scope.TileBuilder.prototype = {
-  // TODO vert builders
+
+  // TODO this
+  // get_face_verts: function (tile, face) {
+  //   var verts = _.clone(this['face_' + face]);
+  //   var corner_map_top = 'corner_map_top';
+  //   var corner_map_bottom = 'corner_map_bottom';
+  //   if (face === 'top' || face === 'bottom') {
+  //     corner_map_top += '_' + face;
+  //     corner_map_bottom += '_' + face;
+  //   }
+  //   corner_map_top = this[corner_map_top];
+  //   corner_map_bottom = this[corner_map_bottom];
+  // },
 };
 
 })(gltile);

@@ -13,7 +13,7 @@ scope.gltile = {
     return final_msg;
   },
 
-  except: function (message) {
+  throw_error: function (message) {
     throw this.trace_message.apply(this, arguments);
   }
 };

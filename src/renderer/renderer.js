@@ -1,7 +1,7 @@
 (function(scope) {
 
-scope.Renderer = function (gl_context, options) {
-  this.gl = gl_context;
+scope.Renderer = function (options) {
+  scope.Utils.check_required(options, ['gl']);
   _.extend(this, _.defaults(options || {}, {
     max_faces: 1000,
   }));
@@ -50,6 +50,9 @@ scope.Renderer.prototype = {
     this.gl.bufferData(this.gl.ARRAY_BUFFER, this.color_array, this.gl.DYNAMIC_DRAW);
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.face_buffer);
     this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, this.face_array, this.gl.DYNAMIC_DRAW);
+  },
+
+  add_face: function (tile, face) {
   },
 
   /*****************************************************************************

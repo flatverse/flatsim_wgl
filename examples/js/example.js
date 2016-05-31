@@ -34,7 +34,7 @@ window.addEventListener('load', function () {
 
   var z1 = -60.0;
   var z2 = -60.04;
-  rendr = new gltile.Renderer(gt_gl);
+  rendr = new gltile.Renderer({gl: gt_gl});
   t_builder = new gltile.TileBuilder();
 
   rendr.vert_array.set(t_builder.get_face_verts(tile0, 'top'));

@@ -1,6 +1,15 @@
 (function (scope) {
 
 scope.Utils = {
+  check_required: function (options, req_list, class_trace) {
+    for (var i = 0; i < req_list.length; i++) {
+      var req = req_list[i];
+      if (!(req in options)) {
+        scope.throw_error.apply(scope, [req + ' is a required field'].concat(class_trace));
+      }
+    }
+  },
+
   float32_concat: function (arr0, arr1, optional_arrN) {
     var final_length = 0;
     for (var i = 0; i < arguments.length; i++) {

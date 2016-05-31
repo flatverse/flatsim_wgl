@@ -30,35 +30,15 @@ window.addEventListener('load', function () {
     i: 1,
     j: 1,
     k: 0,
+    top: {
+      color: new Float32Array([0, 1, 0, 1])
+    },
   });
 
-  var z1 = -60.0;
-  var z2 = -60.04;
   rendr = new gltile.Renderer({gl: gt_gl});
-  t_builder = new gltile.TileBuilder();
-
-  rendr.vert_array.set(t_builder.get_face_verts(tile0, 'top'));
-  rendr.vert_array.set(t_builder.get_face_verts(tile1, 'top'), 12);
-  rendr.color_array.set([
-    1.0, 1.0, 0.0, 1.0, // tl
-    1.0, 1.0, 0.0, 1.0, // bl
-    1.0, 1.0, 0.0, 1.0, // br
-    1.0, 1.0, 0.0, 1.0, // tr
-
-    0.0, 1.0, 0.0, 1.0, // tl
-    0.0, 1.0, 0.0, 1.0, // bl
-    0.0, 1.0, 0.0, 1.0, // br
-    0.0, 1.0, 0.0, 1.0 // tr
-  ]);
-  rendr.face_array.set([
-    0, 1, 2,
-    2, 3, 0,
-
-    4, 5, 6,
-    6, 7, 4
-  ]);
+  rendr.add_face(tile0, 'top');
+  rendr.add_face(tile1, 'top');
   rendr.buffer_data();
-  rendr.tile_face_count = 2;
 
   gt_gl.enable(gt_gl.DEPTH_TEST);
   gt_gl.enable(gt_gl.CULL_FACE);

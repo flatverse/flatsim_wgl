@@ -3,6 +3,7 @@
 scope.Renderer = function (options) {
   scope.Utils.check_required(options, ['gl']);
   _.extend(this, _.defaults(options || {}, {
+    tile_builder: new gltile.TileBuilder(),
     max_faces: 1000,
   }));
 
@@ -43,6 +44,23 @@ scope.Renderer.prototype = {
    * public methods
    ****************************************************************************/
 
+  add_face: function (tile, face) {
+    var ix = this.tile_face_count;
+
+    this.vert_array.set(this.tile_builder.get_face_verts(tile, face), ix * 4 * 3);
+    var cols = scope.Utils.float32_concat(tile[face].color, tile[face].color, tile[face].color, tile[face].color);
+    this.color_array.set(cols, ix * 4 * 4);
+    var face_vert_ix = ix * 4;
+    var faces = new Uint16Array([
+      face_vert_ix + 0, face_vert_ix + 1, face_vert_ix + 2,
+      face_vert_ix + 2, face_vert_ix + 3, face_vert_ix + 0
+    ]);
+    this.face_array.set(faces, ix * 2 * 3);
+
+    this.tile_face_count++;
+    return ix;
+  },
+
   buffer_data: function () {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vert_buffer);
     this.gl.bufferData(this.gl.ARRAY_BUFFER, this.vert_array, this.gl.DYNAMIC_DRAW);
@@ -50,9 +68,6 @@ scope.Renderer.prototype = {
     this.gl.bufferData(this.gl.ARRAY_BUFFER, this.color_array, this.gl.DYNAMIC_DRAW);
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.face_buffer);
     this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, this.face_array, this.gl.DYNAMIC_DRAW);
-  },
-
-  add_face: function (tile, face) {
   },
 
   /*****************************************************************************

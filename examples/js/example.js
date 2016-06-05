@@ -74,6 +74,14 @@ window.addEventListener('load', function () {
   rendr.update_face(tile1, 'west', t1w);
   rendr.update_face(tile1, 'south', t1s);
 
+  tile0.set_color(new Float32Array([1, 0.5, 0, 1]));
+  rendr.update_face(tile0, 'top', t0t);
+  rendr.update_face(tile0, 'bottom', t0b);
+  rendr.update_face(tile0, 'west', t0w);
+  rendr.update_face(tile0, 'east', t0e);
+  rendr.update_face(tile0, 'north', t0n);
+  rendr.update_face(tile0, 'south', t0s);
+
   var t1ws_x = 0.01;
   var t1ws_y = 0.01;
 
@@ -90,7 +98,6 @@ window.addEventListener('load', function () {
     if (tile1.corner_offsets_top.ws[0] >= 0.5) {
       tile1.corner_offsets_top.ws[0] = 0.5;
       t1ws_x *= -1;
-      console.log(t1ws_x);
     }
     if (tile1.corner_offsets_top.ws[1] >= 0.5) {
       tile1.corner_offsets_top.ws[1] = 0.5;

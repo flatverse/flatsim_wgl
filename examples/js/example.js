@@ -93,22 +93,22 @@ window.addEventListener('load', function () {
       return;
     }
 
-    tile1.corner_offsets_top.ws[0] += t1ws_x;
-    tile1.corner_offsets_top.ws[1] += t1ws_y;
-    if (tile1.corner_offsets_top.ws[0] >= 0.5) {
-      tile1.corner_offsets_top.ws[0] = 0.5;
+    tile1.corner_offsets.wst[0] += t1ws_x;
+    tile1.corner_offsets.wst[1] += t1ws_y;
+    if (tile1.corner_offsets.wst[0] >= 0.5) {
+      tile1.corner_offsets.wst[0] = 0.5;
       t1ws_x *= -1;
     }
-    if (tile1.corner_offsets_top.ws[1] >= 0.5) {
-      tile1.corner_offsets_top.ws[1] = 0.5;
+    if (tile1.corner_offsets.wst[1] >= 0.5) {
+      tile1.corner_offsets.wst[1] = 0.5;
       t1ws_y *= -1;
     }
-    if (tile1.corner_offsets_top.ws[0] <= 0) {
-      tile1.corner_offsets_top.ws[0] = 0;
+    if (tile1.corner_offsets.wst[0] <= 0) {
+      tile1.corner_offsets.wst[0] = 0;
       t1ws_x *= -1;
     }
-    if (tile1.corner_offsets_top.ws[1] <= 0) {
-      tile1.corner_offsets_top.ws[1] = 0;
+    if (tile1.corner_offsets.wst[1] <= 0) {
+      tile1.corner_offsets.wst[1] = 0;
       t1ws_y *= -1;
     }
     rendr.update_face(tile1, 'top', t1t);

@@ -8,17 +8,15 @@ scope.Tile = function (options) {
     k: null, // tile coord z
 
     // corner height offsets
-    corner_offsets_top: _.defaults(options.corner_offsets_top || {}, {
-      wn: new Float32Array(3),
-      ws: new Float32Array(3),
-      es: new Float32Array(3),
-      en: new Float32Array(3),
-    }),
-    corner_offsets_bottom:  _.defaults(options.corner_offsets_top || {}, {
-      wn: new Float32Array(3),
-      ws: new Float32Array(3),
-      es: new Float32Array(3),
-      en: new Float32Array(3),
+    corner_offsets: _.defaults(options.corner_offsets_top || {}, {
+      wnt: new Float32Array(3),
+      wst: new Float32Array(3),
+      ent: new Float32Array(3),
+      est: new Float32Array(3),
+      wnb: new Float32Array(3),
+      wsb: new Float32Array(3),
+      enb: new Float32Array(3),
+      esb: new Float32Array(3),
     }),
 
     // face settings
@@ -76,5 +74,6 @@ scope.Tile.prototype = {
 };
 
 scope.Tile.faces = ['top', 'bottom', 'west', 'east', 'north', 'south'];
+scope.Tile.corners = ['top', 'bottom', 'west', 'east', 'north', 'south'];
 
 })(window.gltile);

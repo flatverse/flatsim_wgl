@@ -44,9 +44,7 @@ scope.Renderer.prototype = {
    * public methods
    ****************************************************************************/
 
-  add_face: function (tile, face) {
-    var ix = this.tile_face_count;
-
+  set_face: function (tile, face, ix) {
     this.vert_array.set(this.tile_builder.get_face_verts(tile, face), ix * 4 * 3);
     var cols = scope.Utils.float32_concat(tile[face].color, tile[face].color, tile[face].color, tile[face].color);
     this.color_array.set(cols, ix * 4 * 4);
@@ -56,9 +54,27 @@ scope.Renderer.prototype = {
       face_vert_ix + 2, face_vert_ix + 3, face_vert_ix + 0
     ]);
     this.face_array.set(faces, ix * 2 * 3);
+  },
 
-    this.tile_face_count++;
-    return ix;
+  add_face: function (tile, face) {
+    this.set_face(tile, face, this.tile_face_count);
+    return this.tile_face_count++;
+  },
+
+  update_face: function (tile, face, ix) {
+    this.set_face(tile, face, ix);
+
+    var vert_ix = ix * 4 * 3;
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vert_buffer);
+    // the offset arg is number of bytes, in a Float32Array, there are 4 bytes
+    // per element, hence vert_ix * 4
+    this.gl.bufferSubData(this.gl.ARRAY_BUFFER, vert_ix * 4, this.vert_array.subarray(vert_ix, vert_ix + 12));
+
+    var color_ix = ix * 4 * 4;
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.color_buffer);
+    // the offset arg is number of bytes, in a Float32Array, there are 4 bytes
+    // per element, hence color_ix * 4
+    this.gl.bufferSubData(this.gl.ARRAY_BUFFER, color_ix * 4, this.color_array.subarray(color_ix, color_ix + 16));
   },
 
   buffer_data: function () {

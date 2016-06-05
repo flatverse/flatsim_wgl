@@ -13,6 +13,9 @@ window.addEventListener('load', function () {
     i: 0,
     j: 0,
     k: 0,
+    top: {
+      color: new Float32Array([1, 1, 1, 1])
+    },
     // corner_offsets_bottom: {
     //   en: new Float32Array([4, 5, 4]),
     //   es: new Float32Array([44, 55, 44]),
@@ -33,18 +36,101 @@ window.addEventListener('load', function () {
     top: {
       color: new Float32Array([0, 1, 0, 1])
     },
+    bottom: {
+      color: new Float32Array([0, 1, 0, 1])
+    },
+    north: {
+      color: new Float32Array([0, 1, 0, 1])
+    },
+    south: {
+      color: new Float32Array([0, 1, 0, 1])
+    },
+    west: {
+      color: new Float32Array([0, 1, 0, 1])
+    },
+    east: {
+      color: new Float32Array([0, 1, 0, 1])
+    },
   });
 
   rendr = new gltile.Renderer({gl: gt_gl});
-  rendr.add_face(tile0, 'top');
-  rendr.add_face(tile1, 'top');
+  t0t = rendr.add_face(tile0, 'top');
+  t0b = rendr.add_face(tile0, 'bottom');
+  t0n = rendr.add_face(tile0, 'north');
+  t0s = rendr.add_face(tile0, 'south');
+  t0e = rendr.add_face(tile0, 'east');
+  t0w = rendr.add_face(tile0, 'west');
+
+  t1t = rendr.add_face(tile1, 'top');
+  t1b = rendr.add_face(tile1, 'bottom');
+  t1n = rendr.add_face(tile1, 'north');
+  t1s = rendr.add_face(tile1, 'south');
+  t1e = rendr.add_face(tile1, 'east');
+  t1w = rendr.add_face(tile1, 'west');
   rendr.buffer_data();
 
-  gt_gl.enable(gt_gl.DEPTH_TEST);
-  gt_gl.enable(gt_gl.CULL_FACE);
-  gt_gl.clearColor(0.0, 0.0, 0, 1.0);
-  rendr.draw();
+  tile1.west.color = new Float32Array([1, 1, 0, 1]);
+  tile1.south.color = new Float32Array([0, 1, 1, 1]);
+  rendr.update_face(tile1, 'west', t1w);
+  rendr.update_face(tile1, 'south', t1s);
 
+  var t1ws_x = 0.01;
+  var t1ws_y = 0.01;
+
+  var t0_k = 0.01;
+
+  draw_func = function () {
+    if (draw_func.kill) {
+      draw_func.kill = false;
+      return;
+    }
+
+    tile1.corner_offsets_top.ws[0] += t1ws_x;
+    tile1.corner_offsets_top.ws[1] += t1ws_y;
+    if (tile1.corner_offsets_top.ws[0] >= 0.5) {
+      tile1.corner_offsets_top.ws[0] = 0.5;
+      t1ws_x *= -1;
+      console.log(t1ws_x);
+    }
+    if (tile1.corner_offsets_top.ws[1] >= 0.5) {
+      tile1.corner_offsets_top.ws[1] = 0.5;
+      t1ws_y *= -1;
+    }
+    if (tile1.corner_offsets_top.ws[0] <= 0) {
+      tile1.corner_offsets_top.ws[0] = 0;
+      t1ws_x *= -1;
+    }
+    if (tile1.corner_offsets_top.ws[1] <= 0) {
+      tile1.corner_offsets_top.ws[1] = 0;
+      t1ws_y *= -1;
+    }
+    rendr.update_face(tile1, 'top', t1t);
+    rendr.update_face(tile1, 'west', t1w);
+    rendr.update_face(tile1, 'south', t1s);
+
+    tile0.k += t0_k;
+    if (tile0.k >= 1) {
+      tile0.k = 1;
+      t0_k *= -1;
+    }
+    if (tile0.k <= -1) {
+      tile0.k = 0;
+      t0_k *= -1;
+    }
+    rendr.update_face(tile0, 'top', t0t);
+    rendr.update_face(tile0, 'bottom', t0b);
+    rendr.update_face(tile0, 'west', t0w);
+    rendr.update_face(tile0, 'east', t0e);
+    rendr.update_face(tile0, 'north', t0n);
+    rendr.update_face(tile0, 'south', t0s);
+
+    gt_gl.enable(gt_gl.DEPTH_TEST);
+    gt_gl.enable(gt_gl.CULL_FACE);
+    gt_gl.clearColor(0.0, 0.0, 0, 1.0);
+    rendr.draw();
+
+    requestAnimationFrame(draw_func);
+  };
 
   rotY = function (deg) {
     if (typeof deg === 'undefined') {
@@ -62,4 +148,8 @@ window.addEventListener('load', function () {
 
     mat4.rotateX(rendr.mv_mat, rendr.mv_mat, deg);
   };
+
+  rotX(-10);
+  rotY(10);
+  draw_func();
 });

@@ -71,9 +71,15 @@ scope.Tile.prototype = {
       face.color = _.clone(color_arr);
     });
   },
+
+  set_corner_offset: function (offset_arr, corner) {
+    this.dirty = true;
+
+    this.corner_offsets[corner] = _.clone(offset_arr);
+  },
 };
 
 scope.Tile.faces = ['top', 'bottom', 'west', 'east', 'north', 'south'];
-scope.Tile.corners = ['top', 'bottom', 'west', 'east', 'north', 'south'];
+scope.Tile.corners = ['wnt', 'wst', 'ent', 'est', 'wnb', 'wsb', 'enb', 'esb'];
 
 })(window.gltile);

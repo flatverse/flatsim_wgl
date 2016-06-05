@@ -82,6 +82,11 @@ window.addEventListener('load', function () {
   rendr.update_face(tile0, 'north', t0n);
   rendr.update_face(tile0, 'south', t0s);
 
+  tile1.set_corner_offset(new Float32Array([-0.25, 0.25, -0.5]), 'wnt');
+  rendr.update_face(tile1, 'west', t1w);
+  rendr.update_face(tile1, 'north', t1n);
+  rendr.update_face(tile1, 'top', t1t);
+
   var t1ws_x = 0.01;
   var t1ws_y = 0.01;
 

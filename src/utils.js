@@ -10,6 +10,12 @@ scope.Utils = {
     }
   },
 
+  remove_init_only_options: function (options, init_only_list) {
+    for (var i = 0; i < init_only_list.length; i++) {
+      delete options[init_only_list[i]];
+    }
+  },
+
   float32_concat: function (arr0, arr1, optional_arrN) {
     var final_length = 0;
     for (var i = 0; i < arguments.length; i++) {

@@ -2,6 +2,9 @@
 
 scope.Utils = {
   check_required: function (options, req_list, class_trace) {
+    if (typeof options !== 'object') {
+      scope.throw_error.apply(scope, ['missing options object'].concat(class_trace));
+    }
     for (var i = 0; i < req_list.length; i++) {
       var req = req_list[i];
       if (!(req in options)) {

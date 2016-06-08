@@ -164,4 +164,8 @@ window.addEventListener('load', function () {
   rotX(-10);
   rotY(10);
   draw_func();
+
+  ts = new gltile.TileSection({
+    renderer: new gltile.Renderer({gl: gt_gl})
+  });
 });

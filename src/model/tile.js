@@ -81,5 +81,13 @@ scope.Tile.prototype = {
 
 scope.Tile.faces = ['top', 'bottom', 'west', 'east', 'north', 'south'];
 scope.Tile.corners = ['wnt', 'wst', 'ent', 'est', 'wnb', 'wsb', 'enb', 'esb'];
+scope.Tile.opposite_faces = {
+  top: 'bottom',
+  bottom: 'top',
+  west: 'east',
+  east: 'west',
+  north: 'south',
+  south: 'north'
+};
 
 })(window.gltile);

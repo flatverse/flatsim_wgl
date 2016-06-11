@@ -86,6 +86,10 @@ scope.Renderer.prototype = {
     this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, this.face_array, this.gl.DYNAMIC_DRAW);
   },
 
+  reset: function () {
+    this.tile_face_count = 0;
+  },
+
   /*****************************************************************************
    * internal init helpers
    ****************************************************************************/

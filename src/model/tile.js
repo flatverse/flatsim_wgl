@@ -89,5 +89,13 @@ scope.Tile.opposite_faces = {
   north: 'south',
   south: 'north'
 };
+scope.Tile.adjacency_maps = {
+  top: [0, 0, -1],
+  bottom: [0, 0, 1],
+  west: [-1, 0, 0],
+  east: [1, 0, 0],
+  north: [0, -1, 0],
+  south: [0, 1, 0]
+};
 
 })(window.gltile);

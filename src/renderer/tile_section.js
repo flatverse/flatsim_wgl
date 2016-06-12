@@ -61,9 +61,11 @@ scope.TileSection.prototype = {
     }
   },
 
-  /*****************************************************************************
-  * internally used
-  *****************************************************************************/
+  get_adjacent_tile: function(we, ns, tb, face) {
+    var adj_map = scope.Tile.adjacency_maps[face];
+    var tile = this.get_tile(we + adj_map[0], ns + adj_map[1], tb + adj_map[2]);
+    return tile;
+  },
 };
 
 })(gltile);

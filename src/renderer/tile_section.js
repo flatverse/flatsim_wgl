@@ -9,33 +9,34 @@ scope.TileSection = function (options) {
     tiles_tb: 1,
     renderer: null,
   });
-  this.nodes = null;
 
   var tiles = [];
-  for (var we = 0; !this.tiles && we < options.tiles_we; we++) {
+  for (var we = 0; !options.tiles && we < options.tiles_we; we++) {
     tiles.push([]);
     for (var ns = 0; ns < options.tiles_ns; ns++) {
       tiles[we].push([]);
       for (var tb = 0; tb < options.tiles_tb; tb++) {
-        tiles[we][ns].push(new scope.Tile());
+        tiles[we][ns].push(new scope.Tile({
+          i: we,
+          j: ns,
+          k: tb
+        }));
       }
     }
   }
-  this.tiles = tiles;
 
   var nodes = [];
-  for (var we = 0; we < this.tiles.length; we++) {
+  for (var we = 0; we < tiles.length; we++) {
     nodes.push([]);
-    for (var ns = 0; ns < this.tiles[we].length; ns++) {
+    for (var ns = 0; ns < tiles[we].length; ns++) {
       nodes[we].push([]);
-      for (var tb = 0; tb < this.tiles[ns].length; tb++) {
+      for (var tb = 0; tb < tiles[ns].length; tb++) {
         nodes[we][ns].push(new scope.RenderNode());
       }
     }
   }
-  this.nodes = nodes;
 
-  this.renderer = options.renderer || new scope.Renderer({max_faces: options.tiles_we * options.tiles_ns * options.tiles_tb * 6});
+  var renderer = options.renderer || new scope.Renderer({max_faces: options.tiles_we * options.tiles_ns * options.tiles_tb * 6});
 
   scope.Utils.remove_init_only_options(options, [
     'tiles_we',
@@ -43,9 +44,26 @@ scope.TileSection = function (options) {
     'tiles_tb'
   ]);
   _.extend(this, options);
+
+  this.tiles = tiles;
+  this.nodes = nodes;
+  this.renderer = renderer;
 };
 scope.TileSection.prototype = {
+  /*****************************************************************************
+  * public methods
+  *****************************************************************************/
+  get_tile: function(we, ns, tb) {
+    if (this.tiles[we] && this.tiles[we][ns] && this.tiles[we][ns][tb]) {
+      return this.tiles[we][ns][tb];
+    } else {
+      return null;
+    }
+  },
 
+  /*****************************************************************************
+  * internally used
+  *****************************************************************************/
 };
 
 })(gltile);

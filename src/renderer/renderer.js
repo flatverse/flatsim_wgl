@@ -3,7 +3,7 @@
 scope.Renderer = function (options) {
   scope.Utils.check_required(options, ['gl']);
   _.extend(this, _.defaults(options || {}, {
-    tile_builder: new gltile.TileBuilder(),
+    face_compiler: new gltile.FaceCompiler(),
     max_faces: 1000,
   }));
 
@@ -45,7 +45,7 @@ scope.Renderer.prototype = {
    ****************************************************************************/
 
   set_face: function (tile, face, ix) {
-    this.vert_array.set(this.tile_builder.get_face_verts(tile, face), ix * 4 * 3);
+    this.vert_array.set(this.face_compiler.get_face_verts(tile, face), ix * 4 * 3);
     var cols = scope.Utils.float32_concat(tile[face].color, tile[face].color, tile[face].color, tile[face].color);
     this.color_array.set(cols, ix * 4 * 4);
     var face_vert_ix = ix * 4;

@@ -1,6 +1,6 @@
 (function (scope) {
 
-scope.TileBuilder = function (options) {
+scope.FaceCompiler = function (options) {
   _.extend(this, _.defaults(options || {}, {
     scale_we: 1,
     scale_ns: 1,
@@ -82,7 +82,7 @@ scope.TileBuilder = function (options) {
     'wnb', // 3
   ];
 };
-scope.TileBuilder.prototype = {
+scope.FaceCompiler.prototype = {
 
   get_face_verts: function (tile, face) {
     var verts = this['face_' + face];

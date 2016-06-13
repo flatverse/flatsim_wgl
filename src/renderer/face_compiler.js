@@ -33,16 +33,16 @@ scope.FaceCompiler = function (options) {
   ];
 
   this.face_north = new Float32Array([
-    -0.5,  0.5, -0.5, // lt wnb 0
-    -0.5,  0.5,  0.5, // lb wnt 1
-     0.5,  0.5,  0.5, // rb ent 2
-     0.5,  0.5, -0.5, // rt enb 3
+     0.5,  0.5,  0.5, // lt ent 0
+     0.5,  0.5, -0.5, // lb enb 1
+    -0.5,  0.5, -0.5, // rb wnb 2
+    -0.5,  0.5,  0.5, // rt wnt 3
   ]);
   this.corner_map_north = [
-    'wnt', // 0
-    'wnb', // 1 
-    'enb', // 2 
-    'ent', // 3
+    'ent', // 0
+    'enb', // 1 
+    'wnb', // 2 
+    'wnt', // 3
   ];
   this.face_south = new Float32Array([
     -0.5, -0.5,  0.5, // lt wst 0

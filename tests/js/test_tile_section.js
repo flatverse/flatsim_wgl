@@ -80,6 +80,52 @@ test_suite = {
         }
       },
 
+      "edges not adjacent": function (test_vars) {
+        var ts = new libscope.TileSection({
+          renderer: new libscope.Renderer({gl: test_vars.gl}),
+          tiles_we: 3,
+          tiles_ns: 3,
+          tiles_tb: 3
+        });
+
+        // top
+        for (var we = 0; we < ts.tiles.length; we++) {
+          for (var sn = 0; sn < ts.tiles[we].length; sn++) {
+            chai.expect(false).equals(ts.is_adjacent_flush(we, sn, 2, 'top'), 'is_adjacent_flush(' + we + ', ' + sn + ', 2, "top")');
+          }
+        }
+        // bottom
+        for (var we = 0; we < ts.tiles.length; we++) {
+          for (var sn = 0; sn < ts.tiles[we].length; sn++) {
+            chai.expect(false).equals(ts.is_adjacent_flush(we, sn, 0, 'bottom'), 'is_adjacent_flush(' + we + ', ' + sn + ', 0, "bottom")');
+          }
+        }
+        // west
+        for (var sn = 0; sn < ts.tiles[0].length; sn++) {
+          for (var tb = 0; tb < ts.tiles[0][sn].length; tb++) {
+            chai.expect(false).equals(ts.is_adjacent_flush(0, sn, tb, 'west'), 'is_adjacent_flush(0, ' + sn + ', ' + tb + ', "west")');
+          }
+        }
+        // east
+        for (var sn = 0; sn < ts.tiles[0].length; sn++) {
+          for (var tb = 0; tb < ts.tiles[0][sn].length; tb++) {
+            chai.expect(false).equals(ts.is_adjacent_flush(2, sn, tb, 'east'), 'is_adjacent_flush(2, ' + sn + ', ' + tb + ', "east")');
+          }
+        }
+        // north
+        for (var we = 0; we < ts.tiles.length; we++) {
+          for (var tb = 0; tb < ts.tiles[we][2].length; tb++) {
+            chai.expect(false).equals(ts.is_adjacent_flush(we, 2, tb, 'north'), 'is_adjacent_flush(' + we + ', 2, ' + tb + ', "north")');
+          }
+        }
+        // south
+        for (var we = 0; we < ts.tiles.length; we++) {
+          for (var tb = 0; tb < ts.tiles[we][0].length; tb++) {
+            chai.expect(false).equals(ts.is_adjacent_flush(we, 0, tb, 'south'), 'is_adjacent_flush(' + we + ', 2, ' + tb + ', "south")');
+          }
+        }
+      },
+
     }, // end is_adjacent category
   },
 };

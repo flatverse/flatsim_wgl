@@ -5,6 +5,11 @@ test_suite_runner = {
     test_suite.init();
 
     this.el = document.getElementById(this.el_id);
+    var class_prefix = '';
+    if (this.el.className) {
+      class_prefix += ' ';
+    }
+    this.el.className += class_prefix + 'gltile_tests';
 
     this.create_title();
   },

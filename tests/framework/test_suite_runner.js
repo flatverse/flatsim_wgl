@@ -28,17 +28,20 @@ test_suite_runner = {
     this.el.appendChild(el);
   },
 
-  create_result: function (test_name, passed, message) {
+  create_result: function (test_name, passed, level, message) {
     var el = document.createElement('div');
-    el.className = 'suite_test ' + (passed && 'test_passed' || 'test_failed');
+    el.className = 'suite_test cat_level_' + level + ' ' + (passed && 'test_passed' || 'test_failed');
     var name_el = document.createElement('div');
     name_el.className = 'test_name';
-    name_el.innerHTML = test_name;
+    name_el.innerHTML = test_name + '<span class="test_status_sep"> - </span><span class="test_status">' + (passed && 'passed' || 'failed') + '</span>';
     el.appendChild(name_el);
-    var message_el = document.createElement('div');
-    message_el.className = 'test_message';
-    message_el.innerHTML = (passed && ' ') || (!message && '(no message)') || message;
-    el.appendChild(message_el);
+
+    if (typeof message !== 'undefined') {
+      var message_el = document.createElement('div');
+      message_el.className = 'test_message';
+      message_el.innerHTML = message;
+      el.appendChild(message_el);
+    }
 
     this.el.appendChild(el);
   },
@@ -47,9 +50,9 @@ test_suite_runner = {
     if (typeof test_obj === 'function') {
       try {
         test_obj(test_suite.test_vars);
-        this.create_result(test_key, true);
+        this.create_result(test_key, true, level);
       } catch (e) {
-        this.create_result(test_key, false, e.message);
+        this.create_result(test_key, false, level, e.message);
       }
     } else {
       this.create_cat(test_key, level);

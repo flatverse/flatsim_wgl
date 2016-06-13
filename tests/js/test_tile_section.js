@@ -31,7 +31,7 @@ test_suite = {
         for (var i = 0; i < libscope.Tile.faces.length; i++) {
           var face = libscope.Tile.faces[i];
 
-          chai.expect(true).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent(1, 1, 1, "' + face + '")');
+          chai.expect(true).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent_flush(1, 1, 1, "' + face + '")');
         }
       },
 
@@ -47,9 +47,9 @@ test_suite = {
           var face = libscope.Tile.faces[i];
 
           if (face === 'west' || face === 'north' || face === 'top') {
-            chai.expect(false).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent(1, 1, 1, "' + face + '")');
+            chai.expect(false).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent_flush(1, 1, 1, "' + face + '")');
           } else {
-            chai.expect(true).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent(1, 1, 1, "' + face + '")');
+            chai.expect(true).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent_flush(1, 1, 1, "' + face + '")');
           }
         }
       },
@@ -76,7 +76,7 @@ test_suite = {
         for (var i = 0; i < libscope.Tile.faces.length; i++) {
           var face = libscope.Tile.faces[i];
 
-          chai.expect(true).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent(1, 1, 1, "' + face + '")');
+          chai.expect(true).equals(ts.is_adjacent_flush(1, 1, 1, face), 'is_adjacent_flush(1, 1, 1, "' + face + '")');
         }
       },
 

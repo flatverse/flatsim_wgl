@@ -30,7 +30,7 @@ scope.TileSection = function (options) {
     nodes.push([]);
     for (var sn = 0; sn < tiles[we].length; sn++) {
       nodes[we].push([]);
-      for (var tb = 0; tb < tiles[sn].length; tb++) {
+      for (var tb = 0; tb < tiles[we][sn].length; tb++) {
         nodes[we][sn].push(new scope.RenderNode());
       }
     }
@@ -56,6 +56,14 @@ scope.TileSection.prototype = {
   get_tile: function(we, sn, tb) {
     if (this.tiles[we] && this.tiles[we][sn] && this.tiles[we][sn][tb]) {
       return this.tiles[we][sn][tb];
+    } else {
+      return null;
+    }
+  },
+
+  get_node: function (we, sn, tb) {
+    if (this.nodes[we] && this.nodes[we][sn] && this.nodes[we][sn][tb]) {
+      return this.nodes[we][sn][tb];
     } else {
       return null;
     }

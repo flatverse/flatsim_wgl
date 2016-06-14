@@ -124,6 +124,31 @@ scope.TileSection.prototype = {
 
     return tl_tr && bl_br && br_bl && tr_tl;
   },
+
+  /*****************************************************************************
+  * internal methods
+  *****************************************************************************/
+  add_tile: function (we, sn, tb) {
+    if (we < 0 || we >= this.tiles.length) {
+      scope.throw_error('we index out "' + we + '" of bounds', ['TileSection', 'is_adjacent_flush']);
+    }
+    if (sn < 0 || sn >= this.tiles[we].length) {
+      scope.throw_error('sn index out "' + sn + '" of bounds', ['TileSection', 'is_adjacent_flush']);
+    }
+    if (tb < 0 || tb >= this.tiles[we][sn].length) {
+      scope.throw_error('tb index out "' + tb + '" of bounds', ['TileSection', 'is_adjacent_flush']);
+    }
+
+    var tile = this.get_tile(we, sn, tb);
+    var node = this.get_node(we, sn, tb);
+    var face;
+    for (var i = 0; i < scope.Tile.faces.length; i++) {
+      face = scope.Tile.faces[i];
+      if (!this.is_adjacent_flush(we, sn, tb, face)) {
+        node[face] = this.renderer.add_face(tile, face);
+      }
+    }
+  },
 };
 
 })(gltile);

@@ -127,5 +127,28 @@ test_suite = {
       },
 
     }, // end is_adjacent category
+
+    add_tile: {
+      "wnt corner node check": function (test_vars) {
+        var ts = new libscope.TileSection({
+          renderer: new libscope.Renderer({gl: test_vars.gl}),
+          tiles_we: 3,
+          tiles_ns: 3,
+          tiles_tb: 3
+        });
+
+        ts.add_tile(0, 2, 2);
+
+        var node = ts.get_node(0, 2, 2);
+
+        chai.expect(null).equals(node.bottom, 'add_tile(0, 2, 2) bottom should be null');
+        chai.expect(null).equals(node.east, 'add_tile(0, 2, 2) east should be null');
+        chai.expect(null).equals(node.south, 'add_tile(0, 2, 2) south should be null');
+
+        chai.expect('number').equals(typeof node.top, 'add_tile(0, 2, 2) top should be a number');
+        chai.expect('number').equals(typeof node.west, 'add_tile(0, 2, 2) west should be a number');
+        chai.expect('number').equals(typeof node.north, 'add_tile(0, 2, 2) north should be a number');
+      },
+    }, // end add_tile category
   },
 };

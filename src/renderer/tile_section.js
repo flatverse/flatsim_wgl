@@ -53,6 +53,22 @@ scope.TileSection.prototype = {
   /*****************************************************************************
   * public methods
   *****************************************************************************/
+  get_tiles_we: function () {
+    return this.tiles.length;
+  },
+  get_tiles_sn: function () {
+    if (this.tiles.length === 0) {
+      return 0;
+    }
+    return this.tiles[0].length;
+  },
+  get_tiles_bt: function () {
+    if (this.tiles.length === 0 || this.tiles[0].length === 0) {
+      return 0;
+    }
+    return this.tiles[0][0].length;
+  },
+
   get_tile: function(we, sn, tb) {
     if (this.tiles[we] && this.tiles[we][sn] && this.tiles[we][sn][tb]) {
       return this.tiles[we][sn][tb];

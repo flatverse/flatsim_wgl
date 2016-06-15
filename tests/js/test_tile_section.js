@@ -150,5 +150,129 @@ test_suite = {
         chai.expect('number').equals(typeof node.north, 'add_tile(0, 2, 2) north should be a number');
       },
     }, // end add_tile category
+
+    get_tiles_we: {
+
+      "length 2": function (test_vars) {
+        var ts222 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 2,
+          tiles_ns: 2,
+          tiles_tb: 2,
+        });
+        chai.expect(2).equals(ts222.get_tiles_we(), 'expted 2 tiles we for 2x2x2');
+
+        var ts211 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 2,
+          tiles_ns: 1,
+          tiles_tb: 1,
+        });
+        chai.expect(2).equals(ts211.get_tiles_we(), 'expted 2 tiles we for 2x1x1');
+      },
+
+      "length 1": function (test_vars) {
+        var ts111 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 1,
+          tiles_ns: 1,
+          tiles_tb: 1,
+        });
+        chai.expect(1).equals(ts111.get_tiles_we(), 'expted 1 tiles we for 1x1x1');
+      },
+
+      "length 0": function (test_vars) {
+        var ts000 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 0,
+          tiles_ns: 0,
+          tiles_tb: 0,
+        });
+        chai.expect(0).equals(ts000.get_tiles_we(), 'expted 0 tiles we for 0x0x0');
+      },
+    }, // end get_tiles_we category
+
+    get_tiles_sn: {
+
+      "length 2": function (test_vars) {
+        var ts222 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 2,
+          tiles_ns: 2,
+          tiles_tb: 2,
+        });
+        chai.expect(2).equals(ts222.get_tiles_sn(), 'expted 2 tiles sn for 2x2x2');
+
+        var ts121 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 1,
+          tiles_ns: 2,
+          tiles_tb: 1,
+        });
+        chai.expect(2).equals(ts121.get_tiles_sn(), 'expted 2 tiles sn for 1x2x1');
+      },
+
+      "length 1": function (test_vars) {
+        var ts111 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 1,
+          tiles_ns: 1,
+          tiles_tb: 1,
+        });
+        chai.expect(1).equals(ts111.get_tiles_sn(), 'expted 1 tiles sn for 1x1x1');
+      },
+
+      "length 0": function (test_vars) {
+        var ts000 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 0,
+          tiles_ns: 0,
+          tiles_tb: 0,
+        });
+        chai.expect(0).equals(ts000.get_tiles_sn(), 'expted 0 tiles sn for 0x0x0');
+      },
+    }, // end get_tiles_sn category
+
+    get_tiles_bt: {
+
+      "length 2": function (test_vars) {
+        var ts222 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 2,
+          tiles_ns: 2,
+          tiles_tb: 2,
+        });
+        chai.expect(2).equals(ts222.get_tiles_bt(), 'expted 2 tiles bt for 2x2x2');
+
+        var ts112 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 1,
+          tiles_ns: 1,
+          tiles_tb: 2,
+        });
+        chai.expect(2).equals(ts112.get_tiles_bt(), 'expted 2 tiles bt for 1x1x2');
+      },
+
+      "length 1": function (test_vars) {
+        var ts111 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 1,
+          tiles_ns: 1,
+          tiles_tb: 1,
+        });
+        chai.expect(1).equals(ts111.get_tiles_bt(), 'expted 1 tiles bt for 1x1x1');
+      },
+
+      "length 0": function (test_vars) {
+        var ts000 = new libscope.TileSection({
+          renderer: new libscope.Renderer({ gl: test_vars.gl}),
+          tiles_we: 0,
+          tiles_ns: 0,
+          tiles_tb: 0,
+        });
+        chai.expect(0).equals(ts000.get_tiles_sn(), 'expted 0 tiles sn for 0x0x0');
+      },
+    }, // end get_tiles_sn category
+
   },
 };

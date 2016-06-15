@@ -272,7 +272,7 @@ test_suite = {
         });
         chai.expect(0).equals(ts000.get_tiles_sn(), 'expted 0 tiles sn for 0x0x0');
       },
-    }, // end get_tiles_sn category
+    }, // end get_tiles_bt category
 
   },
 };

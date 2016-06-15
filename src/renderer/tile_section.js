@@ -165,6 +165,18 @@ scope.TileSection.prototype = {
       }
     }
   },
+
+  add_all_tiles: function () {
+    this.renderer.reset();
+    var we, sn, bt;
+    for (we = 0; we < this.get_tiles_we(); we++) {
+      for (sn = 0; sn < this.get_tiles_sn(); sn++) {
+        for (bt = 0; bt < this.get_tiles_bt(); bt++) {
+          this.add_tile(we, sn, bt);
+        }
+      }
+    }
+  },
 };
 
 })(gltile);

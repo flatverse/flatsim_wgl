@@ -274,5 +274,19 @@ test_suite = {
       },
     }, // end get_tiles_bt category
 
+    add_all_tiles: {
+      "check render face count": function (test_vars) {
+        var ts = new libscope.TileSection({
+          renderer: new libscope.Renderer({gl: test_vars.gl}),
+          tiles_we: 3,
+          tiles_ns: 3,
+          tiles_tb: 3,
+        });
+        ts.add_all_tiles();
+
+        chai.expect(6 * 9).equals(ts.renderer.tile_face_count, 'wrong tile face count');
+      }, 
+    }, // end add_all_tiles category
+
   },
 };

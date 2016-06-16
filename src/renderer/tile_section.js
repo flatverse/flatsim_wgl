@@ -48,6 +48,9 @@ scope.TileSection = function (options) {
   this.tiles = tiles;
   this.nodes = nodes;
   this.renderer = renderer;
+
+  this.add_all_tiles();
+  this.renderer.buffer_data();
 };
 scope.TileSection.prototype = {
   /*****************************************************************************

@@ -10,13 +10,24 @@ window.addEventListener('load', function () {
 
   ts = new gltile.TileSection({
     renderer: new gltile.Renderer({gl: gt_gl}),
-    tiles_we: 1,
-    tiles_ns: 1,
+    tiles_we: 40,
+    tiles_ns: 11,
     tiles_tb: 1,
   });
   rendr = ts.renderer;
+  ts2 = new gltile.TileSection({
+    renderer: new gltile.Renderer({gl: gt_gl}),
+    tiles_we: 40,
+    tiles_ns: 11,
+    tiles_tb: 1,
+  });
+
+  stats = new Stats();
+  document.body.appendChild(stats.domElement);
 
   draw_func = function () {
+    stats.begin();
+
     if (draw_func.kill) {
       draw_func.kill = false;
       return;
@@ -25,9 +36,22 @@ window.addEventListener('load', function () {
     gt_gl.enable(gt_gl.DEPTH_TEST);
     gt_gl.enable(gt_gl.CULL_FACE);
     gt_gl.clearColor(0.0, 0.0, 0, 1.0);
-    rendr.draw();
+    gt_gl.clear(gt_gl.COLOR_BUFFER_BIT | gt_gl.DEPTH_BUFFER_BIT);
+    
+
+    ts2.renderer.draw();
+
+    ts.renderer.draw();
+
+    rendr = ts.renderer;
+    tranZ(-0.1);
+    rendr = ts2.renderer;
+    tranZ(-0.1);
+
 
     requestAnimationFrame(draw_func);
+
+    stats.end();
   };
 
   rotY = function (deg) {
@@ -47,8 +71,27 @@ window.addEventListener('load', function () {
     mat4.rotateX(rendr.mv_mat, rendr.mv_mat, deg);
   };
 
-  rotX(-10);
-  rotY(10);
+  tranX = function(by) {
+    by = by || 1;
+    mat4.translate(rendr.mv_mat, rendr.mv_mat, [by, 0, 0]);
+  };
+
+  tranY = function(by) {
+    by = by || 1;
+    mat4.translate(rendr.mv_mat, rendr.mv_mat, [0, by, 0]);
+  }
+
+  tranZ = function (by) {
+    by = by || -1;
+    mat4.translate(rendr.mv_mat, rendr.mv_mat, [0, 0, by]);
+  };
+
+  tranZ(-100);
+  rendr = ts2.renderer;
+  tranY(11.01);
+  tranZ(-100);
+  // rotX(10);
+  // rotY(-10);
   draw_func();
 
 });

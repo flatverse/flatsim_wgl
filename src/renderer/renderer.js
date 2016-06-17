@@ -104,7 +104,7 @@ scope.Renderer.prototype = {
     );
 
     this.mv_mat = mat4.create();
-    mat4.translate(this.mv_mat, this.mv_mat, [0.0, 0.0, -6.0]);
+    // mat4.translate(this.mv_mat, this.mv_mat, [0.0, 0.0, -6.0]);
   },
 
   init_shader: function () {
@@ -142,7 +142,7 @@ scope.Renderer.prototype = {
   draw: function () {
     this.prep_shader();
 
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    // this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.face_buffer);
     this.gl.drawElements(this.gl.TRIANGLES, this.tile_face_count * 2 * 3, this.gl.UNSIGNED_SHORT, 0);

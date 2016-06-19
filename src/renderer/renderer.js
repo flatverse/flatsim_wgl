@@ -13,10 +13,14 @@ scope.Renderer = function (options) {
   this.color_array = new Float32Array(this.max_faces * 4 * 4);
   // 2 faces per tile face, 3 verts per face
   this.face_array = new Uint16Array(this.max_faces * 2 * 3);
+  // 2 faces per tile face, 3 verts per face, 3 components per vert
+  // this.vert_ix_array = new Float32Array(this.max_faces * 2 * 3 * 3);
+  this.vert_ix_array = new Float32Array(this.max_faces * 4 * 4);
 
   this.vert_buffer = this.gl.createBuffer();
   this.color_buffer = this.gl.createBuffer();
   this.face_buffer = this.gl.createBuffer();
+  this.vert_ix_buffer = this.gl.createBuffer();
 
   this.init_matrices();
   this.init_shader();
@@ -27,10 +31,12 @@ scope.Renderer.prototype = {
   vert_array: null,
   color_array: null,
   face_array: null,
+  vert_ix_array: null,
 
   vert_buffer: null,
   color_buffer: null,
   face_buffer: null,
+  vert_ix_buffer: null,
 
   proj_mat: null,
   mv_mat: null,
@@ -39,6 +45,7 @@ scope.Renderer.prototype = {
   vert_attrib: null,
   color_attrib: null,
   proj_mat_uni: null,
+  vert_ix_attrib: null,
 
   /*****************************************************************************
    * public methods
@@ -54,6 +61,19 @@ scope.Renderer.prototype = {
       face_vert_ix + 2, face_vert_ix + 3, face_vert_ix + 0
     ]);
     this.face_array.set(faces, ix * 2 * 3);
+    var vert_ixs = new Float32Array([
+      // 1, 0, 0, 1,
+      // 0, 0, 0, 1,
+      // 0, 0, 0, 1,
+      // 0, 0, 0, 1,
+
+      1, 0, 0, 1,
+      1, 1, 0, 0,
+      0, 1, 1, 0,
+      0, 0, 1, 1,
+    ]);
+    // this.vert_ix_array.set(vert_ixs, ix * 2 * 3 * 3);
+    this.vert_ix_array.set(vert_ixs, ix * 4 * 4);
   },
 
   add_face: function (tile, face) {
@@ -84,6 +104,8 @@ scope.Renderer.prototype = {
     this.gl.bufferData(this.gl.ARRAY_BUFFER, this.color_array, this.gl.DYNAMIC_DRAW);
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.face_buffer);
     this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, this.face_array, this.gl.DYNAMIC_DRAW);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vert_ix_buffer);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, this.vert_ix_array, this.gl.DYNAMIC_DRAW);
   },
 
   reset: function () {
@@ -117,6 +139,9 @@ scope.Renderer.prototype = {
     this.color_attrib = this.gl.getAttribLocation(this.shader, 'vertColor');
     this.gl.enableVertexAttribArray(this.color_attrib);
 
+    this.vert_ix_attrib = this.gl.getAttribLocation(this.shader, 'vertIx');
+    this.gl.enableVertexAttribArray(this.vert_ix_attrib);
+
     this.proj_mat_uni = this.gl.getUniformLocation(this.shader, 'projMat');
     this.mv_mat_uni = this.gl.getUniformLocation(this.shader, 'mvMat');
   },
@@ -137,6 +162,9 @@ scope.Renderer.prototype = {
 
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.color_buffer);
     this.gl.vertexAttribPointer(this.color_attrib, 4, this.gl.FLOAT, false, 0, 0);
+
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vert_ix_buffer);
+    this.gl.vertexAttribPointer(this.vert_ix_attrib, 4, this.gl.FLOAT, false, 0, 0);
   },
 
   draw: function () {

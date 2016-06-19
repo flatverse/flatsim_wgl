@@ -19,8 +19,9 @@ scope.TileSection = function (options) {
         tiles[we][sn].push(new scope.Tile({
           i: we,
           j: sn,
-          k: tb
+          k: tb,
         }));
+        tiles[we][sn][tb].dirty = false;
       }
     }
   }
@@ -142,6 +143,32 @@ scope.TileSection.prototype = {
       face_verts[this_ix + 2] === adj_face_verts[adj_ix + 2];
 
     return tl_tr && bl_br && br_bl && tr_tl;
+  },
+
+  update_tile: function (we, sn, bt) {
+    if (we < 0 || we >= this.tiles.length) {
+      scope.throw_error('we index out "' + we + '" of bounds', ['TileSection', 'is_adjacent_flush']);
+    }
+    if (sn < 0 || sn >= this.tiles[we].length) {
+      scope.throw_error('sn index out "' + sn + '" of bounds', ['TileSection', 'is_adjacent_flush']);
+    }
+    if (bt < 0 || bt >= this.tiles[we][sn].length) {
+      scope.throw_error('bt index out "' + bt + '" of bounds', ['TileSection', 'is_adjacent_flush']);
+    }
+
+    var tile = this.get_tile(we, sn, bt);
+    if (!tile.is_dirty) {
+      return;
+    }
+
+    var node = this.get_node(we, sn, bt);
+    var face;
+    for (var i = 0; i < scope.Tile.faces.length; i++) {
+      face = scope.Tile.faces[i];
+      if (node[face]) {
+        this.renderer.update_face(tile, face);
+      }
+    }
   },
 
   /*****************************************************************************

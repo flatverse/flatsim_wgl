@@ -10,17 +10,19 @@ window.addEventListener('load', function () {
 
   ts = new gltile.TileSection({
     renderer: new gltile.Renderer({gl: gt_gl}),
-    tiles_we: 40,
-    tiles_ns: 11,
+    tiles_we: 1,
+    tiles_ns: 1,
     tiles_tb: 1,
   });
   rendr = ts.renderer;
-  ts2 = new gltile.TileSection({
-    renderer: new gltile.Renderer({gl: gt_gl}),
-    tiles_we: 40,
-    tiles_ns: 11,
-    tiles_tb: 1,
-  });
+  // ts2 = new gltile.TileSection({
+  //   renderer: new gltile.Renderer({gl: gt_gl}),
+  //   tiles_we: 40,
+  //   tiles_ns: 11,
+  //   tiles_tb: 1,
+  // });
+
+  t = ts.get_tile(0, 0, 0);
 
   stats = new Stats();
   document.body.appendChild(stats.domElement);
@@ -39,14 +41,14 @@ window.addEventListener('load', function () {
     gt_gl.clear(gt_gl.COLOR_BUFFER_BIT | gt_gl.DEPTH_BUFFER_BIT);
     
 
-    ts2.renderer.draw();
+    // ts2.renderer.draw();
 
     ts.renderer.draw();
 
-    rendr = ts.renderer;
-    tranZ(-0.1);
-    rendr = ts2.renderer;
-    tranZ(-0.1);
+    // rendr = ts.renderer;
+    // tranZ(-0.1);
+    // rendr = ts2.renderer;
+    // tranZ(-0.1);
 
 
     requestAnimationFrame(draw_func);
@@ -86,12 +88,12 @@ window.addEventListener('load', function () {
     mat4.translate(rendr.mv_mat, rendr.mv_mat, [0, 0, by]);
   };
 
-  tranZ(-100);
-  rendr = ts2.renderer;
-  tranY(11.01);
-  tranZ(-100);
-  // rotX(10);
-  // rotY(-10);
+  tranX((ts.get_tiles_we() / -2) + 0.5);
+  tranY((ts.get_tiles_sn() / -2) + 0.5);
+  tranZ((ts.get_tiles_bt() / -2)+ 0.5 - 20);
+  // rendr = ts2.renderer;
+  // tranY(11.01);
+  // tranZ(-100);
   draw_func();
 
 });

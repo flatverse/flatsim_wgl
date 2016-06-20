@@ -88,9 +88,9 @@ window.addEventListener('load', function () {
     mat4.translate(rendr.mv_mat, rendr.mv_mat, [0, 0, by]);
   };
 
-  tranX((ts.get_tiles_we() / -2) + 0.5);
-  tranY((ts.get_tiles_sn() / -2) + 0.5);
-  tranZ((ts.get_tiles_bt() / -2)+ 0.5 - 20);
+  // tranX((ts.get_tiles_we() - 1) / 2);
+  // tranY((ts.get_tiles_sn() - 1) / 2);
+  tranZ(((ts.get_tiles_bt() - 1) / 2) - 5);
   // rendr = ts2.renderer;
   // tranY(11.01);
   // tranZ(-100);

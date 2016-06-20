@@ -157,7 +157,7 @@ scope.TileSection.prototype = {
     }
 
     var tile = this.get_tile(we, sn, bt);
-    if (!tile.is_dirty) {
+    if (!tile.dirty) {
       return;
     }
 
@@ -165,7 +165,7 @@ scope.TileSection.prototype = {
     var face;
     for (var i = 0; i < scope.Tile.faces.length; i++) {
       face = scope.Tile.faces[i];
-      if (node[face]) {
+      if (node[face] !== null) {
         this.renderer.update_face(tile, face);
       }
     }

@@ -171,7 +171,7 @@ scope.TileSection.prototype = {
     for (var i = 0; i < scope.Tile.faces.length; i++) {
       face = scope.Tile.faces[i];
       if (node[face] !== null) {
-        this.renderer.update_face(tile, face);
+        this.renderer.update_face(tile, face, node[face]);
       }
     }
   },

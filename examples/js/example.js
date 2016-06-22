@@ -9,7 +9,8 @@ window.addEventListener('load', function () {
   gltile.shaders.init(gt_gl);
 
   ts = new gltile.TileSection({
-    renderer: new gltile.Renderer({gl: gt_gl}),
+    // renderer: new gltile.Renderer({gl: gt_gl}),
+    gl: gt_gl,
     tiles_we: 1,
     tiles_ns: 1,
     tiles_tb: 1,

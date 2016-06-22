@@ -7,7 +7,22 @@ scope.Utils = {
     }
     for (var i = 0; i < req_list.length; i++) {
       var req = req_list[i];
-      if (!(req in options)) {
+
+      if (Array.isArray(req)) {
+        var found_req = false;
+        for (var j = 0; j < req.length; j++) {
+          console.log(req[j], req[j] in options);
+          if (req[j] in options) {
+            // scope.throw_error.apply(scope, [req.join(' or ') + ' is a required field'].concat(class_trace));
+            found_req = true;
+            console.log('found_req', found_req);
+            continue;
+          }
+        }
+        if (!found_req) {
+          scope.throw_error.apply(scope, [req.join(' or ') + ' is a required field'].concat(class_trace));
+        }
+      } else if (!(req in options)) {
         scope.throw_error.apply(scope, [req + ' is a required field'].concat(class_trace));
       }
     }

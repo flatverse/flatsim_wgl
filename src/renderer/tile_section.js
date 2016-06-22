@@ -1,9 +1,11 @@
 (function (scope) {
 
 scope.TileSection = function (options) {
-  scope.Utils.check_required(options, ['renderer'], 'TileSection');
+  scope.Utils.check_required(options, [['renderer', 'gl']], 'TileSection');
   options = _.defaults(options || {}, {
     tiles: null, // 3D array accessed like so [WE][SN][TB]
+    renderer: null,
+    gl: null,
     tiles_we: 20,
     tiles_ns: 20,
     tiles_tb: 1,
@@ -37,7 +39,10 @@ scope.TileSection = function (options) {
     }
   }
 
-  var renderer = options.renderer || new scope.Renderer({max_faces: options.tiles_we * options.tiles_ns * options.tiles_tb * 6});
+  var renderer = options.renderer || new scope.Renderer({
+    gl: options.gl,
+    max_faces: options.tiles_we * options.tiles_ns * options.tiles_tb * 6
+  });
 
   scope.Utils.remove_init_only_options(options, [
     'tiles_we',

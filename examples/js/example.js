@@ -31,6 +31,8 @@ window.addEventListener('load', function () {
   draw_func = function () {
     stats.begin();
 
+    ts.update_all_tiles();
+
     if (draw_func.kill) {
       draw_func.kill = false;
       return;

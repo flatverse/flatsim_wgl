@@ -176,6 +176,16 @@ scope.TileSection.prototype = {
     }
   },
 
+  update_all_tiles: function () {
+    for (var we = 0; we < this.get_tiles_we(); we++) {
+      for (var sn = 0; sn < this.get_tiles_sn(); sn++) {
+        for (var bt = 0; bt < this.get_tiles_bt(); bt++) {
+          this.update_tile(we, sn, bt);
+        }
+      }
+    }
+  },
+
   /*****************************************************************************
   * internal methods
   *****************************************************************************/

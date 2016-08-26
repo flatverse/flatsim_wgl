@@ -42,7 +42,6 @@ window.addEventListener('load', function () {
     gt_gl.enable(gt_gl.CULL_FACE);
     gt_gl.clearColor(0, 0, 0, 1);
     gt_gl.clear(gt_gl.COLOR_BUFFER_BIT | gt_gl.DEPTH_BUFFER_BIT);
-    
 
     // ts2.renderer.draw();
 
@@ -108,7 +107,7 @@ window.addEventListener('load', function () {
     };
   };
 
-  // this doesn't 
+  // this doesn't
   clip_to_tile_section = function (clip_x, clip_y, z) {
     clip_x *= -z;
     clip_y *= z;
